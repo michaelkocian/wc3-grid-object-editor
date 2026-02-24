@@ -87,10 +87,9 @@ td select:focus{border-color:#e94560;background:#25255a;outline:none}
 .cat-head{text-align:center;font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:#6899bb;cursor:pointer;padding:2px 8px;user-select:none;font-weight:600;transition:.1s}
 .cat-head:hover{background:#102048;color:#cce0ff}
 .cat-head.cat-expanded{border-left:2px solid #1a3a6e;border-right:2px solid #1a3a6e}
-.cat-head.cat-collapsed{width:22px!important;min-width:22px!important;max-width:22px!important;color:#3a6080;padding:4px 2px;overflow:hidden}
-.cat-clbl{display:inline-block;writing-mode:vertical-lr;transform:rotate(180deg);font-size:8px;letter-spacing:.5px}
-.cat-arr{font-size:8px;opacity:.5;margin-left:3px}
-.cat-stub{background:#07101e!important;width:22px!important;min-width:22px!important;max-width:22px!important;padding:0!important;border-right:1px solid #1a2a4e!important}
+.cat-head.cat-collapsed{min-width:28px!important;max-width:120px!important;color:#6899bb;padding:2px 4px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.cat-toggle{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:3px;background:#1a3a6e;color:#8ab4e0;font-size:12px;font-weight:bold;line-height:1;vertical-align:middle;flex-shrink:0}
+.cat-stub{background:#07101e!important;width:28px!important;min-width:28px!important;max-width:28px!important;padding:0!important;border-right:1px solid #1a2a4e!important}
 
 /* Popup */
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;display:flex;align-items:center;justify-content:center}
@@ -1491,7 +1490,7 @@ const EXT_INFO = {
 };
 
 // Column sort priority
-const ITEM_PRI = ['unam','unsf','iabi','igol','ilum','ihtp','iuse','isto','ilev','ilvo','icla','iarm','imvt','irnw','ircv','istr','isst','isit','ista','iper','ipri','iicd','icid','iusa','imap','ican','ureq','urqa','iprn','isel','idrp','idro','ipaw','ipow','imor','ubpx','ubpy','isca','isch','issc','iclr','iclg','iclb','utip','utub','itip','iube','itp2','ides','uhot','iico','ifil','uani','uico','umdl','usnd','ufoo','usca','urac','ucls','uhpr','umvs'];
+const ITEM_PRI = ['unam','iabi','igol','ilum','ihtp','iuse','isto','ilev','ilvo','icla','iarm','imvt','irnw','ircv','istr','isst','isit','ista','iper','ipri','iicd','icid','iusa','imap','ican','ureq','urqa','iprn','isel','idrp','idro','ipaw','ipow','imor','ubpx','ubpy','isca','isch','issc','iclr','iclg','iclb','utip','utub','itip','iube','itp2','ides','uhot','iico','ifil','ufoo','usca','urac','ucls','uhpr'];
 const ABIL_PRI = ['anam','alev','aart','arar','ahky','amcs','acdn','adur','ahdu','aran','aare','acas','atar','areq','arqa','achd','aher','aite','apri','arac','abuf','aeff','atp1','aub1','aret','arut','aut1','auu1','auhk','ansf','aord','aoro','aorf','aoru','aeat','acat','atat','asat','alig','alat','aani','aaea','abpx','abpy','aubx','auby','arpx','arpy','acap','aca1','acac','aspt','ata0','ata1','ata2','ata3','ata4','ata5','atac','auar','amac','amat','amho','amsp','aefs','aefl','ausk','Rtn1','Rtn2','Ocl1','Ocl2','Ocl3','Ocl4','Ocl5','Ocl6','Ocl7','Ocl8','Hfa1','Had1','Eim1','Efk1','Ear1','Nms1','Esf1','Esf2'];
 const UNIT_PRI = ['unam','unsf','uico','umdl','usnd','urac','ucls','utyp','ulev','ugol','ulum','ufoo','uhpm','uhpr','uhrt','udef','udty','uarm','umvs','umvt','umvh','ustr','ustp','uint','uinp','uagp','umpi','umpm','umpr','ua1t','ua1b','ua1f','ua1d','ua1c','ua1r','ua1g','ua1m','ua1w','ua2t','ua2b','ua2f','ua2c','ua2w','uabi','uhab','udaa','utra','ubui','ures','upgr','uupt','umki','useu','usei','ureq','urqa','upar','ufma','upap','usca','ussc','uclr','uclg','uclb','usin','usid','ushu','ussi','uani','utip','utub','utpr','uawt','upro','uhot','uaen','udea','udup','ubld','usrg','usma','usst','ugor','ulur','uble','ucpt','ucbs','urtm','uobs','uubs','upat','ubdd','ubpx','ubpy'];
 const BUFF_PRI = ['fnam','fnsf','ftip','fube','fart','feat','feft','ftat','fta0','fta1','fta2','fta3','fta4','fta5','ftac','fsat','fspt','flig','fmac','fmat','fmho','fmsp','fspd','fefs','fefl','feff','frac'];
@@ -1500,56 +1499,155 @@ const DEST_PRI = ['bnam','bsuf','bfil','bgpm','bcat','btil','btsp','bhps','barm'
 const DOOD_PRI = ['dnam','dvar','dfil','dcat','dtil','dtsp','ddes','dmas','dmis','dcpr','dfxr','dmap','dmar','dsel','dmmr','dmmg','dmmb','dsmm','dumc','dvr1','dvg1','dvb1','dvis','dshd','dshf','danf','dflt','donc','donw','dwlk','dptx','dimc','dsnd','duch','dusr'];
 
 // ================================================================
-// COLUMN CATEGORIES
-// Defines how main-table columns are grouped per editor type.
-// Sub-rows (level tables) are NOT affected by categories.
+// FIELD CATEGORIES
+// Maps field IDs to their visual category group.
+// Fields not listed here fall back to 'data' (if uppercase/digit) or 'other'.
 // ================================================================
-const COLUMN_CATEGORIES = {
-  doodads: [
-    { id:'art',     label:'Art',     fields:['danf','ddes','dfxr','dflt','dshd','dmar','dmap','dsmm','dumc','dmmr','dmmg','dmmb','dfil','dsel','dshf','dvr1','dvg1','dvb1','dvar','dvis'] },
-    { id:'editor',  label:'Editor',  fields:['dcpr','dcat','dtsp','dimc','dmas','dmis','dusr','donc','donw','dtil','duch'] },
-    { id:'pathing', label:'Pathing', fields:['dptx','dwlk'] },
-    { id:'sound',   label:'Sound',   fields:['dsnd'] },
-    { id:'text',    label:'Text',    fields:['dnam'] },
-  ],
-  destructables: [
-    { id:'art',     label:'Art',     fields:['bfil','bgpm','blit','bmmr','bmmg','bmmb','bsmm','bumm','bvcr','bvcg','bvcb','bfxr','bmap','bmar','bmas','bmis','bcpr','bshd','bclh','bvar'] },
-    { id:'editor',  label:'Editor',  fields:['bcat','btil','btsp','bgsc','bgse','bsel','boch','bflo','bfra','bfvi','bflh','bonc','bonw','bwal','buch','busr','bcpd'] },
-    { id:'pathing', label:'Pathing', fields:['bptx','bptd','btar','brad','barm'] },
-    { id:'build',   label:'Build',   fields:['bhps','bbut','bdsn','breg','brel','bret','btxf','btxi'] },
-    { id:'text',    label:'Text',    fields:['bnam','bsuf'] },
-  ],
-  items: [
-    { id:'stats',   label:'Stats',   fields:['igol','ilum','ihtp','iuse','isto','istr','isst','ilev','ilvo','icla','iarm','ipri','iicd','icid','iusa','isca','issc'] },
-    { id:'flags',   label:'Flags',   fields:['idro','idrp','ipaw','iper','iprn','isel','ipow','imor','iabi','imap','ican'] },
-    { id:'art',     label:'Art',     fields:['iclr','iclg','iclb','iico','ifil','ubpx','ubpy'] },
-    { id:'text',    label:'Text',    fields:['unam','unsf','utip','utub','ides'] },
-  ],
-  units: [
-    { id:'basic',   label:'Basic',      fields:['unam','unsf','urac','utyp','ulev','ugol','ulum','ufoo','uhpm','uhpr','uhrt','udef','udty','uarm','umvs','umvt','umvh','umvr','umvf','usin','usid','upoi','upri','ulfi','ulfo'] },
-    { id:'combat',  label:'Combat',     fields:['ua1t','ua1b','ua1f','ua1d','ua1c','ua1r','ua1g','ua1m','ua1w','ua1z','ua1s','ua2t','ua2b','ua2f','ua2d','ua2c','ua2r','ua2g','ua2m','ua2w','ua2z','ua2s','uaen','udaa','udup','ucs1','ucs2','ubs1','ubs2','udp1','udp2','udl1','udl2','udu1','udu2','usd1','usd2','usr1','usr2','utc1','utc2','urb1','urb2','uhd1','uhd2','uqd1','uqd2','uma1','uma2','umh1','umh2','uamn','umas','umis','uwu1','uwu2','ucbs','ucpt'] },
-    { id:'hero',    label:'Hero',       fields:['ustr','ustp','uint','uinp','uagi','uagp','umpi','umpm','umpr','uhab','upra','uhot','upro','upru','uhhb','uhhd','uhhm','urva','urev'] },
-    { id:'art',     label:'Art',        fields:['uico','umdl','usnd','usca','ussc','uclr','uclg','uclb','uani','ushu','ussi','uble','udea','ushh','ushw','ushx','ushy','ushb','uver','usew','uslz','urun','uwal','umxp','umxr','uocc','uept','uerd','ufrd','uble','ucam','ufor','uscb','utaa','uspa','utcc','utco','uub1'] },
-    { id:'prod',    label:'Production', fields:['uabi','utra','ubui','ures','upgr','uupt','umki','useu','usei','ureq','urqa','ubld','ubpx','ubpy','usrg','usma','usst','ugor','ulur','urtm','uobs'] },
-    { id:'text',    label:'Text',       fields:['utip','utub','utpr','uawt'] },
-  ],
-  abilities: [
-    { id:'basic',   label:'Basic',   fields:['anam','alev','ahky','amcs','acdn','adur','ahdu','aran','aare','acas','atar','areq','arqa','achd','aher','aite','apri','arac','alsk','arlv','ansf','aord','aoro','aorf','aoru','arhk'] },
-    { id:'art',     label:'Art',     fields:['aart','arar','auar','abpx','abpy','aubx','auby','arpx','arpy','amac','amat','amho','amsp','acat','acap','aca1','acac','aeat','atat','ata0','ata1','ata2','ata3','ata4','ata5','atac','asat','aspt','alig','aefs','aefl','aani','aaea'] },
-    { id:'text',    label:'Text',    fields:['atp1','aub1','aret','arut','aut1','auu1','auhk'] },
-  ],
-  buffs: [
-    { id:'basic',   label:'Basic',   fields:['fnam','fnsf','feff','fspd','frac'] },
-    { id:'art',     label:'Art',     fields:['fart','feat','feft','ftat','fta0','fta1','fta2','fta3','fta4','fta5','ftac','fsat','fspt','flig','fmac','fmat','fmho','fmsp','fefs','fefl'] },
-    { id:'text',    label:'Text',    fields:['ftip','fube'] },
-  ],
-  upgrades: [
-    { id:'basic',   label:'Basic',   fields:['glvl','gnam','gnsf','ghk1','grac','gcls','glob','ginh','gglb','gglm','glmb','glmm','gtib','gtim','greq','grqc','gbpx','gbpy'] },
-    { id:'art',     label:'Art',     fields:['gar1'] },
-    { id:'effects', label:'Effects', fields:['gef1','gba1','gco1','gmo1','gef2','gba2','gco2','gmo2','gef3','gba3','gco3','gmo3','gef4','gba4','gco4','gmo4'] },
-    { id:'text',    label:'Text',    fields:['gtp1','gub1'] },
-  ],
+const FIELD_CAT = {
+  // Items
+  iabi:'abilities', iarm:'combat',
+  iclb:'art', iclg:'art', iclr:'art', iico:'art', ifil:'art', isca:'art', issc:'art',
+  icid:'stats', icla:'stats', idro:'stats', idrp:'stats',
+  igol:'stats', ihtp:'stats', iicd:'stats', ilev:'stats', ilum:'stats', ilvo:'stats',
+  imor:'stats', ipaw:'stats', iper:'stats', ipow:'stats', ipri:'stats', iprn:'stats',
+  isel:'stats', isst:'stats', isto:'stats', istr:'stats', iusa:'stats', iuse:'stats',
+  ides:'text',
+  // Units - abilities
+  uabi:'abilities', udaa:'abilities',
+  // Units - text
+  unam:'text', unsf:'text', utip:'text', utub:'text', utpr:'text', uawt:'text', uhot:'text',
+  ucun:'text', ucut:'text',
+  // Units - art
+  uico:'art', umdl:'art', usca:'art', ussc:'art', uclr:'art', uclg:'art', uclb:'art',
+  uani:'art', ushu:'art', ussi:'art', uble:'art',
+  ushh:'art', ushw:'art', ushx:'art', ushy:'art', ushb:'art',
+  uver:'art', usew:'art', uslz:'art', urun:'art', uwal:'art',
+  umxp:'art', umxr:'art', uocc:'art', uept:'art', uerd:'art', ufrd:'art',
+  uscb:'art', utaa:'art', uspa:'art', utcc:'art', utco:'art', uub1:'art',
+  ubpx:'art', ubpy:'art', ucbs:'art', ucpt:'art',
+  ucua:'art', udtm:'art', ushr:'art', uori:'art',
+  uimz:'art', uisz:'art', ulpx:'art', ulpy:'art', ulpz:'art', ulsz:'art',
+  uprw:'art', uaap:'art', ualp:'art', ubpr:'art', ulos:'art',
+  // Units - combat
+  udef:'combat', udty:'combat', uarm:'combat', udea:'combat',
+  ua1t:'combat', ua1b:'combat', ua1f:'combat', ua1d:'combat', ua1c:'combat', ua1r:'combat',
+  ua1g:'combat', ua1m:'combat', ua1w:'combat', ua1z:'combat', ua1s:'combat',
+  ua1h:'combat', ua1p:'combat', ua1q:'combat',
+  ua2t:'combat', ua2b:'combat', ua2f:'combat', ua2d:'combat', ua2c:'combat', ua2r:'combat',
+  ua2g:'combat', ua2m:'combat', ua2w:'combat', ua2z:'combat', ua2s:'combat',
+  ua2h:'combat', ua2p:'combat', ua2q:'combat',
+  uaen:'combat', udup:'combat', uacq:'combat', utar:'combat', uamn:'combat',
+  ucs1:'combat', ucs2:'combat', ubs1:'combat', ubs2:'combat',
+  udp1:'combat', udp2:'combat', udl1:'combat', udl2:'combat',
+  udu1:'combat', udu2:'combat', usd1:'combat', usd2:'combat',
+  usr1:'combat', usr2:'combat', utc1:'combat', utc2:'combat',
+  urb1:'combat', urb2:'combat', uhd1:'combat', uhd2:'combat',
+  uqd1:'combat', uqd2:'combat', uma1:'combat', uma2:'combat',
+  umh1:'combat', umh2:'combat',
+  uwu1:'combat', uwu2:'combat',
+  // Units - editor
+  ucam:'editor', uspe:'editor', udro:'editor', uhos:'editor',
+  utss:'editor', uine:'editor', util:'editor', uuch:'editor',
+  // Units - hero
+  ustr:'hero', ustp:'hero', uint:'hero', uinp:'hero', uagi:'hero', uagp:'hero',
+  uhab:'hero', upra:'hero', upro:'hero', upru:'hero',
+  uhhb:'hero', uhhd:'hero', uhhm:'hero', urva:'hero', urev:'hero',
+  // Units - movement
+  umvs:'movement', umvt:'movement', umvh:'movement', umvr:'movement', umvf:'movement',
+  umas:'movement', umis:'movement',
+  urpo:'movement', urpg:'movement', urpp:'movement', urpr:'movement',
+  // Units - pathing
+  uabr:'pathing', uabt:'pathing', ucol:'pathing',
+  // Units - sound
+  usnd:'sound', ulfi:'sound', ulfo:'sound', umsl:'sound', ursl:'sound',
+  // Units - stats
+  urac:'stats', utyp:'stats', ulev:'stats', ugol:'stats', ulum:'stats', ufoo:'stats',
+  uhpm:'stats', uhpr:'stats', uhrt:'stats',
+  usin:'stats', usid:'stats', upoi:'stats', upri:'stats',
+  ubld:'stats', usrg:'stats', usma:'stats', usst:'stats', ugor:'stats', ulur:'stats', urtm:'stats',
+  umpi:'stats', umpm:'stats', umpr:'stats', ufor:'stats',
+  ufle:'stats', ufma:'stats', ubba:'stats', ubdi:'stats', ubsi:'stats',
+  uhom:'stats', ulba:'stats', ulbd:'stats', ulbs:'stats',
+  ubdg:'stats', usle:'stats', ucar:'stats',
+  // Units - techtree
+  utra:'techtree', ubui:'techtree', ures:'techtree', upgr:'techtree', uupt:'techtree',
+  umki:'techtree', useu:'techtree', usei:'techtree', ureq:'techtree', urqa:'techtree',
+  udep:'techtree',
+  // Abilities - text
+  anam:'text', ansf:'text', atp1:'text', aub1:'text', aret:'text', arut:'text', aut1:'text', auu1:'text', auhk:'text', ahky:'text', arhk:'text',
+  aord:'text', aoro:'text', aorf:'text', aoru:'text',
+  // Abilities - art
+  aart:'art', arar:'art', auar:'art', abpx:'art', abpy:'art', aubx:'art', auby:'art', arpx:'art', arpy:'art',
+  amac:'art', amat:'art', amho:'art', amsp:'art', acat:'art', acap:'art', aca1:'art', acac:'art',
+  aeat:'art', atat:'art', ata0:'art', ata1:'art', ata2:'art', ata3:'art', ata4:'art', ata5:'art', atac:'art',
+  asat:'art', aspt:'art', alig:'art', aani:'art', aaea:'art',
+  // Abilities - data
+  ausk:'data',
+  // Abilities - sound
+  aefs:'sound', aefl:'sound',
+  // Abilities - stats
+  alev:'stats', amcs:'stats', acdn:'stats', adur:'stats', ahdu:'stats', aran:'stats', aare:'stats', acas:'stats',
+  atar:'stats', aher:'stats', aite:'stats', apri:'stats', arac:'stats',
+  alsk:'stats', arlv:'stats',
+  // Abilities - techtree
+  areq:'techtree', arqa:'techtree', achd:'techtree',
+  // Buffs - text
+  fnam:'text', fnsf:'text', ftip:'text', fube:'text',
+  // Buffs - art
+  fart:'art', feat:'art', feft:'art', ftat:'art', fta0:'art', fta1:'art', fta2:'art', fta3:'art', fta4:'art', fta5:'art', ftac:'art',
+  fsat:'art', fspt:'art', flig:'art', fmac:'art', fmat:'art', fmho:'art', fmsp:'art', fspd:'art',
+  // Buffs - sound
+  fefs:'sound', fefl:'sound',
+  // Buffs - stats
+  feff:'stats', frac:'stats',
+  // Destructibles - text
+  bnam:'text', bsuf:'text',
+  // Destructibles - art
+  bfil:'art', bgpm:'art', blit:'art', bmmr:'art', bmmg:'art', bmmb:'art', bsmm:'art', bumm:'art',
+  bvcr:'art', bvcg:'art', bvcb:'art', bfxr:'art', bmap:'art', bmar:'art', boch:'art', bflh:'art',
+  bflo:'art', bfra:'art', bfvi:'art', brad:'art', bsel:'art', bgsc:'art', bgse:'art', bshd:'art',
+  btxf:'art', btxi:'art', bvar:'art', bmas:'art', bmis:'art', bcpr:'art',
+  // Destructibles - combat
+  barm:'combat', btar:'combat',
+  // Destructibles - editor
+  bcat:'editor', btil:'editor', btsp:'editor',
+  bonc:'editor', bonw:'editor', bcpd:'editor', buch:'editor', busr:'editor',
+  // Destructibles - pathing
+  bclh:'pathing', bwal:'pathing', bptx:'pathing', bptd:'pathing',
+  // Destructibles - sound
+  bdsn:'sound',
+  // Destructibles - stats
+  bhps:'stats', bbut:'stats', breg:'stats', brel:'stats', bret:'stats',
+  // Doodads - text
+  dnam:'text',
+  // Doodads - art
+  dfil:'art', ddes:'art', dfxr:'art', dmap:'art', dmar:'art', dsel:'art',
+  dmmr:'art', dmmg:'art', dmmb:'art', dsmm:'art', dumc:'art', dvr1:'art', dvg1:'art', dvb1:'art',
+  dvar:'art', dvis:'art', dshd:'art', dshf:'art', danf:'art', dflt:'art',
+  // Doodads - editor
+  dcat:'editor', dtil:'editor', dtsp:'editor', dcpr:'editor', dmas:'editor', dmis:'editor',
+  dimc:'editor', dusr:'editor', donc:'editor', donw:'editor', duch:'editor',
+  // Doodads - pathing
+  dptx:'pathing', dwlk:'pathing',
+  // Doodads - sound
+  dsnd:'sound',
+  // Upgrades - text
+  gnam:'text', gnsf:'text', ghk1:'text', gtp1:'text', gub1:'text',
+  // Upgrades - art
+  gar1:'art', gbpx:'art', gbpy:'art',
+  // Upgrades - data
+  gef1:'data', gba1:'data', gco1:'data', gmo1:'data',
+  gef2:'data', gba2:'data', gco2:'data', gmo2:'data',
+  gef3:'data', gba3:'data', gco3:'data', gmo3:'data',
+  gef4:'data', gba4:'data', gco4:'data', gmo4:'data',
+  // Upgrades - stats
+  glvl:'stats', gcls:'stats', grac:'stats', glob:'stats', ginh:'stats',
+  gglb:'stats', gglm:'stats', glmb:'stats', glmm:'stats', gtib:'stats', gtim:'stats',
+  // Upgrades - techtree
+  greq:'techtree', grqc:'techtree',
 };
+const CAT_LABELS = {text:'Text',abilities:'Abilities',art:'Art',combat:'Combat',data:'Data',editor:'Editor',hero:'Hero',movement:'Movement',pathing:'Pathing',sound:'Sound',stats:'Stats',techtree:'Techtree'};
+const CAT_ORDER_LIST = ['text','abilities','art','combat','data','editor','hero','movement','pathing','sound','stats','techtree'];
 
 // ================================================================
 // BINARY READER  (browser ArrayBuffer)
@@ -1969,26 +2067,26 @@ function toggleCategory(type, catId) {
 }
 
 /**
- * Groups an array of column objects by COLUMN_CATEGORIES for the given type.
- * Columns not matched by any category are placed in an 'Other' group.
+ * Groups an array of column objects by FIELD_CAT categories.
+ * Fields not in FIELD_CAT: uppercase-start or contains digit → 'data', else 'other'.
  * Returns: Array<{ cat:{id,label}, cols:col[] }>
  */
 function getCategoryGroups(type, cols) {
-  const cats = COLUMN_CATEGORIES[type];
-  if (!cats || cats.length === 0) {
-    return [{ cat: { id: '_all', label: type }, cols: [...cols] }];
-  }
-  const fieldCat = new Map();
-  cats.forEach((cat, i) => { for (const fid of cat.fields) fieldCat.set(fid, i); });
-  const groups = cats.map(cat => ({ cat: { id: cat.id, label: cat.label }, cols: [] }));
-  const leftover = [];
+  const orderMap = {};
+  CAT_ORDER_LIST.forEach((c, i) => orderMap[c] = i);
+  const grouped = new Map();
   for (const col of cols) {
-    const ci = fieldCat.get(col.id);
-    if (ci != null) groups[ci].cols.push(col);
-    else leftover.push(col);
+    let cat = FIELD_CAT[col.id];
+    if (!cat) cat = (/^[A-Z]/.test(col.id) || /\d/.test(col.id)) ? 'data' : 'other';
+    if (!grouped.has(cat)) grouped.set(cat, []);
+    grouped.get(cat).push(col);
   }
-  const result = groups.filter(g => g.cols.length > 0);
-  if (leftover.length > 0) result.push({ cat: { id: '_other', label: 'Other' }, cols: leftover });
+  const result = [];
+  for (const [cat, catCols] of grouped) {
+    const label = CAT_LABELS[cat] || cat.charAt(0).toUpperCase() + cat.slice(1);
+    result.push({ cat: { id: cat, label }, cols: catCols });
+  }
+  result.sort((a, b) => (orderMap[a.cat.id] ?? 999) - (orderMap[b.cat.id] ?? 999));
   return result;
 }
 
@@ -2003,9 +2101,9 @@ function renderCatHeaderRow(type, catGroups, collapsed) {
     const isC = collapsed.has(g.cat.id);
     const safe = g.cat.id.replace(/'/g,'\\\"'), lbl = esc(g.cat.label);
     if (isC) {
-      h += '<th class="cat-head cat-collapsed" onclick="toggleCategory(\'' + esc(type) + '\',\'' + safe + '\')" title="Expand ' + lbl + '">&#x25B6;<br><span class="cat-clbl">' + lbl + '</span></th>';
+      h += '<th class="cat-head cat-collapsed" onclick="toggleCategory(\'' + esc(type) + '\',\'' + safe + '\')" title="Expand ' + lbl + '"><span class="cat-toggle">+</span> ' + lbl + '</th>';
     } else {
-      h += '<th class="cat-head cat-expanded" colspan="' + g.cols.length + '" onclick="toggleCategory(\'' + esc(type) + '\',\'' + safe + '\')" title="Collapse ' + lbl + '">' + lbl + '<span class="cat-arr">&#x25BC;</span></th>';
+      h += '<th class="cat-head cat-expanded" colspan="' + g.cols.length + '" onclick="toggleCategory(\'' + esc(type) + '\',\'' + safe + '\')" title="Collapse ' + lbl + '"><span class="cat-toggle">&minus;</span> ' + lbl + '</th>';
     }
   }
   h += '</tr>';
@@ -2421,7 +2519,8 @@ function renderTable(type) {
     let ci = 5;
     for (const g of catGroups) {
       if (collapsed.has(g.cat.id)) {
-        ci++; // stub column – no individual header
+        h += '<th class="cat-stub"><span class="col-resize" data-ci="' + ci + '"></span></th>';
+        ci++;
       } else {
         for (const c of g.cols) {
           h += '<th style="width:160px" data-default-w="160" title="' + esc(c.id) + ' (' + c.type + ')">' + esc(c.name) + '<span class="sub">' + esc(c.id) + '</span><span class="col-resize" data-ci="' + ci + '"></span></th>';
@@ -2475,7 +2574,8 @@ function renderTable(type) {
     let ci = 5;
     for (const g of mainCatGroups) {
       if (collapsed.has(g.cat.id)) {
-        ci++; // stub column – no individual header
+        h += '<th class="cat-stub"><span class="col-resize" data-ci="' + ci + '"></span></th>';
+        ci++;
       } else {
         for (const c of g.cols) {
           h += '<th style="width:160px" data-default-w="160" title="' + esc(c.id) + ' (' + c.type + ')">' + esc(c.name) + '<span class="sub">' + esc(c.id) + '</span><span class="col-resize" data-ci="' + ci + '"></span></th>';
@@ -2607,6 +2707,7 @@ function renderTable(type) {
 
   h += '</tbody></table></div>';
   pane.innerHTML = h;
+  st._renderedAllCols = showAllColumns;
   updateStats(type);
 }
 
@@ -2881,6 +2982,14 @@ function switchTab(tab) {
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.t === tab));
   for (const k of ['items','abilities','units','buffs','upgrades','destructables','doodads']) {
     document.getElementById(k + 'Pane').classList.toggle('hidden', tab !== k);
+  }
+  // Re-render if showAllColumns state changed since this tab was last rendered
+  const st = S[tab];
+  if (st && st._renderedAllCols !== showAllColumns) {
+    syncDOM(tab);
+    const scrollPos = saveScroll(tab);
+    renderTable(tab);
+    restoreScroll(tab, scrollPos);
   }
   updateStats(tab);
 }
