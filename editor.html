@@ -28,6 +28,14 @@ body{font-family:'Segoe UI',sans-serif;background:#1a1a2e;color:#e0e0e0;font-siz
 .toolbar{padding:6px 14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .search{padding:4px 8px;background:#252550;border:1px solid #0f3460;color:#e0e0e0;border-radius:3px;font-size:12px;width:180px}
 .search:focus{border-color:#e94560;outline:none}
+.toggle-wrap{display:flex;align-items:center;gap:5px}
+.toggle-label{font-size:11px;color:#888;white-space:nowrap}
+.toggle{position:relative;width:36px;height:18px;cursor:pointer;display:inline-block}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle .slider{position:absolute;inset:0;background:#333;border-radius:9px;transition:.2s}
+.toggle .slider:before{content:'';position:absolute;height:14px;width:14px;left:2px;bottom:2px;background:#777;border-radius:50%;transition:.2s}
+.toggle input:checked+.slider{background:#0f3460}
+.toggle input:checked+.slider:before{transform:translateX(18px);background:#e94560}
 .stats{color:#777;font-size:11px;margin-left:auto}
 
 /* Table */
@@ -107,6 +115,13 @@ td select:focus{border-color:#e94560;background:#25255a;outline:none}
 <div class="toolbar">
   <button class="btn b-add b-sm" onclick="showAddRow()">+ Add Row (Experimental)</button>
   <input class="search" id="searchBox" placeholder="Search..." oninput="filterRows()">
+  <div class="toggle-wrap">
+    <label class="toggle" title="Show all columns">
+      <input type="checkbox" id="showAllColsToggle" onchange="toggleAllColumns()">
+      <span class="slider"></span>
+    </label>
+    <span class="toggle-label">All Columns</span>
+  </div>
   <span class="stats" id="statsBar"></span>
 </div>
 
@@ -1863,6 +1878,88 @@ function isMainRowOnly(type, fieldId) {
   return false;
 }
 
+/**
+ * Columns that should ALWAYS appear in sub-rows when showAllColumns is ON,
+ * even if no row has data for them.  Keyed by editor type.
+ * Add entries here as needed for other types / fields.
+ */
+const SUBROW_ALWAYS_VISIBLE = {
+  doodads: ['dvr1', 'dvg1', 'dvb1']   // Tinting colors
+};
+
+/** Global toggle: show all known columns vs only columns with data */
+let showAllColumns = false;
+
+/** Get the priority array for a given editor type. */
+function getPriorityArray(type) {
+  switch (type) {
+    case 'units':          return UNIT_PRI;
+    case 'buffs':          return BUFF_PRI;
+    case 'upgrades':       return UPGR_PRI;
+    case 'destructables':  return DEST_PRI;
+    case 'doodads':        return DOOD_PRI;
+    case 'abilities':      return ABIL_PRI;
+    case 'items':          return ITEM_PRI;
+    default:               return ITEM_PRI;
+  }
+}
+
+/**
+ * Get display columns for rendering.
+ * When showAllColumns is OFF  -> only columns that appear in data (st.cols).
+ * When showAllColumns is ON   -> all columns from the priority list for the
+ *   type, plus any extra data-only columns not in the priority list.
+ */
+function getDisplayCols(type) {
+  const st = S[type]; if (!st) return [];
+  if (!showAllColumns) return st.cols;
+
+  const pri = getPriorityArray(type);
+  const existingMap = new Map(st.cols.map(c => [c.id, c]));
+
+  // Collect all field IDs: priority list + any data-only fields
+  const allIds = new Set([...pri]);
+  for (const c of st.cols) allIds.add(c.id);
+
+  // Build column list
+  const result = [];
+  const seen = new Set();
+  for (const id of allIds) {
+    if (seen.has(id)) continue;
+    seen.add(id);
+    if (existingMap.has(id)) {
+      result.push(existingMap.get(id));
+    } else {
+      const known = KNOWN[id];
+      if (known) {
+        result.push({ id, name: known.n, type: getWireType(known.t) });
+      }
+    }
+  }
+
+  // Sort by priority
+  const priMap = {};
+  pri.forEach((id, i) => priMap[id] = i);
+  result.sort((a, b) => {
+    const pa = priMap[a.id] ?? 9999, pb = priMap[b.id] ?? 9999;
+    if (pa !== pb) return pa - pb;
+    return a.id.localeCompare(b.id);
+  });
+
+  return result;
+}
+
+/** Toggle all-columns visibility and re-render the active tab. */
+function toggleAllColumns() {
+  showAllColumns = document.getElementById('showAllColsToggle').checked;
+  const type = activeTab;
+  const st = S[type]; if (!st) return;
+  syncDOM(type);
+  const scrollPos = saveScroll(type);
+  renderTable(type);
+  restoreScroll(type, scrollPos);
+}
+
 // ================================================================
 // UNIFIED LOAD FILE  (auto-detect format from extension)
 // ================================================================
@@ -2159,7 +2256,8 @@ function sortFieldIds(ids, priority) {
 // ================================================================
 function renderTable(type) {
   const st = S[type]; if (!st) return;
-  const { meta, rows, cols } = st;
+  const { meta, rows } = st;
+  const cols = getDisplayCols(type);
   const hl = meta._hasLevels;
   const lcf = LEVEL_COUNT_FIELD[type] || null;
   const pane = document.getElementById(type + 'Pane');
@@ -2266,6 +2364,22 @@ function renderTable(type) {
         }
       }
       bidLevelCols.set(bid, levelCols.filter(c => usedColIds.has(c.id)));
+    }
+
+    // When showAllColumns is ON, add always-visible sub-row columns for this type
+    if (showAllColumns && SUBROW_ALWAYS_VISIBLE[type]) {
+      const alwaysIds = new Set(SUBROW_ALWAYS_VISIBLE[type]);
+      for (const [bid, curCols] of bidLevelCols) {
+        const existingIds = new Set(curCols.map(c => c.id));
+        const extraCols = levelCols.filter(c => alwaysIds.has(c.id) && !existingIds.has(c.id));
+        if (extraCols.length > 0) {
+          const merged = [...curCols, ...extraCols];
+          // Maintain priority order from levelCols
+          const lcOrder = new Map(levelCols.map((c, i) => [c.id, i]));
+          merged.sort((a, b) => (lcOrder.get(a.id) ?? 9999) - (lcOrder.get(b.id) ?? 9999));
+          bidLevelCols.set(bid, merged);
+        }
+      }
     }
 
     let groupAlt = false;
