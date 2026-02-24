@@ -8,10 +8,10 @@ WC3 Grid Object Editor is a browser-based tool for editing Warcraft 3 objects. I
 - No need to install additional software.
 
 ## Getting Started
-Visit the editor at www.
+Visit the [editor](https://michaelkocian.github.io/wc3-grid-object-editor/editor.html).
 
 ### Usage
-1. Open the `editor.html` file in your browser.
+1. Open the `editor.html` in your browser.
 2. Export .w3q .w3h .w3a .w3d .w3b .w3t .w3u files from your map.
 3. Load the files into the editor. 
 4. Start editing Warcraft 3 objects using the grid interface.
