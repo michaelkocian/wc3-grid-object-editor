@@ -81,6 +81,17 @@ td select:focus{border-color:#e94560;background:#25255a;outline:none}
 
 .hidden{display:none!important}
 
+/* Column category headers */
+.cat-head-row th{background:#09122a;border-right:1px solid #1a2a4e;border-bottom:1px solid #0f3460}
+.cat-spacer{background:#09122a;border-right:none!important}
+.cat-head{text-align:center;font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:#6899bb;cursor:pointer;padding:2px 8px;user-select:none;font-weight:600;transition:.1s}
+.cat-head:hover{background:#102048;color:#cce0ff}
+.cat-head.cat-expanded{border-left:2px solid #1a3a6e;border-right:2px solid #1a3a6e}
+.cat-head.cat-collapsed{width:22px!important;min-width:22px!important;max-width:22px!important;color:#3a6080;padding:4px 2px;overflow:hidden}
+.cat-clbl{display:inline-block;writing-mode:vertical-lr;transform:rotate(180deg);font-size:8px;letter-spacing:.5px}
+.cat-arr{font-size:8px;opacity:.5;margin-left:3px}
+.cat-stub{background:#07101e!important;width:22px!important;min-width:22px!important;max-width:22px!important;padding:0!important;border-right:1px solid #1a2a4e!important}
+
 /* Popup */
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;display:flex;align-items:center;justify-content:center}
 .pop{background:#1a1a2e;border:1px solid #0f3460;border-radius:6px;padding:16px;min-width:320px;max-width:460px;max-height:80vh;overflow-y:auto}
@@ -1489,6 +1500,58 @@ const DEST_PRI = ['bnam','bsuf','bfil','bgpm','bcat','btil','btsp','bhps','barm'
 const DOOD_PRI = ['dnam','dvar','dfil','dcat','dtil','dtsp','ddes','dmas','dmis','dcpr','dfxr','dmap','dmar','dsel','dmmr','dmmg','dmmb','dsmm','dumc','dvr1','dvg1','dvb1','dvis','dshd','dshf','danf','dflt','donc','donw','dwlk','dptx','dimc','dsnd','duch','dusr'];
 
 // ================================================================
+// COLUMN CATEGORIES
+// Defines how main-table columns are grouped per editor type.
+// Sub-rows (level tables) are NOT affected by categories.
+// ================================================================
+const COLUMN_CATEGORIES = {
+  doodads: [
+    { id:'art',     label:'Art',     fields:['danf','ddes','dfxr','dflt','dshd','dmar','dmap','dsmm','dumc','dmmr','dmmg','dmmb','dfil','dsel','dshf','dvr1','dvg1','dvb1','dvar','dvis'] },
+    { id:'editor',  label:'Editor',  fields:['dcpr','dcat','dtsp','dimc','dmas','dmis','dusr','donc','donw','dtil','duch'] },
+    { id:'pathing', label:'Pathing', fields:['dptx','dwlk'] },
+    { id:'sound',   label:'Sound',   fields:['dsnd'] },
+    { id:'text',    label:'Text',    fields:['dnam'] },
+  ],
+  destructables: [
+    { id:'art',     label:'Art',     fields:['bfil','bgpm','blit','bmmr','bmmg','bmmb','bsmm','bumm','bvcr','bvcg','bvcb','bfxr','bmap','bmar','bmas','bmis','bcpr','bshd','bclh','bvar'] },
+    { id:'editor',  label:'Editor',  fields:['bcat','btil','btsp','bgsc','bgse','bsel','boch','bflo','bfra','bfvi','bflh','bonc','bonw','bwal','buch','busr','bcpd'] },
+    { id:'pathing', label:'Pathing', fields:['bptx','bptd','btar','brad','barm'] },
+    { id:'build',   label:'Build',   fields:['bhps','bbut','bdsn','breg','brel','bret','btxf','btxi'] },
+    { id:'text',    label:'Text',    fields:['bnam','bsuf'] },
+  ],
+  items: [
+    { id:'stats',   label:'Stats',   fields:['igol','ilum','ihtp','iuse','isto','istr','isst','ilev','ilvo','icla','iarm','ipri','iicd','icid','iusa','isca','issc'] },
+    { id:'flags',   label:'Flags',   fields:['idro','idrp','ipaw','iper','iprn','isel','ipow','imor','iabi','imap','ican'] },
+    { id:'art',     label:'Art',     fields:['iclr','iclg','iclb','iico','ifil','ubpx','ubpy'] },
+    { id:'text',    label:'Text',    fields:['unam','unsf','utip','utub','ides'] },
+  ],
+  units: [
+    { id:'basic',   label:'Basic',      fields:['unam','unsf','urac','utyp','ulev','ugol','ulum','ufoo','uhpm','uhpr','uhrt','udef','udty','uarm','umvs','umvt','umvh','umvr','umvf','usin','usid','upoi','upri','ulfi','ulfo'] },
+    { id:'combat',  label:'Combat',     fields:['ua1t','ua1b','ua1f','ua1d','ua1c','ua1r','ua1g','ua1m','ua1w','ua1z','ua1s','ua2t','ua2b','ua2f','ua2d','ua2c','ua2r','ua2g','ua2m','ua2w','ua2z','ua2s','uaen','udaa','udup','ucs1','ucs2','ubs1','ubs2','udp1','udp2','udl1','udl2','udu1','udu2','usd1','usd2','usr1','usr2','utc1','utc2','urb1','urb2','uhd1','uhd2','uqd1','uqd2','uma1','uma2','umh1','umh2','uamn','umas','umis','uwu1','uwu2','ucbs','ucpt'] },
+    { id:'hero',    label:'Hero',       fields:['ustr','ustp','uint','uinp','uagi','uagp','umpi','umpm','umpr','uhab','upra','uhot','upro','upru','uhhb','uhhd','uhhm','urva','urev'] },
+    { id:'art',     label:'Art',        fields:['uico','umdl','usnd','usca','ussc','uclr','uclg','uclb','uani','ushu','ussi','uble','udea','ushh','ushw','ushx','ushy','ushb','uver','usew','uslz','urun','uwal','umxp','umxr','uocc','uept','uerd','ufrd','uble','ucam','ufor','uscb','utaa','uspa','utcc','utco','uub1'] },
+    { id:'prod',    label:'Production', fields:['uabi','utra','ubui','ures','upgr','uupt','umki','useu','usei','ureq','urqa','ubld','ubpx','ubpy','usrg','usma','usst','ugor','ulur','urtm','uobs'] },
+    { id:'text',    label:'Text',       fields:['utip','utub','utpr','uawt'] },
+  ],
+  abilities: [
+    { id:'basic',   label:'Basic',   fields:['anam','alev','ahky','amcs','acdn','adur','ahdu','aran','aare','acas','atar','areq','arqa','achd','aher','aite','apri','arac','alsk','arlv','ansf','aord','aoro','aorf','aoru','arhk'] },
+    { id:'art',     label:'Art',     fields:['aart','arar','auar','abpx','abpy','aubx','auby','arpx','arpy','amac','amat','amho','amsp','acat','acap','aca1','acac','aeat','atat','ata0','ata1','ata2','ata3','ata4','ata5','atac','asat','aspt','alig','aefs','aefl','aani','aaea'] },
+    { id:'text',    label:'Text',    fields:['atp1','aub1','aret','arut','aut1','auu1','auhk'] },
+  ],
+  buffs: [
+    { id:'basic',   label:'Basic',   fields:['fnam','fnsf','feff','fspd','frac'] },
+    { id:'art',     label:'Art',     fields:['fart','feat','feft','ftat','fta0','fta1','fta2','fta3','fta4','fta5','ftac','fsat','fspt','flig','fmac','fmat','fmho','fmsp','fefs','fefl'] },
+    { id:'text',    label:'Text',    fields:['ftip','fube'] },
+  ],
+  upgrades: [
+    { id:'basic',   label:'Basic',   fields:['glvl','gnam','gnsf','ghk1','grac','gcls','glob','ginh','gglb','gglm','glmb','glmm','gtib','gtim','greq','grqc','gbpx','gbpy'] },
+    { id:'art',     label:'Art',     fields:['gar1'] },
+    { id:'effects', label:'Effects', fields:['gef1','gba1','gco1','gmo1','gef2','gba2','gco2','gmo2','gef3','gba3','gco3','gmo3','gef4','gba4','gco4','gmo4'] },
+    { id:'text',    label:'Text',    fields:['gtp1','gub1'] },
+  ],
+};
+
+// ================================================================
 // BINARY READER  (browser ArrayBuffer)
 //
 // Reference: WC3MapTranslator W3Buffer / ObjectsTranslator.ts
@@ -1887,6 +1950,85 @@ const SUBROW_ALWAYS_VISIBLE = {
   doodads: ['dvr1', 'dvg1', 'dvb1']   // Tinting colors
 };
 
+/** Tracks which category IDs are collapsed, per type. */
+const collapsedCategories = {};
+
+function getCollapsedCats(type) {
+  if (!collapsedCategories[type]) collapsedCategories[type] = new Set();
+  return collapsedCategories[type];
+}
+
+function toggleCategory(type, catId) {
+  const c = getCollapsedCats(type);
+  if (c.has(catId)) c.delete(catId); else c.add(catId);
+  const st = S[type]; if (!st) return;
+  syncDOM(type);
+  const scrollPos = saveScroll(type);
+  renderTable(type);
+  restoreScroll(type, scrollPos);
+}
+
+/**
+ * Groups an array of column objects by COLUMN_CATEGORIES for the given type.
+ * Columns not matched by any category are placed in an 'Other' group.
+ * Returns: Array<{ cat:{id,label}, cols:col[] }>
+ */
+function getCategoryGroups(type, cols) {
+  const cats = COLUMN_CATEGORIES[type];
+  if (!cats || cats.length === 0) {
+    return [{ cat: { id: '_all', label: type }, cols: [...cols] }];
+  }
+  const fieldCat = new Map();
+  cats.forEach((cat, i) => { for (const fid of cat.fields) fieldCat.set(fid, i); });
+  const groups = cats.map(cat => ({ cat: { id: cat.id, label: cat.label }, cols: [] }));
+  const leftover = [];
+  for (const col of cols) {
+    const ci = fieldCat.get(col.id);
+    if (ci != null) groups[ci].cols.push(col);
+    else leftover.push(col);
+  }
+  const result = groups.filter(g => g.cols.length > 0);
+  if (leftover.length > 0) result.push({ cat: { id: '_other', label: 'Other' }, cols: leftover });
+  return result;
+}
+
+/**
+ * Renders the category header <tr> above the column header row.
+ * Collapsed categories appear as a single narrow stub column.
+ */
+function renderCatHeaderRow(type, catGroups, collapsed) {
+  let h = '<tr class="cat-head-row">';
+  h += '<th colspan="5" class="cat-spacer"></th>';
+  for (const g of catGroups) {
+    const isC = collapsed.has(g.cat.id);
+    const safe = g.cat.id.replace(/'/g,'\\\"'), lbl = esc(g.cat.label);
+    if (isC) {
+      h += '<th class="cat-head cat-collapsed" onclick="toggleCategory(\'' + esc(type) + '\',\'' + safe + '\')" title="Expand ' + lbl + '">&#x25B6;<br><span class="cat-clbl">' + lbl + '</span></th>';
+    } else {
+      h += '<th class="cat-head cat-expanded" colspan="' + g.cols.length + '" onclick="toggleCategory(\'' + esc(type) + '\',\'' + safe + '\')" title="Collapse ' + lbl + '">' + lbl + '<span class="cat-arr">&#x25BC;</span></th>';
+    }
+  }
+  h += '</tr>';
+  return h;
+}
+
+/**
+ * Renders data cells for a row using category groups.
+ * Collapsed categories insert a single stub <td> instead of their columns.
+ * Sub-rows (level tables) must NOT use this – use renderCells() directly.
+ */
+function renderCatCells(ri, r, catGroups, collapsed, subRowType, ownerType, gid) {
+  let h = '';
+  for (const g of catGroups) {
+    if (collapsed.has(g.cat.id)) {
+      h += '<td class="cat-stub"></td>';
+    } else {
+      h += renderCells(ri, r, g.cols, subRowType, ownerType, gid);
+    }
+  }
+  return h;
+}
+
 /** Global toggle: show all known columns vs only columns with data */
 let showAllColumns = false;
 
@@ -2265,17 +2407,27 @@ function renderTable(type) {
   let h = '<div class="tw"><table>';
 
   if (!hl) {
-    // ---- Non-leveled: flat header with all columns ----
-    h += '<thead><tr>';
+    // ---- Non-leveled: flat header with category row + column row ----
+    const catGroups = getCategoryGroups(type, cols);
+    const collapsed = getCollapsedCats(type);
+    h += '<thead>';
+    h += renderCatHeaderRow(type, catGroups, collapsed);
+    h += '<tr>';
     h += '<th style="width:40px" data-default-w="40">#<span class="col-resize" data-ci="0"></span></th>';
     h += '<th style="width:52px" data-default-w="52"><span class="col-resize" data-ci="1"></span></th>';
     h += '<th style="width:60px" data-default-w="60">Table<span class="col-resize" data-ci="2"></span></th>';
     h += '<th style="width:60px" data-default-w="60">Base ID<span class="col-resize" data-ci="3"></span></th>';
     h += '<th style="width:70px" data-default-w="70">Custom ID<span class="col-resize" data-ci="4"></span></th>';
     let ci = 5;
-    for (const c of cols) {
-      h += '<th style="width:160px" data-default-w="160" title="' + esc(c.id) + ' (' + c.type + ')">' + esc(c.name) + '<span class="sub">' + esc(c.id) + '</span><span class="col-resize" data-ci="' + ci + '"></span></th>';
-      ci++;
+    for (const g of catGroups) {
+      if (collapsed.has(g.cat.id)) {
+        ci++; // stub column – no individual header
+      } else {
+        for (const c of g.cols) {
+          h += '<th style="width:160px" data-default-w="160" title="' + esc(c.id) + ' (' + c.type + ')">' + esc(c.name) + '<span class="sub">' + esc(c.id) + '</span><span class="col-resize" data-ci="' + ci + '"></span></th>';
+          ci++;
+        }
+      }
     }
     h += '</tr></thead><tbody>';
 
@@ -2294,7 +2446,7 @@ function renderTable(type) {
       h += '<td style="font-size:11px;color:#999">' + r.tbl + '</td>';
       h += '<td class="idc">' + esc(r.bid) + '</td>';
       h += '<td class="idc">' + esc(r.cid || '\u2014') + '</td>';
-      h += renderCells(ri, r, cols);
+      h += renderCatCells(ri, r, catGroups, collapsed, null, type, r.gid);
       h += '</tr>';
     }
   } else {
@@ -2309,21 +2461,33 @@ function renderTable(type) {
       }
     }
 
-    // Outer table header: only fixed columns + main-row columns
-    h += '<thead><tr>';
+    // Outer table header: category row + column row (main-row columns only)
+    const mainCatGroups = getCategoryGroups(type, mainCols);
+    const collapsed = getCollapsedCats(type);
+    h += '<thead>';
+    h += renderCatHeaderRow(type, mainCatGroups, collapsed);
+    h += '<tr>';
     h += '<th style="width:40px" data-default-w="40">#<span class="col-resize" data-ci="0"></span></th>';
     h += '<th style="width:52px" data-default-w="52"><span class="col-resize" data-ci="1"></span></th>';
     h += '<th style="width:60px" data-default-w="60">Table<span class="col-resize" data-ci="2"></span></th>';
     h += '<th style="width:60px" data-default-w="60">Base ID<span class="col-resize" data-ci="3"></span></th>';
     h += '<th style="width:70px" data-default-w="70">Custom ID<span class="col-resize" data-ci="4"></span></th>';
     let ci = 5;
-    for (const c of mainCols) {
-      h += '<th style="width:160px" data-default-w="160" title="' + esc(c.id) + ' (' + c.type + ')">' + esc(c.name) + '<span class="sub">' + esc(c.id) + '</span><span class="col-resize" data-ci="' + ci + '"></span></th>';
-      ci++;
+    for (const g of mainCatGroups) {
+      if (collapsed.has(g.cat.id)) {
+        ci++; // stub column – no individual header
+      } else {
+        for (const c of g.cols) {
+          h += '<th style="width:160px" data-default-w="160" title="' + esc(c.id) + ' (' + c.type + ')">' + esc(c.name) + '<span class="sub">' + esc(c.id) + '</span><span class="col-resize" data-ci="' + ci + '"></span></th>';
+          ci++;
+        }
+      }
     }
     h += '</tr></thead><tbody>';
 
-    const totalOuterCols = 5 + mainCols.length;
+    // totalOuterCols: 5 fixed + 1 stub per collapsed cat + N cols per expanded cat
+    let totalOuterCols = 5;
+    for (const g of mainCatGroups) totalOuterCols += collapsed.has(g.cat.id) ? 1 : g.cols.length;
 
     // Build groups in order
     const groups = [];
@@ -2409,7 +2573,7 @@ function renderTable(type) {
       h += '<td style="font-size:11px;color:#999">' + headRow.tbl + '</td>';
       h += '<td class="idc">' + esc(headRow.bid) + '</td>';
       h += '<td class="idc">' + esc(headRow.cid || '\u2014') + '</td>';
-      h += renderCells(headIdx, headRow, mainCols, null, type, headRow.gid, null);
+      h += renderCatCells(headIdx, headRow, mainCatGroups, collapsed, null, type, headRow.gid);
       h += '</tr>';
 
       // ---- Level sub-table: use merged columns for this bid ----
