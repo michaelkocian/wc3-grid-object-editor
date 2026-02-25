@@ -182,361 +182,371 @@ td select:focus{border-color:#e94560;background:#25255a;outline:none}
 // ================================================================
 const KNOWN = {
   // -- Units/Items --
-  iabi:{n:"Abilities",t:"abilityList"},
-  iarm:{n:"Armor Type",t:"armorType"},
-  icid:{n:"Cooldown Group",t:"abilCode"},
-  icla:{n:"Classification",t:"itemClass"},
-  iclb:{n:"Tinting Color 3 (Blue)",t:"int"},
-  iclg:{n:"Tinting Color 2 (Green)",t:"int"},
-  iclr:{n:"Tinting Color 1 (Red)",t:"int"},
-  ides:{n:"Description",t:"string"},
-  idro:{n:"Can Be Dropped",t:"bool"},
-  idrp:{n:"Dropped When Carrier Dies",t:"bool"},
-  ifil:{n:"Model Used",t:"model"},
-  igol:{n:"Gold Cost",t:"int"},
-  ihtp:{n:"Hit Points",t:"int"},
-  iicd:{n:"Ignore Cooldown",t:"bool"},
-  iico:{n:"Interface Icon",t:"icon"},
-  ilev:{n:"Level",t:"int"},
-  ilum:{n:"Lumber Cost",t:"int"},
-  ilvo:{n:"Level (Unclassified)",t:"int"},
-  imor:{n:"Valid Target For Transformation",t:"bool"},
-  ipaw:{n:"Can Be Sold To Merchants",t:"bool"},
-  iper:{n:"Perishable",t:"bool"},
-  ipow:{n:"Use Automatically When Acquired",t:"bool"},
-  ipri:{n:"Priority",t:"int"},
-  iprn:{n:"Include As Random Choice",t:"bool"},
-  isca:{n:"Scaling Value",t:"real"},
-  isel:{n:"Can Be Sold By Merchants",t:"bool"},
-  issc:{n:"Selection Size - Editor",t:"real"},
-  isst:{n:"Stock Start Delay",t:"int"},
-  isto:{n:"Stock Maximum",t:"int"},
-  istr:{n:"Stock Replenish Interval",t:"int"},
-  iusa:{n:"Actively Used",t:"bool"},
-  iuse:{n:"Number of Charges",t:"int"},
-  ua1b:{n:"Attack 1 - Damage Base",t:"int"},
-  ua1c:{n:"Attack 1 - Cooldown Time",t:"unreal"},
-  ua1d:{n:"Attack 1 - Damage Number of Dice",t:"int"},
-  ua1f:{n:"Attack 1 - Area of Effect (Full Damage)",t:"int"},
-  ua1g:{n:"Attack 1 - Targets Allowed",t:"targetList"},
-  ua1h:{n:"Attack 1 - Area of Effect (Medium Damage)",t:"int"},
-  ua1m:{n:"Attack 1 - Projectile Art",t:"model"},
-  ua1p:{n:"Attack 1 - Area of Effect Targets",t:"targetList"},
-  ua1q:{n:"Attack 1 - Area of Effect (Small Damage)",t:"int"},
-  ua1r:{n:"Attack 1 - Range",t:"int"},
-  ua1s:{n:"Attack 1 - Damage Sides per Die",t:"int"},
-  ua1t:{n:"Attack 1 - Attack Type",t:"attackType"},
-  ua1w:{n:"Attack 1 - Weapon Type",t:"weaponType"},
-  ua1z:{n:"Attack 1 - Projectile Speed",t:"int"},
-  ua2b:{n:"Attack 2 - Damage Base",t:"int"},
-  ua2c:{n:"Attack 2 - Cooldown Time",t:"unreal"},
-  ua2d:{n:"Attack 2 - Damage Number of Dice",t:"int"},
-  ua2f:{n:"Attack 2 - Area of Effect (Full Damage)",t:"int"},
-  ua2g:{n:"Attack 2 - Targets Allowed",t:"targetList"},
-  ua2h:{n:"Attack 2 - Area of Effect (Medium Damage)",t:"int"},
-  ua2m:{n:"Attack 2 - Projectile Art",t:"model"},
-  ua2p:{n:"Attack 2 - Area of Effect Targets",t:"targetList"},
-  ua2q:{n:"Attack 2 - Area of Effect (Small Damage)",t:"int"},
-  ua2r:{n:"Attack 2 - Range",t:"int"},
-  ua2s:{n:"Attack 2 - Damage Sides per Die",t:"int"},
-  ua2t:{n:"Attack 2 - Attack Type",t:"attackType"},
-  ua2w:{n:"Attack 2 - Weapon Type",t:"weaponType"},
-  ua2z:{n:"Attack 2 - Projectile Speed",t:"int"},
-  uaap:{n:"Required Animation Names - Attachments",t:"stringList"},
-  uabi:{n:"Normal",t:"abilityList"},
-  uabr:{n:"AI Placement Radius",t:"unreal"},
-  uabt:{n:"AI Placement Type",t:"aiBuffer"},
-  uacq:{n:"Acquisition Range",t:"unreal"},
-  uaen:{n:"Attacks Enabled",t:"attackBits"},
-  uagi:{n:"Starting Agility",t:"int"},
-  uagp:{n:"Agility per Level",t:"unreal"},
-  ualp:{n:"Required Attachment Link Names",t:"stringList"},
-  uamn:{n:"Minimum Attack Range",t:"int"},
-  uani:{n:"Required Animation Names",t:"stringList"},
-  uarm:{n:"Armor Type",t:"armorType"},
-  uawt:{n:"Tooltip - Awaken",t:"string"},
-  ubba:{n:"Gold Bounty Awarded - Base",t:"int"},
-  ubdg:{n:"Is a Building",t:"bool"},
-  ubdi:{n:"Gold Bounty Awarded - Number of Dice",t:"int"},
-  ubld:{n:"Build Time",t:"int"},
-  uble:{n:"Animation - Blend Time (seconds)",t:"real"},
-  ubpr:{n:"Required Bone Names",t:"stringList"},
-  ubpx:{n:"Button Position (X)",t:"int"},
-  ubpy:{n:"Button Position (Y)",t:"int"},
-  ubs1:{n:"Attack 1 - Animation Backswing Point",t:"unreal"},
-  ubs2:{n:"Attack 2 - Animation Backswing Point",t:"unreal"},
-  ubsi:{n:"Gold Bounty Awarded - Sides per Die",t:"int"},
-  ubsl:{n:"Construction",t:"soundLabel"},
-  ubui:{n:"Structures Built",t:"unitList"},
-  ucam:{n:"Categorization - Campaign",t:"bool"},
-  ucar:{n:"Transported Size",t:"int"},
+  isit:{n:"Stock Initial After Start Delay",t:"int",c:"stats"},
+  ista:{n:"Max Stacks",t:"int",c:"stats"},
+  bdns:{n:"Looping Sound",t:"soundLabel",c:"sound"},
+
+  iabi:{n:"Abilities",t:"abilityList",c:"abilities"},
+  iarm:{n:"Armor Type",t:"armorType",c:"combat"},
+  icid:{n:"Cooldown Group",t:"abilCode",c:"stats"},
+  icla:{n:"Classification",t:"itemClass",c:"stats"},
+  iclb:{n:"Tinting Color 3 (Blue)",t:"int",c:"art"},
+  iclg:{n:"Tinting Color 2 (Green)",t:"int",c:"art"},
+  iclr:{n:"Tinting Color 1 (Red)",t:"int",c:"art"},
+  ides:{n:"Description",t:"string",c:"text"},
+  idro:{n:"Can Be Dropped",t:"bool",c:"stats"},
+  idrp:{n:"Dropped When Carrier Dies",t:"bool",c:"stats"},
+  ifil:{n:"Model Used",t:"model",c:"art"},
+  igol:{n:"Gold Cost",t:"int",c:"stats"},
+  ihtp:{n:"Hit Points",t:"int",c:"stats"},
+  iicd:{n:"Ignore Cooldown",t:"bool",c:"stats"},
+  iico:{n:"Interface Icon",t:"icon",c:"art"},
+  ilev:{n:"Level",t:"int",c:"stats"},
+  ilum:{n:"Lumber Cost",t:"int",c:"stats"},
+  ilvo:{n:"Level (Unclassified)",t:"int",c:"stats"},
+  imor:{n:"Valid Target For Transformation",t:"bool",c:"stats"},
+  ipaw:{n:"Can Be Sold To Merchants",t:"bool",c:"stats"},
+  iper:{n:"Perishable",t:"bool",c:"stats"},
+  ipow:{n:"Use Automatically When Acquired",t:"bool",c:"stats"},
+  ipri:{n:"Priority",t:"int",c:"stats"},
+  iprn:{n:"Include As Random Choice",t:"bool",c:"stats"},
+  isca:{n:"Scaling Value",t:"real",c:"art"},
+  isel:{n:"Can Be Sold By Merchants",t:"bool",c:"stats"},
+  issc:{n:"Selection Size - Editor",t:"real",c:"art"},
+  isst:{n:"Stock Start Delay",t:"int",c:"stats"},
+  isto:{n:"Stock Maximum",t:"int",c:"stats"},
+  istr:{n:"Stock Replenish Interval",t:"int",c:"stats"},
+  iusa:{n:"Actively Used",t:"bool",c:"stats"},
+  iuse:{n:"Number of Charges",t:"int",c:"stats"},
+  ua1b:{n:"Attack 1 - Damage Base",t:"int",c:"combat"},
+  ua1c:{n:"Attack 1 - Cooldown Time",t:"unreal",c:"combat"},
+  ua1d:{n:"Attack 1 - Damage Number of Dice",t:"int",c:"combat"},
+  ua1f:{n:"Attack 1 - Area of Effect (Full Damage)",t:"int",c:"combat"},
+  ua1g:{n:"Attack 1 - Targets Allowed",t:"targetList",c:"combat"},
+  ua1h:{n:"Attack 1 - Area of Effect (Medium Damage)",t:"int",c:"combat"},
+  ua1m:{n:"Attack 1 - Projectile Art",t:"model",c:"combat"},
+  ua1p:{n:"Attack 1 - Area of Effect Targets",t:"targetList",c:"combat"},
+  ua1q:{n:"Attack 1 - Area of Effect (Small Damage)",t:"int",c:"combat"},
+  ua1r:{n:"Attack 1 - Range",t:"int",c:"combat"},
+  ua1s:{n:"Attack 1 - Damage Sides per Die",t:"int",c:"combat"},
+  ua1t:{n:"Attack 1 - Attack Type",t:"attackType",c:"combat"},
+  ua1w:{n:"Attack 1 - Weapon Type",t:"weaponType",c:"combat"},
+  ua1z:{n:"Attack 1 - Projectile Speed",t:"int",c:"combat"},
+  ua2b:{n:"Attack 2 - Damage Base",t:"int",c:"combat"},
+  ua2c:{n:"Attack 2 - Cooldown Time",t:"unreal",c:"combat"},
+  ua2d:{n:"Attack 2 - Damage Number of Dice",t:"int",c:"combat"},
+  ua2f:{n:"Attack 2 - Area of Effect (Full Damage)",t:"int",c:"combat"},
+  ua2g:{n:"Attack 2 - Targets Allowed",t:"targetList",c:"combat"},
+  ua2h:{n:"Attack 2 - Area of Effect (Medium Damage)",t:"int",c:"combat"},
+  ua2m:{n:"Attack 2 - Projectile Art",t:"model",c:"combat"},
+  ua2p:{n:"Attack 2 - Area of Effect Targets",t:"targetList",c:"combat"},
+  ua2q:{n:"Attack 2 - Area of Effect (Small Damage)",t:"int",c:"combat"},
+  ua2r:{n:"Attack 2 - Range",t:"int",c:"combat"},
+  ua2s:{n:"Attack 2 - Damage Sides per Die",t:"int",c:"combat"},
+  ua2t:{n:"Attack 2 - Attack Type",t:"attackType",c:"combat"},
+  ua2w:{n:"Attack 2 - Weapon Type",t:"weaponType",c:"combat"},
+  ua2z:{n:"Attack 2 - Projectile Speed",t:"int",c:"combat"},
+  uaap:{n:"Required Animation Names - Attachments",t:"stringList",c:"art"},
+  uabi:{n:"Normal",t:"abilityList",c:"abilities"},
+  uabr:{n:"AI Placement Radius",t:"unreal",c:"pathing"},
+  uabt:{n:"AI Placement Type",t:"aiBuffer",c:"pathing"},
+  uacq:{n:"Acquisition Range",t:"unreal",c:"combat"},
+  uaen:{n:"Attacks Enabled",t:"attackBits",c:"combat"},
+  uagi:{n:"Starting Agility",t:"int",c:"stats"},
+  uagp:{n:"Agility per Level",t:"unreal",c:"stats"},
+  ualp:{n:"Required Attachment Link Names",t:"stringList",c:"art"},
+  uamn:{n:"Minimum Attack Range",t:"int",c:"combat"},
+  uani:{n:"Required Animation Names",t:"stringList",c:"art"},
+  uarm:{n:"Armor Type",t:"armorType",c:"combat"},
+  uawt:{n:"Tooltip - Awaken",t:"string",c:"text"},
+  ubba:{n:"Gold Bounty Awarded - Base",t:"int",c:"stats"},
+  ubdg:{n:"Is a Building",t:"bool",c:"stats"},
+  ubdi:{n:"Gold Bounty Awarded - Number of Dice",t:"int",c:"stats"},
+  ubld:{n:"Build Time",t:"int",c:"stats"},
+  uble:{n:"Animation - Blend Time (seconds)",t:"real",c:"art"},
+  ubpr:{n:"Required Bone Names",t:"stringList",c:"art"},
+  ubpx:{n:"Button Position (X)",t:"int",c:"art"},
+  ubpy:{n:"Button Position (Y)",t:"int",c:"art"},
+  ubs1:{n:"Attack 1 - Animation Backswing Point",t:"unreal",c:"combat"},
+  ubs2:{n:"Attack 2 - Animation Backswing Point",t:"unreal",c:"combat"},
+  ubsi:{n:"Gold Bounty Awarded - Sides per Die",t:"int",c:"stats"},
+  ubsl:{n:"Construction",t:"soundLabel", c:"sound"},
+  ubui:{n:"Structures Built",t:"unitList",c:"techtree"},
+  ucam:{n:"Categorization - Campaign",t:"bool",c:"editor"},
+  ucar:{n:"Transported Size",t:"int",c:"stats"},
   ucbo:{n:"Can Build On",t:"bool"},
-  ucbs:{n:"Animation - Cast Backswing",t:"unreal"},
-  uclb:{n:"Tinting Color 3 (Blue)",t:"int"},
-  uclg:{n:"Tinting Color 2 (Green)",t:"int"},
-  uclr:{n:"Tinting Color 1 (Red)",t:"int"},
-  ucol:{n:"Collision Size",t:"unreal"},
-  ucpt:{n:"Animation - Cast Point",t:"unreal"},
-  ucs1:{n:"Attack 1 - Weapon Sound",t:"combatSound"},
-  ucs2:{n:"Attack 2 - Weapon Sound",t:"combatSound"},
-  ucua:{n:"Caster Upgrade Art",t:"icon"},
-  ucun:{n:"Caster Upgrade Names",t:"stringList"},
-  ucut:{n:"Caster Upgrade Tips",t:"stringList"},
-  udaa:{n:"Default Active Ability",t:"abilCode"},
-  udea:{n:"Death Type",t:"deathType"},
-  udef:{n:"Defense Base",t:"int"},
-  udep:{n:"Dependency Equivalents",t:"unitList"},
-  udl1:{n:"Attack 1 - Damage Loss Factor",t:"unreal"},
-  udl2:{n:"Attack 2 - Damage Loss Factor",t:"unreal"},
-  udp1:{n:"Attack 1 - Animation Damage Point",t:"unreal"},
-  udp2:{n:"Attack 2 - Animation Damage Point",t:"unreal"},
-  udro:{n:"Can Drop Items On Death",t:"bool"},
-  udtm:{n:"Death Time (seconds)",t:"unreal"},
-  udty:{n:"Defense Type",t:"defenseType"},
-  udu1:{n:"Attack 1 - Damage Upgrade Amount",t:"int"},
-  udu2:{n:"Attack 2 - Damage Upgrade Amount",t:"int"},
-  udup:{n:"Defense Upgrade Bonus",t:"int"},
-  uept:{n:"Elevation - Sample Points",t:"int"},
-  uerd:{n:"Elevation - Sample Radius",t:"real"},
-  ufle:{n:"Can Flee",t:"bool"},
-  ufma:{n:"Food Produced",t:"int"},
-  ufoo:{n:"Food Cost",t:"int"},
-  ufor:{n:"Formation Rank",t:"int"},
-  ufrd:{n:"Fog of War - Sample Radius",t:"real"},
-  ugol:{n:"Gold Cost",t:"int"},
-  ugor:{n:"Repair Gold Cost",t:"int"},
-  uhab:{n:"Hero",t:"heroAbilityList"},
-  uhd1:{n:"Attack 1 - Damage Factor - Medium",t:"unreal"},
-  uhd2:{n:"Attack 2 - Damage Factor - Medium",t:"unreal"},
-  uhhb:{n:"Hero - Hide Hero Interface Icon",t:"bool"},
-  uhhd:{n:"Hero - Hide Hero Death Message",t:"bool"},
-  uhhm:{n:"Hero - Hide Hero Minimap Display",t:"bool"},
-  uhom:{n:"Hide Minimap Display",t:"bool"},
-  uhos:{n:"Display as Neutral Hostile",t:"bool"},
-  uhot:{n:"Hotkey",t:"char"},
-  uhpm:{n:"Hit Points Maximum (Base)",t:"int"},
-  uhpr:{n:"Hit Points Regeneration Rate",t:"unreal"},
-  uhrt:{n:"Hit Points Regeneration Type",t:"regenType"},
+  ucbs:{n:"Animation - Cast Backswing",t:"unreal",c:"art"},
+  uclb:{n:"Tinting Color 3 (Blue)",t:"int",c:"art"},
+  uclg:{n:"Tinting Color 2 (Green)",t:"int",c:"art"},
+  uclr:{n:"Tinting Color 1 (Red)",t:"int",c:"art"},
+  ucol:{n:"Collision Size",t:"unreal",c:"pathing"},
+  ucpt:{n:"Animation - Cast Point",t:"unreal",c:"art"},
+  ucs1:{n:"Attack 1 - Weapon Sound",t:"combatSound",c:"combat"},
+  ucs2:{n:"Attack 2 - Weapon Sound",t:"combatSound",c:"combat"},
+  ucua:{n:"Caster Upgrade Art",t:"icon",c:"art"},
+  ucun:{n:"Caster Upgrade Names",t:"stringList",c:"text"},
+  ucut:{n:"Caster Upgrade Tips",t:"stringList",c:"text"},
+  udaa:{n:"Default Active Ability",t:"abilCode",c:"abilities"},
+  udea:{n:"Death Type",t:"deathType",c:"combat"},
+  udef:{n:"Defense Base",t:"int",c:"combat"},
+  udep:{n:"Dependency Equivalents",t:"unitList",c:"techtree"},
+  udl1:{n:"Attack 1 - Damage Loss Factor",t:"unreal",c:"combat"},
+  udl2:{n:"Attack 2 - Damage Loss Factor",t:"unreal",c:"combat"},
+  udp1:{n:"Attack 1 - Animation Damage Point",t:"unreal",c:"combat"},
+  udp2:{n:"Attack 2 - Animation Damage Point",t:"unreal",c:"combat"},
+  udro:{n:"Can Drop Items On Death",t:"bool",c:"editor"},
+  udtm:{n:"Death Time (seconds)",t:"unreal",c:"art"},
+  udty:{n:"Defense Type",t:"defenseType",c:"combat"},
+  udu1:{n:"Attack 1 - Damage Upgrade Amount",t:"int",c:"combat"},
+  udu2:{n:"Attack 2 - Damage Upgrade Amount",t:"int",c:"combat"},
+  udup:{n:"Defense Upgrade Bonus",t:"int",c:"combat"},
+  uept:{n:"Elevation - Sample Points",t:"int",c:"art"},
+  uerd:{n:"Elevation - Sample Radius",t:"real",c:"art"},
+  ufle:{n:"Can Flee",t:"bool",c:"stats"},
+  ufma:{n:"Food Produced",t:"int",c:"stats"},
+  ufoo:{n:"Food Cost",t:"int",c:"stats"},
+  ufor:{n:"Formation Rank",t:"int",c:"stats"},
+  ufrd:{n:"Fog of War - Sample Radius",t:"real",c:"art"},
+  ugol:{n:"Gold Cost",t:"int",c:"stats"},
+  ugor:{n:"Repair Gold Cost",t:"int",c:"stats"},
+  uhab:{n:"Hero",t:"heroAbilityList",c:"abilities"},
+  uhas:{n:"Hero Skin",t:"heroAbilityList",c:"abilities"},
+  uabs:{n:"Normal Skin",t:"heroAbilityList",c:"abilities"},
+  uhd1:{n:"Attack 1 - Damage Factor - Medium",t:"unreal",c:"combat"},
+  uhd2:{n:"Attack 2 - Damage Factor - Medium",t:"unreal",c:"combat"},
+  uhhb:{n:"Hero - Hide Hero Interface Icon",t:"bool",c:"stats"},
+  uhhd:{n:"Hero - Hide Hero Death Message",t:"bool",c:"stats"},
+  uhhm:{n:"Hero - Hide Hero Minimap Display",t:"bool",c:"stats"},
+  uhom:{n:"Hide Minimap Display",t:"bool",c:"stats"},
+  uhos:{n:"Display as Neutral Hostile",t:"bool",c:"editor"},
+  uhot:{n:"Hotkey",t:"char",c:"text"},
+  uhpm:{n:"Hit Points Maximum (Base)",t:"int",c:"stats"},
+  uhpr:{n:"Hit Points Regeneration Rate",t:"unreal",c:"stats"},
+  uhrt:{n:"Hit Points Regeneration Type",t:"regenType",c:"stats"},
   uibo:{n:"Can Be Built On",t:"bool"},
-  uico:{n:"Icon - Game Interface",t:"icon"},
-  uimz:{n:"Projectile Impact - Z",t:"unreal"},
-  uine:{n:"Placeable In Editor",t:"bool"},
-  uinp:{n:"Intelligence per Level",t:"unreal"},
-  uint:{n:"Starting Intelligence",t:"int"},
-  uisz:{n:"Projectile Impact - Z (Swimming)",t:"unreal"},
-  ulba:{n:"Lumber Bounty Awarded - Base",t:"int"},
-  ulbd:{n:"Lumber Bounty Awarded - Number of Dice",t:"int"},
-  ulbs:{n:"Lumber Bounty Awarded - Sides per Die",t:"int"},
-  ulev:{n:"Level",t:"int"},
-  ulfi:{n:"Looping Fade In Rate",t:"int"},
-  ulfo:{n:"Looping Fade Out Rate",t:"int"},
-  ulos:{n:"Use Extended Line of Sight",t:"bool"},
-  ulpx:{n:"Projectile Launch - X",t:"unreal"},
-  ulpy:{n:"Projectile Launch - Y",t:"unreal"},
-  ulpz:{n:"Projectile Launch - Z",t:"unreal"},
-  ulsz:{n:"Projectile Launch - Z (Swimming)",t:"unreal"},
-  ulum:{n:"Lumber Cost",t:"int"},
-  ulur:{n:"Repair Lumber Cost",t:"int"},
-  uma1:{n:"Attack 1 - Projectile Arc",t:"unreal"},
-  uma2:{n:"Attack 2 - Projectile Arc",t:"unreal"},
-  umas:{n:"Speed Maximum",t:"int"},
-  umdl:{n:"Model File",t:"model"},
-  umh1:{n:"Attack 1 - Projectile Homing Enabled",t:"bool"},
-  umh2:{n:"Attack 2 - Projectile Homing Enabled",t:"bool"},
-  umis:{n:"Speed Minimum",t:"int"},
-  umki:{n:"Items Made",t:"itemList"},
-  umpi:{n:"Mana Initial Amount",t:"int"},
-  umpm:{n:"Mana Maximum",t:"int"},
-  umpr:{n:"Mana Regeneration",t:"unreal"},
-  umsl:{n:"Movement",t:"soundLabel"},
-  umvf:{n:"Height Minimum",t:"unreal"},
-  umvh:{n:"Height",t:"unreal"},
-  umvr:{n:"Turn Rate",t:"unreal"},
-  umvs:{n:"Speed Base",t:"int"},
-  umvt:{n:"Type",t:"moveType"},
-  umxp:{n:"Maximum Pitch Angle (degrees)",t:"real"},
-  umxr:{n:"Maximum Roll Angle (degrees)",t:"real"},
-  unam:{n:"Name",t:"string"},
-  unbm:{n:"Neutral Building - Shows Minimap Icon",t:"bool"},
-  unbr:{n:"Neutral Building - Valid As Random Building",t:"bool"},
-  unsf:{n:"Name - Editor Suffix",t:"string"},
-  uocc:{n:"Occluder Height",t:"unreal"},
-  uori:{n:"Orientation Interpolation",t:"int"},
-  upap:{n:"Placement Requires",t:"pathingListPrevent"},
-  upar:{n:"Placement Prevented By",t:"pathingListRequire"},
-  upat:{n:"Pathing Map",t:"pathingTexture"},
-  upaw:{n:"Placement Requires Water Radius",t:"unreal"},
-  upgr:{n:"Upgrades Used",t:"upgradeList"},
-  upoi:{n:"Point Value",t:"int"},
-  upra:{n:"Primary Attribute",t:"attributeType"},
-  upri:{n:"Priority",t:"int"},
-  upro:{n:"Proper Names",t:"stringList"},
-  upru:{n:"Proper Names Used",t:"int"},
-  uprw:{n:"Propulsion Window (degrees)",t:"unreal"},
-  uqd1:{n:"Attack 1 - Damage Factor - Small",t:"unreal"},
-  uqd2:{n:"Attack 2 - Damage Factor - Small",t:"unreal"},
-  urac:{n:"Race",t:"unitRace"},
-  urb1:{n:"Attack 1 - Range Motion Buffer",t:"unreal"},
-  urb2:{n:"Attack 2 - Range Motion Buffer",t:"unreal"},
-  ureq:{n:"Requirements",t:"techList"},
-  ures:{n:"Researches Available",t:"upgradeList"},
-  urev:{n:"Revives Dead Heros",t:"bool"},
-  urpg:{n:"Group Separation - Group Number",t:"int"},
-  urpo:{n:"Group Separation - Enabled",t:"bool"},
-  urpp:{n:"Group Separation - Parameter",t:"int"},
-  urpr:{n:"Group Separation - Priority",t:"int"},
-  urq1:{n:"Requirements - Tier 2",t:"techList"},
-  urq2:{n:"Requirements - Tier 3",t:"techList"},
-  urq3:{n:"Requirements - Tier 4",t:"techList"},
-  urq4:{n:"Requirements - Tier 5",t:"techList"},
-  urq5:{n:"Requirements - Tier 6",t:"techList"},
-  urq6:{n:"Requirements - Tier 7",t:"techList"},
-  urq7:{n:"Requirements - Tier 8",t:"techList"},
-  urq8:{n:"Requirements - Tier 9",t:"techList"},
-  urqa:{n:"Requirements - Levels",t:"intList"},
-  urqc:{n:"Requirements - Tiers Used",t:"int"},
-  ursl:{n:"Random",t:"soundLabel"},
-  urtm:{n:"Repair Time",t:"int"},
-  urun:{n:"Animation - Run Speed",t:"real"},
+  uico:{n:"Icon - Game Interface",t:"icon",c:"art"},
+  uimz:{n:"Projectile Impact - Z",t:"unreal",c:"art"},
+  uine:{n:"Placeable In Editor",t:"bool",c:"editor"},
+  uinp:{n:"Intelligence per Level",t:"unreal",c:"stats"},
+  uint:{n:"Starting Intelligence",t:"int",c:"stats"},
+  uisz:{n:"Projectile Impact - Z (Swimming)",t:"unreal",c:"art"},
+  ulba:{n:"Lumber Bounty Awarded - Base",t:"int",c:"stats"},
+  ulbd:{n:"Lumber Bounty Awarded - Number of Dice",t:"int",c:"stats"},
+  ulbs:{n:"Lumber Bounty Awarded - Sides per Die",t:"int",c:"stats"},
+  ulev:{n:"Level",t:"int",c:"stats"},
+  ulfi:{n:"Looping Fade In Rate",t:"int",c:"sound"},
+  ulfo:{n:"Looping Fade Out Rate",t:"int",c:"sound"},
+  ulos:{n:"Use Extended Line of Sight",t:"bool",c:"art"},
+  ulpx:{n:"Projectile Launch - X",t:"unreal",c:"art"},
+  ulpy:{n:"Projectile Launch - Y",t:"unreal",c:"art"},
+  ulpz:{n:"Projectile Launch - Z",t:"unreal",c:"art"},
+  ulsz:{n:"Projectile Launch - Z (Swimming)",t:"unreal",c:"art"},
+  ulum:{n:"Lumber Cost",t:"int",c:"stats"},
+  ulur:{n:"Repair Lumber Cost",t:"int",c:"stats"},
+  uma1:{n:"Attack 1 - Projectile Arc",t:"unreal",c:"combat"},
+  uma2:{n:"Attack 2 - Projectile Arc",t:"unreal",c:"combat"},
+  umas:{n:"Speed Maximum",t:"int",c:"movement"},
+  umdl:{n:"Model File",t:"model",c:"art"},
+  upor:{n:"Portrait Model File",t:"model",c:"art"},
+  umh1:{n:"Attack 1 - Projectile Homing Enabled",t:"bool",c:"combat"},
+  umh2:{n:"Attack 2 - Projectile Homing Enabled",t:"bool",c:"combat"},
+  umis:{n:"Speed Minimum",t:"int",c:"movement"},
+  umki:{n:"Items Made",t:"itemList",c:"techtree"},
+  umpi:{n:"Mana Initial Amount",t:"int",c:"stats"},
+  umpm:{n:"Mana Maximum",t:"int",c:"stats"},
+  umpr:{n:"Mana Regeneration",t:"unreal",c:"stats"},
+  umsl:{n:"Movement",t:"soundLabel",c:"sound"},
+  umvf:{n:"Height Minimum",t:"unreal",c:"movement"},
+  umvh:{n:"Height",t:"unreal",c:"movement"},
+  umvr:{n:"Turn Rate",t:"unreal",c:"movement"},
+  umvs:{n:"Speed Base",t:"int",c:"movement"},
+  umvt:{n:"Type",t:"moveType",c:"movement"},
+  umxp:{n:"Maximum Pitch Angle (degrees)",t:"real",c:"art"},
+  umxr:{n:"Maximum Roll Angle (degrees)",t:"real",c:"art"},
+  unam:{n:"Name",t:"string",c:"text"},
+  unbm:{n:"Neutral Building - Shows Minimap Icon",t:"bool",c:"stats"},
+  unbr:{n:"Neutral Building - Valid As Random Building",t:"bool",c:"stats"},
+  unsf:{n:"Name - Editor Suffix",t:"string",c:"text"},
+  uocc:{n:"Occluder Height",t:"unreal",c:"art"},
+  uori:{n:"Orientation Interpolation",t:"int",c:"art"},
+  upap:{n:"Placement Requires",t:"pathingListPrevent",c:"pathing"},
+  upar:{n:"Placement Prevented By",t:"pathingListRequire",c:"pathing"},
+  upat:{n:"Pathing Map",t:"pathingTexture",c:"pathing"},
+  upaw:{n:"Placement Requires Water Radius",t:"unreal",c:"pathing"},
+  upgr:{n:"Upgrades Used",t:"upgradeList",c:"techtree"},
+  upoi:{n:"Point Value",t:"int",c:"stats"},
+  upra:{n:"Primary Attribute",t:"attributeType",c:"stats"},
+  upri:{n:"Priority",t:"int",c:"stats"},
+  upro:{n:"Proper Names",t:"stringList",c:"text"},
+  upru:{n:"Proper Names Used",t:"int",c:"text"},
+  uprw:{n:"Propulsion Window (degrees)",t:"unreal",c:"art"},
+  uqd1:{n:"Attack 1 - Damage Factor - Small",t:"unreal",c:"combat"},
+  uqd2:{n:"Attack 2 - Damage Factor - Small",t:"unreal",c:"combat"},
+  urac:{n:"Race",t:"unitRace",c:"stats"},
+  urb1:{n:"Attack 1 - Range Motion Buffer",t:"unreal",c:"combat"},
+  urb2:{n:"Attack 2 - Range Motion Buffer",t:"unreal",c:"combat"},
+  ureq:{n:"Requirements",t:"techList",c:"techtree"},
+  ures:{n:"Researches Available",t:"upgradeList",c:"techtree"},
+  urev:{n:"Revives Dead Heros",t:"bool",c:"techtree"},
+  urpg:{n:"Group Separation - Group Number",t:"int",c:"movement"},
+  urpo:{n:"Group Separation - Enabled",t:"bool",c:"movement"},
+  urpp:{n:"Group Separation - Parameter",t:"int",c:"movement"},
+  urpr:{n:"Group Separation - Priority",t:"int",c:"movement"},
+  urq1:{n:"Requirements - Tier 2",t:"techList",c:'techtree'},
+  urq2:{n:"Requirements - Tier 3",t:"techList",c:'techtree'},
+  urq3:{n:"Requirements - Tier 4",t:"techList",c:'techtree'},
+  urq4:{n:"Requirements - Tier 5",t:"techList",c:'techtree'},
+  urq5:{n:"Requirements - Tier 6",t:"techList",c:'techtree'},
+  urq6:{n:"Requirements - Tier 7",t:"techList",c:'techtree'},
+  urq7:{n:"Requirements - Tier 8",t:"techList",c:'techtree'},
+  urq8:{n:"Requirements - Tier 9",t:"techList",c:'techtree'},
+  urqa:{n:"Requirements - Levels",t:"intList",c:"techtree"},
+  urqc:{n:"Requirements - Tiers Used",t:"int",c:"techtree"},
+  ursl:{n:"Random",t:"soundLabel",c:"sound"},
+  urtm:{n:"Repair Time",t:"int",c:"stats"},
+  urun:{n:"Animation - Run Speed",t:"real",c:"art"},
   urva:{n:"Hero Revival Locations",t:"unitList"},
-  usca:{n:"Scaling Value",t:"real"},
-  uscb:{n:"Scale Projectiles",t:"bool"},
-  usd1:{n:"Attack 1 - Damage Spill Distance",t:"unreal"},
-  usd2:{n:"Attack 2 - Damage Spill Distance",t:"unreal"},
-  usei:{n:"Items Sold",t:"itemList"},
-  useu:{n:"Units Sold",t:"unitList"},
-  usew:{n:"Selection Circle On Water",t:"bool"},
-  ushb:{n:"Shadow Texture (Building)",t:"shadowTexture"},
-  ushh:{n:"Shadow Image - Height",t:"real"},
-  ushr:{n:"Has Water Shadow",t:"bool"},
-  ushu:{n:"Shadow Image (Unit)",t:"shadowImage"},
-  ushw:{n:"Shadow Image - Width",t:"real"},
-  ushx:{n:"Shadow Image - Center X",t:"real"},
-  ushy:{n:"Shadow Image - Center Y",t:"real"},
-  usid:{n:"Sight Radius (Day)",t:"int"},
-  usin:{n:"Sight Radius (Night)",t:"int"},
-  usle:{n:"Sleeps",t:"bool"},
-  uslz:{n:"Selection Circle - Height",t:"real"},
-  usma:{n:"Stock Maximum",t:"int"},
-  usnd:{n:"Unit Sound Set",t:"unitSound"},
-  uspa:{n:"Special",t:"modelList"},
-  uspe:{n:"Categorization - Special",t:"bool"},
-  usr1:{n:"Attack 1 - Damage Spill Radius",t:"unreal"},
-  usr2:{n:"Attack 2 - Damage Spill Radius",t:"unreal"},
-  usrg:{n:"Stock Replenish Interval",t:"int"},
-  ussc:{n:"Selection Scale",t:"real"},
-  ussi:{n:"Icon - Score Screen",t:"icon"},
-  usst:{n:"Stock Start Delay",t:"int"},
-  ustp:{n:"Strength per Level",t:"unreal"},
-  ustr:{n:"Starting Strength",t:"int"},
-  utaa:{n:"Target",t:"modelList"},
-  utar:{n:"Targeted as",t:"targetList"},
-  utc1:{n:"Attack 1 - Maximum Number of Targets",t:"int"},
-  utc2:{n:"Attack 2 - Maximum Number of Targets",t:"int"},
-  utcc:{n:"Allow Custom Team Color",t:"bool"},
-  utco:{n:"Team Color",t:"teamColor"},
-  util:{n:"Tilesets",t:"tilesetList"},
-  utip:{n:"Tooltip - Basic",t:"string"},
-  utpr:{n:"Tooltip - Revive",t:"string"},
-  utra:{n:"Units Trained",t:"unitList"},
-  utss:{n:"Has Tileset Specific Data",t:"bool"},
-  utub:{n:"Tooltip - Extended",t:"string"},
-  utyp:{n:"Unit Classification",t:"unitClass"},
-  uubs:{n:"Ground Texture",t:"uberSplat"},
-  uuch:{n:"Use Click Helper",t:"bool"},
-  uupt:{n:"Upgrades To",t:"unitList"},
-  uver:{n:"Model File - Extra Versions",t:"versionFlags"},
-  uwal:{n:"Animation - Walk Speed",t:"real"},
-  uwu1:{n:"Attack 1 - Show UI",t:"bool"},
-  uwu2:{n:"Attack 2 - Show UI",t:"bool"},
+  usca:{n:"Scaling Value",t:"real",c:"art"},
+  uscb:{n:"Scale Projectiles",t:"bool",c:"art"},
+  usd1:{n:"Attack 1 - Damage Spill Distance",t:"unreal",c:"combat"},
+  usd2:{n:"Attack 2 - Damage Spill Distance",t:"unreal",c:"combat"},
+  usei:{n:"Items Sold",t:"itemList",c:"techtree"},
+  useu:{n:"Units Sold",t:"unitList",c:"techtree"},
+  usew:{n:"Selection Circle On Water",t:"bool",c:"art"},
+  ushb:{n:"Shadow Texture (Building)",t:"shadowTexture",c:"art"},
+  ushh:{n:"Shadow Image - Height",t:"real",c:"art"},
+  ushr:{n:"Has Water Shadow",t:"bool",c:"art"},
+  ushu:{n:"Shadow Image (Unit)",t:"shadowImage",c:"art"},
+  ushw:{n:"Shadow Image - Width",t:"real",c:"art"},
+  ushx:{n:"Shadow Image - Center X",t:"real",c:"art"},
+  ushy:{n:"Shadow Image - Center Y",t:"real",c:"art"},
+  usid:{n:"Sight Radius (Day)",t:"int",c:"stats"},
+  usin:{n:"Sight Radius (Night)",t:"int",c:"stats"},
+  usle:{n:"Sleeps",t:"bool",c:"stats"},
+  uslz:{n:"Selection Circle - Height",t:"real",c:"art"},
+  usma:{n:"Stock Maximum",t:"int",c:"stats"},
+  usit:{n:"Stock Initial After Start Delay",t:"int",c:"stats"},
+  usnd:{n:"Unit Sound Set",t:"unitSound",c:"sound"},
+  uspa:{n:"Special",t:"modelList",c:"art"},
+  uspe:{n:"Categorization - Special",t:"bool",c:"editor"},
+  usr1:{n:"Attack 1 - Damage Spill Radius",t:"unreal",c:"combat"},
+  usr2:{n:"Attack 2 - Damage Spill Radius",t:"unreal",c:"combat"},
+  usrg:{n:"Stock Replenish Interval",t:"int",c:"stats"},
+  ussc:{n:"Selection Scale",t:"real",c:"art"},
+  ussi:{n:"Icon - Score Screen",t:"icon",c:"art"},
+  usst:{n:"Stock Start Delay",t:"int",c:"stats"},
+  ustp:{n:"Strength per Level",t:"unreal",c:"stats"},
+  ustr:{n:"Starting Strength",t:"int",c:"stats"},
+  utaa:{n:"Target",t:"modelList",c:"art"},
+  utar:{n:"Targeted as",t:"targetList",c:"combat"},
+  utc1:{n:"Attack 1 - Maximum Number of Targets",t:"int",c:"combat"},
+  utc2:{n:"Attack 2 - Maximum Number of Targets",t:"int",c:"combat"},
+  utcc:{n:"Allow Custom Team Color",t:"bool",c:"art"},
+  utco:{n:"Team Color",t:"teamColor",c:"art"},
+  util:{n:"Tilesets",t:"tilesetList",c:"editor"},
+  utip:{n:"Tooltip - Basic",t:"string",c:"text"},
+  utpr:{n:"Tooltip - Revive",t:"string",c:"text"},
+  utra:{n:"Units Trained",t:"unitList",c:"techtree"},
+  utss:{n:"Has Tileset Specific Data",t:"bool",c:"editor"},
+  utub:{n:"Tooltip - Extended",t:"string",c:"text"},
+  utyp:{n:"Unit Classification",t:"unitClass",c:"stats"},
+  uub1:{n:"Unit Uber Tooltip",t:"string",c:"art"},
+  uubs:{n:"Ground Texture",t:"uberSplat",c:"art"},
+  uuch:{n:"Use Click Helper",t:"bool",c:"editor"},
+  uupt:{n:"Upgrades To",t:"unitList",c:"techtree"},
+  uver:{n:"Model File - Extra Versions",t:"versionFlags",c:"art"},
+  uwal:{n:"Animation - Walk Speed",t:"real",c:"art"},
+  uwu1:{n:"Attack 1 - Show UI",t:"bool",c:"combat"},
+  uwu2:{n:"Attack 2 - Show UI",t:"bool",c:"combat"},
   // -- Abilities --
-  aaea:{n:"Area Effect",t:"modelList"},
-  aani:{n:"Animation Names",t:"stringList"},
-  aare:{n:"Area of Effect",t:"unreal"},
-  aart:{n:"Icon - Normal",t:"icon"},
-  abpx:{n:"Button Position - Normal (X)",t:"int"},
-  abpy:{n:"Button Position - Normal (Y)",t:"int"},
+  aaea:{n:"Area Effect",t:"modelList",c:"art"},
+  aani:{n:"Animation Names",t:"stringList",c:"art"},
+  aare:{n:"Area of Effect",t:"unreal",c:"stats"},
+  aart:{n:"Icon - Normal",t:"icon",c:"art"},
+  abpx:{n:"Button Position - Normal (X)",t:"int",c:"art"},
+  abpy:{n:"Button Position - Normal (Y)",t:"int",c:"art"},
   abs1:{n:"Maximum Life Absorbed",t:"unreal"},
   abs2:{n:"Maximum Mana Absorbed",t:"unreal"},
-  abuf:{n:"Buffs",t:"buffList"},
-  aca1:{n:"Caster Attachment Point 2",t:"stringList"},
-  acac:{n:"Caster Attachments",t:"int"},
-  acap:{n:"Caster Attachment Point 1",t:"stringList"},
-  acas:{n:"Casting Time",t:"unreal"},
-  acat:{n:"Caster",t:"modelList"},
-  acdn:{n:"Cooldown",t:"unreal"},
-  achd:{n:"Check Dependencies",t:"bool"},
+  abuf:{n:"Buffs",t:"buffList",c:"data"},
+  aca1:{n:"Caster Attachment Point 2",t:"stringList",c:"art"},
+  acac:{n:"Caster Attachments",t:"int",c:"art"},
+  acap:{n:"Caster Attachment Point 1",t:"stringList",c:"art"},
+  acas:{n:"Casting Time",t:"unreal",c:"stats"},
+  acat:{n:"Caster",t:"modelList",c:"art"},
+  acdn:{n:"Cooldown",t:"unreal",c:"stats"},
+  achd:{n:"Check Dependencies",t:"bool",c:"techtree"},
   Adm1:{n:"Mana Loss",t:"unreal"},
   Adm2:{n:"Summoned Unit Damage",t:"unreal"},
-  adur:{n:"Duration - Normal",t:"unreal"},
-  aeat:{n:"Effect",t:"modelList"},
-  aeff:{n:"Effects",t:"effectList"},
-  aefl:{n:"Effect Sound (Looping)",t:"soundLabel"},
-  aefs:{n:"Effect Sound",t:"soundLabel"},
-  ahdu:{n:"Duration - Hero",t:"unreal"},
-  aher:{n:"Hero Ability",t:"bool"},
-  ahky:{n:"Hotkey - Normal",t:"char"},
-  aite:{n:"Item Ability",t:"bool"},
+  adur:{n:"Duration - Normal",t:"unreal",c:"stats"},
+  aeat:{n:"Effect",t:"modelList",c:"art"},
+  aeff:{n:"Effects",t:"effectList",c:"data"},
+  aefl:{n:"Effect Sound (Looping)",t:"soundLabel",c:"sound"},
+  aefs:{n:"Effect Sound",t:"soundLabel",c:"sound"},
+  ahdu:{n:"Duration - Hero",t:"unreal",c:"stats"},
+  aher:{n:"Hero Ability",t:"bool",c:"stats"},
+  ahky:{n:"Hotkey - Normal",t:"char",c:"text"},
+  aite:{n:"Item Ability",t:"bool",c:"stats"},
   Akb1:{n:"Attack Damage Increase",t:"unreal"},
-  alev:{n:"Levels",t:"int"},
-  alig:{n:"Lightning Effects",t:"lightningList"},
-  alsk:{n:"Level Skip Requirement",t:"int"},
-  amac:{n:"Missile Arc",t:"unreal"},
-  amat:{n:"Missile Art",t:"modelList"},
-  amcs:{n:"Mana Cost",t:"int"},
-  amho:{n:"Missile Homing Enabled",t:"bool"},
+  alev:{n:"Levels",t:"int",c:"stats"},
+  alig:{n:"Lightning Effects",t:"lightningList",c:"art"},
+  alsk:{n:"Level Skip Requirement",t:"int",c:"stats"},
+  amac:{n:"Missile Arc",t:"unreal",c:"art"},
+  amat:{n:"Missile Art",t:"modelList",c:"art"},
+  amcs:{n:"Mana Cost",t:"int",c:"stats"},
+  amho:{n:"Missile Homing Enabled",t:"bool",c:"art"},
   Ams1:{n:"Summoned Unit Damage",t:"unreal"},
   Ams2:{n:"Magic Damage Reduction",t:"unreal"},
   Ams3:{n:"Shield Life",t:"int"},
   Ams4:{n:"Mana Loss",t:"int"},
-  amsp:{n:"Missile Speed",t:"int"},
-  anam:{n:"Name",t:"string"},
+  amsp:{n:"Missile Speed",t:"int",c:"art"},
+  anam:{n:"Name",t:"string",c:"text"},
   Ans5:{n:"Base Order ID",t:"orderString"},
   Ans6:{n:"Charge Owning Player",t:"bool"},
-  ansf:{n:"Editor Suffix",t:"string"},
-  aord:{n:"Order String - Use/Turn On",t:"orderString"},
-  aorf:{n:"Order String - Deactivate",t:"orderString"},
-  aoro:{n:"Order String - Activate",t:"orderString"},
-  aoru:{n:"Order String - Turn Off",t:"orderString"},
+  ansf:{n:"Editor Suffix",t:"string",c:"text"},
+  aord:{n:"Order String - Use/Turn On",t:"orderString",c:"text"},
+  aorf:{n:"Order String - Deactivate",t:"orderString",c:"text"},
+  aoro:{n:"Order String - Activate",t:"orderString",c:"text"},
+  aoru:{n:"Order String - Turn Off",t:"orderString",c:"text"},
   Apl1:{n:"Aura Duration",t:"unreal"},
   Apl2:{n:"Damage per Second",t:"unreal"},
   Apl3:{n:"Duration of Plague Ward",t:"unreal"},
   Aplu:{n:"Plague Ward Unit Type",t:"unitCode"},
-  apri:{n:"Priority for Spell Steal",t:"int"},
-  arac:{n:"Race",t:"unitRace"},
-  aran:{n:"Cast Range",t:"unreal"},
-  arar:{n:"Icon - Research",t:"icon"},
-  areq:{n:"Requirements",t:"techList"},
-  aret:{n:"Tooltip - Learn",t:"string"},
-  arhk:{n:"Hotkey - Learn",t:"char"},
-  arlv:{n:"Required Level",t:"int"},
+  apri:{n:"Priority for Spell Steal",t:"int",c:"stats"},
+  arac:{n:"Race",t:"unitRace",c:"stats"},
+  aran:{n:"Cast Range",t:"unreal",c:"stats"},
+  arar:{n:"Icon - Research",t:"icon",c:"art"},
+  areq:{n:"Requirements",t:"techList",c:"techtree"},
+  aret:{n:"Tooltip - Learn",t:"string",c:"text"},
+  arhk:{n:"Hotkey - Learn",t:"char",c:"text"},
+  arlv:{n:"Required Level",t:"int",c:"stats"},
   Arm1:{n:"Amount Regenerated",t:"unreal"},
   Arm2:{n:"Percentage",t:"bool"},
-  arpx:{n:"Button Position - Research (X)",t:"int"},
-  arpy:{n:"Button Position - Research (Y)",t:"int"},
-  arqa:{n:"Requirements - Levels",t:"intList"},
-  arut:{n:"Tooltip - Learn - Extended",t:"string"},
-  asat:{n:"Special",t:"modelList"},
-  aspt:{n:"Special Attachment Point",t:"stringList"},
+  arpx:{n:"Button Position - Research (X)",t:"int",c:"art"},
+  arpy:{n:"Button Position - Research (Y)",t:"int",c:"art"},
+  arqa:{n:"Requirements - Levels",t:"intList",c:"techtree"},
+  arut:{n:"Tooltip - Learn - Extended",t:"string",c:"text"},
+  asat:{n:"Special",t:"modelList",c:"art"},
+  aspt:{n:"Special Attachment Point",t:"stringList",c:"art"},
   ast1:{n:"Life Restored Factor",t:"unreal"},
   ast2:{n:"Mana Restored Factor",t:"unreal"},
-  ata0:{n:"Target Attachment Point 1",t:"stringList"},
-  ata1:{n:"Target Attachment Point 2",t:"stringList"},
-  ata2:{n:"Target Attachment Point 3",t:"stringList"},
-  ata3:{n:"Target Attachment Point 4",t:"stringList"},
-  ata4:{n:"Target Attachment Point 5",t:"stringList"},
-  ata5:{n:"Target Attachment Point 6",t:"stringList"},
-  atac:{n:"Target Attachments",t:"int"},
-  atar:{n:"Targets Allowed",t:"targetList"},
-  atat:{n:"Target",t:"modelList"},
-  atp1:{n:"Tooltip - Normal",t:"string"},
-  auar:{n:"Icon - Turn Off",t:"icon"},
-  aub1:{n:"Tooltip - Normal - Extended",t:"string"},
-  aubx:{n:"Button Position - Turn Off (X)",t:"int"},
-  auby:{n:"Button Position - Turn Off (Y)",t:"int"},
-  auhk:{n:"Hotkey - Turn Off",t:"char"},
-  aut1:{n:"Tooltip - Turn Off",t:"string"},
-  auu1:{n:"Tooltip - Turn Off - Extended",t:"string"},
+  ata0:{n:"Target Attachment Point 1",t:"stringList",c:"art"},
+  ata1:{n:"Target Attachment Point 2",t:"stringList",c:"art"},
+  ata2:{n:"Target Attachment Point 3",t:"stringList",c:"art"},
+  ata3:{n:"Target Attachment Point 4",t:"stringList",c:"art"},
+  ata4:{n:"Target Attachment Point 5",t:"stringList",c:"art"},
+  ata5:{n:"Target Attachment Point 6",t:"stringList",c:"art"},
+  atac:{n:"Target Attachments",t:"int",c:"art"},
+  atar:{n:"Targets Allowed",t:"targetList",c:"stats"},
+  atat:{n:"Target",t:"modelList",c:"art"},
+  atp1:{n:"Tooltip - Normal",t:"string",c:"text"},
+  auar:{n:"Icon - Turn Off",t:"icon",c:"art"},
+  aub1:{n:"Tooltip - Normal - Extended",t:"string",c:"text"},
+  aubx:{n:"Button Position - Turn Off (X)",t:"int",c:"art"},
+  auby:{n:"Button Position - Turn Off (Y)",t:"int",c:"art"},
+  auhk:{n:"Hotkey - Turn Off",t:"char",c:"text"},
+  ausk:{n:"Unit Skin List",t:"string",c:"data"},
+  aut1:{n:"Tooltip - Turn Off",t:"string",c:"text"},
+  auu1:{n:"Tooltip - Turn Off - Extended",t:"string",c:"text"},
   ave5:{n:"Life Regeneration Rate (per second)",t:"unreal"},
   Bgm1:{n:"Gold per Interval",t:"int"},
   Bgm2:{n:"Interval Duration",t:"unreal"},
@@ -1191,160 +1201,160 @@ const KNOWN = {
   Wrs2:{n:"Terrain Deformation Amplitude",t:"unreal"},
   Wrs3:{n:"Terrain Deformation Duration (ms)",t:"int"},
   // -- Buffs --
-  fart:{n:"Icon",t:"icon"},
-  feat:{n:"Effect",t:"modelList"},
-  feff:{n:"Is an Effect",t:"bool"},
-  fefl:{n:"Effect Sound (Looping)",t:"soundLabel"},
-  fefs:{n:"Effect Sound",t:"soundLabel"},
-  feft:{n:"Effect Attachment Point",t:"stringList"},
-  flig:{n:"Lightning",t:"lightningEffect"},
-  fmac:{n:"Missile Arc",t:"unreal"},
-  fmat:{n:"Missile Art",t:"modelList"},
-  fmho:{n:"Missile Homing Enabled",t:"bool"},
-  fmsp:{n:"Missile Speed",t:"int"},
-  fnam:{n:"Name (Editor Only)",t:"string"},
-  fnsf:{n:"Editor Suffix",t:"string"},
-  frac:{n:"Race",t:"unitRace"},
-  fsat:{n:"Special",t:"modelList"},
-  fspd:{n:"Required Spell Detail",t:"spellDetail"},
-  fspt:{n:"Special Attachment Point",t:"stringList"},
-  fta0:{n:"Target Attachment Point 1",t:"stringList"},
-  fta1:{n:"Target Attachment Point 2",t:"stringList"},
-  fta2:{n:"Target Attachment Point 3",t:"stringList"},
-  fta3:{n:"Target Attachment Point 4",t:"stringList"},
-  fta4:{n:"Target Attachment Point 5",t:"stringList"},
-  fta5:{n:"Target Attachment Point 6",t:"stringList"},
-  ftac:{n:"Target Attachments",t:"int"},
-  ftat:{n:"Target",t:"modelList"},
-  ftip:{n:"Tooltip",t:"string"},
-  fube:{n:"Tooltip - Extended",t:"string"},
+  fart:{n:"Icon",t:"icon",c:"art"},
+  feat:{n:"Effect",t:"modelList",c:"art"},
+  feff:{n:"Is an Effect",t:"bool",c:"stats"},
+  fefl:{n:"Effect Sound (Looping)",t:"soundLabel",c:"sound"},
+  fefs:{n:"Effect Sound",t:"soundLabel",c:"sound"},
+  feft:{n:"Effect Attachment Point",t:"stringList",c:"art"},
+  flig:{n:"Lightning",t:"lightningEffect",c:"art"},
+  fmac:{n:"Missile Arc",t:"unreal",c:"art"},
+  fmat:{n:"Missile Art",t:"modelList",c:"art"},
+  fmho:{n:"Missile Homing Enabled",t:"bool",c:"art"},
+  fmsp:{n:"Missile Speed",t:"int",c:"art"},
+  fnam:{n:"Name (Editor Only)",t:"string",c:"text"},
+  fnsf:{n:"Editor Suffix",t:"string",c:"text"},
+  frac:{n:"Race",t:"unitRace",c:"stats"},
+  fsat:{n:"Special",t:"modelList",c:"art"},
+  fspd:{n:"Required Spell Detail",t:"spellDetail",c:"art"},
+  fspt:{n:"Special Attachment Point",t:"stringList",c:"art"},
+  fta0:{n:"Target Attachment Point 1",t:"stringList",c:"art"},
+  fta1:{n:"Target Attachment Point 2",t:"stringList",c:"art"},
+  fta2:{n:"Target Attachment Point 3",t:"stringList",c:"art"},
+  fta3:{n:"Target Attachment Point 4",t:"stringList",c:"art"},
+  fta4:{n:"Target Attachment Point 5",t:"stringList",c:"art"},
+  fta5:{n:"Target Attachment Point 6",t:"stringList",c:"art"},
+  ftac:{n:"Target Attachments",t:"int",c:"art"},
+  ftat:{n:"Target",t:"modelList",c:"art"},
+  ftip:{n:"Tooltip",t:"string",c:"text"},
+  fube:{n:"Tooltip - Extended",t:"string",c:"text"},
   // -- Destructables --
-  barm:{n:"Armor Type",t:"armorType"},
-  bbut:{n:"Build Time",t:"int"},
-  bcat:{n:"Category",t:"destructableCategory"},
-  bclh:{n:"Cliff Height",t:"int"},
-  bcpd:{n:"Show Dead Version in Palette",t:"bool"},
-  bcpr:{n:"Can Place Random Scale",t:"bool"},
-  bdsn:{n:"Death",t:"soundLabel"},
-  bfil:{n:"Model File",t:"model"},
-  bflh:{n:"Fly-Over Height",t:"unreal"},
-  bflo:{n:"Fat Line of Sight",t:"bool"},
-  bfra:{n:"Fog Radius",t:"unreal"},
-  bfvi:{n:"Fog Visibility",t:"bool"},
-  bfxr:{n:"Fixed Rotation",t:"unreal"},
-  bgpm:{n:"Model File - Portrait",t:"model"},
-  bgsc:{n:"Selection Size - Game",t:"real"},
-  bgse:{n:"Selectable In Game",t:"bool"},
-  bhps:{n:"Hit Points",t:"unreal"},
-  blit:{n:"Model File - Has Lightweight Model",t:"bool"},
-  bmap:{n:"Maximum Pitch Angle (degrees)",t:"unreal"},
-  bmar:{n:"Max Roll Angle (degrees)",t:"unreal"},
-  bmas:{n:"Maximum Scale",t:"unreal"},
-  bmis:{n:"Minimum Scale",t:"unreal"},
-  bmmb:{n:"Minimap Color 3 (Blue)",t:"int"},
-  bmmg:{n:"Minimap Color 2 (Green)",t:"int"},
-  bmmr:{n:"Minimap Color 1 (Red)",t:"int"},
-  bnam:{n:"Name",t:"string"},
-  boch:{n:"Occlusion Height",t:"unreal"},
-  bonc:{n:"Placeable on Cliffs",t:"bool"},
-  bonw:{n:"Placeable on Water",t:"bool"},
-  bptd:{n:"Pathing Texture (Dead)",t:"pathingTexture"},
-  bptx:{n:"Pathing Texture",t:"pathingTexture"},
-  brad:{n:"Elevation Sample Radius",t:"unreal"},
-  breg:{n:"Repair Gold Cost",t:"int"},
-  brel:{n:"Repair Lumber Cost",t:"int"},
-  bret:{n:"Repair Time",t:"int"},
-  bsel:{n:"Selection Size - Editor",t:"unreal"},
-  bshd:{n:"Shadow",t:"shadowTexture"},
-  bsmm:{n:"Minimap - Show",t:"bool"},
-  bsuf:{n:"Editor Suffix",t:"string"},
-  btar:{n:"Targeted As",t:"targetList"},
-  btil:{n:"Tilesets",t:"tilesetList"},
-  btsp:{n:"Has Tileset Specific Data",t:"bool"},
-  btxf:{n:"Replaceable Texture File",t:"texture"},
-  btxi:{n:"Replaceable Texture ID",t:"int"},
-  buch:{n:"Show Helper Object for Selection",t:"bool"},
-  bumm:{n:"Minimap - Use Custom Color",t:"bool"},
-  busr:{n:"On User-Specified List",t:"bool"},
-  bvar:{n:"Model File - Variations",t:"int"},
-  bvcb:{n:"Tinting Color 3 (Blue)",t:"int"},
-  bvcg:{n:"Tinting Color 2 (Green)",t:"int"},
-  bvcr:{n:"Tinting Color 1 (Red)",t:"int"},
-  bwal:{n:"Is Walkable",t:"bool"},
+  barm:{n:"Armor Type",t:"armorType",c:"combat"},
+  bbut:{n:"Build Time",t:"int",c:"stats"},
+  bcat:{n:"Category",t:"destructableCategory",c:"editor"},
+  bclh:{n:"Cliff Height",t:"int",c:"pathing"},
+  bcpd:{n:"Show Dead Version in Palette",t:"bool",c:"editor"},
+  bcpr:{n:"Can Place Random Scale",t:"bool",c:"editor"},
+  bdsn:{n:"Death",t:"soundLabel",c:"sound"},
+  bfil:{n:"Model File",t:"model",c:"art"},
+  bflh:{n:"Fly-Over Height",t:"unreal",c:"art"},
+  bflo:{n:"Fat Line of Sight",t:"bool",c:"art"},
+  bfra:{n:"Fog Radius",t:"unreal",c:"art"},
+  bfvi:{n:"Fog Visibility",t:"bool",c:"art"},
+  bfxr:{n:"Fixed Rotation",t:"unreal",c:"art"},
+  bgpm:{n:"Model File - Portrait",t:"model",c:"art"},
+  bgsc:{n:"Selection Size - Game",t:"real",c:"art"},
+  bgse:{n:"Selectable In Game",t:"bool",c:"art"},
+  bhps:{n:"Hit Points",t:"unreal",c:"stats"},
+  blit:{n:"Model File - Has Lightweight Model",t:"bool",c:"art"},
+  bmap:{n:"Maximum Pitch Angle (degrees)",t:"unreal",c:"art"},
+  bmar:{n:"Max Roll Angle (degrees)",t:"unreal",c:"art"},
+  bmas:{n:"Maximum Scale",t:"unreal",c:"editor"},
+  bmis:{n:"Minimum Scale",t:"unreal",c:"editor"},
+  bmmb:{n:"Minimap Color 3 (Blue)",t:"int",c:"art"},
+  bmmg:{n:"Minimap Color 2 (Green)",t:"int",c:"art"},
+  bmmr:{n:"Minimap Color 1 (Red)",t:"int",c:"art"},
+  bnam:{n:"Name",t:"string",c:"text"},
+  boch:{n:"Occlusion Height",t:"unreal",c:"art"},
+  bonc:{n:"Placeable on Cliffs",t:"bool",c:"editor"},
+  bonw:{n:"Placeable on Water",t:"bool",c:"editor"},
+  bptd:{n:"Pathing Texture (Dead)",t:"pathingTexture",c:"pathing"},
+  bptx:{n:"Pathing Texture",t:"pathingTexture",c:"pathing"},
+  brad:{n:"Elevation Sample Radius",t:"unreal",c:"art"},
+  breg:{n:"Repair Gold Cost",t:"int",c:"stats"},
+  brel:{n:"Repair Lumber Cost",t:"int",c:"stats"},
+  bret:{n:"Repair Time",t:"int",c:"stats"},
+  bsel:{n:"Selection Size - Editor",t:"unreal",c:"art"},
+  bshd:{n:"Shadow",t:"shadowTexture",c:"art"},
+  bsmm:{n:"Minimap - Show",t:"bool",c:"art"},
+  bsuf:{n:"Editor Suffix",t:"string",c:"text"},
+  btar:{n:"Targeted As",t:"targetList",c:"combat"},
+  btil:{n:"Tilesets",t:"tilesetList",c:"editor"},
+  btsp:{n:"Has Tileset Specific Data",t:"bool",c:"editor"},
+  btxf:{n:"Replaceable Texture File",t:"texture",c:"art"},
+  btxi:{n:"Replaceable Texture ID",t:"int",c:"art"},
+  buch:{n:"Show Helper Object for Selection",t:"bool",c:"editor"},
+  bumm:{n:"Minimap - Use Custom Color",t:"bool",c:"art"},
+  busr:{n:"On User-Specified List",t:"bool",c:"editor"},
+  bvar:{n:"Model File - Variations",t:"int",c:"art"},
+  bvcb:{n:"Tinting Color 3 (Blue)",t:"int",c:"art"},
+  bvcg:{n:"Tinting Color 2 (Green)",t:"int",c:"art"},
+  bvcr:{n:"Tinting Color 1 (Red)",t:"int",c:"art"},
+  bwal:{n:"Is Walkable",t:"bool",c:"pathing"},
   // -- Doodads --
-  danf:{n:"Animate in Fog",t:"bool"},
-  dcat:{n:"Category",t:"doodadCategory"},
-  dcpr:{n:"Can Place Random Scale",t:"bool"},
-  ddes:{n:"Default Scale",t:"unreal"},
-  dfil:{n:"Model File",t:"model"},
-  dflt:{n:"Floats",t:"bool"},
-  dfxr:{n:"Fixed Rotation",t:"unreal"},
-  dimc:{n:"Ignore Model Clicks",t:"bool"},
-  dmap:{n:"Maximum Pitch Angle (degrees)",t:"unreal"},
-  dmar:{n:"Max Roll Angle (degrees)",t:"unreal"},
-  dmas:{n:"Maximum Scale",t:"unreal"},
-  dmis:{n:"Minimum Scale",t:"unreal"},
-  dmmb:{n:"Minimap Color 3 (Blue)",t:"int"},
-  dmmg:{n:"Minimap Color 2 (Green)",t:"int"},
-  dmmr:{n:"Minimap Color 1 (Red)",t:"int"},
-  dnam:{n:"Name",t:"string"},
-  donc:{n:"Placeable on Cliffs",t:"bool"},
-  donw:{n:"Placeable on Water",t:"bool"},
-  dptx:{n:"Pathing Texture",t:"pathingTexture"},
-  dsel:{n:"Selection Size",t:"unreal"},
-  dshd:{n:"Has a Shadow",t:"bool"},
-  dshf:{n:"Show in Fog",t:"bool"},
-  dsmm:{n:"Minimap - Show",t:"bool"},
-  dsnd:{n:"Looping Sound",t:"soundLabel"},
-  dtil:{n:"Tilesets",t:"tilesetList"},
-  dtsp:{n:"Has Tileset Specific Data",t:"bool"},
-  duch:{n:"Use Click Helper",t:"bool"},
-  dumc:{n:"Minimap - Use Custom Color",t:"bool"},
-  dusr:{n:"On User-Specified List",t:"bool"},
-  dvar:{n:"Variations",t:"int"},
-  dvb1:{n:"Tinting Color 3 (Blue)",t:"int"},
-  dvg1:{n:"Tinting Color 2 (Green)",t:"int"},
-  dvis:{n:"Visibility Radius",t:"unreal"},
-  dvr1:{n:"Tinting Color 1 (Red)",t:"int"},
-  dwlk:{n:"Walkable",t:"bool"},
+  danf:{n:"Animate in Fog",t:"bool",c:"art"},
+  dcat:{n:"Category",t:"doodadCategory",c:"editor"},
+  dcpr:{n:"Can Place Random Scale",t:"bool",c:"editor"},
+  ddes:{n:"Default Scale",t:"unreal",c:"art"},
+  dfil:{n:"Model File",t:"model",c:"art"},
+  dflt:{n:"Floats",t:"bool",c:"art"},
+  dfxr:{n:"Fixed Rotation",t:"unreal",c:"art"},
+  dimc:{n:"Ignore Model Clicks",t:"bool",c:"editor"},
+  dmap:{n:"Maximum Pitch Angle (degrees)",t:"unreal",c:"art"},
+  dmar:{n:"Max Roll Angle (degrees)",t:"unreal",c:"art"},
+  dmas:{n:"Maximum Scale",t:"unreal",c:"editor"},
+  dmis:{n:"Minimum Scale",t:"unreal",c:"editor"},
+  dmmb:{n:"Minimap Color 3 (Blue)",t:"int",c:"art"},
+  dmmg:{n:"Minimap Color 2 (Green)",t:"int",c:"art"},
+  dmmr:{n:"Minimap Color 1 (Red)",t:"int",c:"art"},
+  dnam:{n:"Name",t:"string",c:"text"},
+  donc:{n:"Placeable on Cliffs",t:"bool",c:"editor"},
+  donw:{n:"Placeable on Water",t:"bool",c:"editor"},
+  dptx:{n:"Pathing Texture",t:"pathingTexture",c:"pathing"},
+  dsel:{n:"Selection Size",t:"unreal",c:"art"},
+  dshd:{n:"Has a Shadow",t:"bool",c:"art"},
+  dshf:{n:"Show in Fog",t:"bool",c:"art"},
+  dsmm:{n:"Minimap - Show",t:"bool",c:"art"},
+  dsnd:{n:"Looping Sound",t:"soundLabel",c:"sound"},
+  dtil:{n:"Tilesets",t:"tilesetList",c:"editor"},
+  dtsp:{n:"Has Tileset Specific Data",t:"bool",c:"editor"},
+  duch:{n:"Use Click Helper",t:"bool",c:"editor"},
+  dumc:{n:"Minimap - Use Custom Color",t:"bool",c:"art"},
+  dusr:{n:"On User-Specified List",t:"bool",c:"editor"},
+  dvar:{n:"Variations",t:"int",c:"art"},
+  dvb1:{n:"Tinting Color 3 (Blue)",t:"int",c:"art"},
+  dvg1:{n:"Tinting Color 2 (Green)",t:"int",c:"art"},
+  dvis:{n:"Visibility Radius",t:"unreal",c:"art"},
+  dvr1:{n:"Tinting Color 1 (Red)",t:"int",c:"art"},
+  dwlk:{n:"Walkable",t:"bool",c:"pathing"},
   // -- Upgrades --
-  gar1:{n:"Icon",t:"icon"},
-  gba1:{n:"Effect 1 - %s",t:"unreal"},
-  gba2:{n:"Effect 2 - %s",t:"unreal"},
-  gba3:{n:"Effect 3 - %s",t:"unreal"},
-  gba4:{n:"Effect 4 - %s",t:"unreal"},
-  gbpx:{n:"Button Position (X)",t:"int"},
-  gbpy:{n:"Button Position (Y)",t:"int"},
-  gcls:{n:"Class",t:"upgradeClass"},
-  gco1:{n:"Effect 1 - %s",t:"string"},
-  gco2:{n:"Effect 2 - %s",t:"string"},
-  gco3:{n:"Effect 3 - %s",t:"string"},
-  gco4:{n:"Effect 4 - %s",t:"string"},
-  gef1:{n:"Effect 1",t:"upgradeEffect"},
-  gef2:{n:"Effect 2",t:"upgradeEffect"},
-  gef3:{n:"Effect 3",t:"upgradeEffect"},
-  gef4:{n:"Effect 4",t:"upgradeEffect"},
-  gglb:{n:"Gold Base",t:"int"},
-  gglm:{n:"Gold Increment",t:"int"},
-  ghk1:{n:"Hotkey",t:"char"},
-  ginh:{n:"Transfer with Unit Ownership",t:"bool"},
-  glmb:{n:"Lumber Base",t:"int"},
-  glmm:{n:"Lumber Increment",t:"int"},
-  glob:{n:"Applies to All Units",t:"bool"},
-  glvl:{n:"Levels",t:"int"},
-  gmo1:{n:"Effect 1 - %s",t:"unreal"},
-  gmo2:{n:"Effect 2 - %s",t:"unreal"},
-  gmo3:{n:"Effect 3 - %s",t:"unreal"},
-  gmo4:{n:"Effect 4 - %s",t:"unreal"},
-  gnam:{n:"Name",t:"string"},
-  gnsf:{n:"Editor Suffix",t:"string"},
-  grac:{n:"Race",t:"unitRace"},
-  greq:{n:"Requirements",t:"techList"},
-  grqc:{n:"Requirements - Levels",t:"intList"},
-  gtib:{n:"Time Base",t:"int"},
-  gtim:{n:"Time Increment",t:"int"},
-  gtp1:{n:"Tooltip",t:"string"},
-  gub1:{n:"Tooltip - Extended",t:"string"},
+  gar1:{n:"Icon",t:"icon",c:"art"},
+  gba1:{n:"Effect 1 - Base",t:"unreal",c:"data"},
+  gba2:{n:"Effect 2 - Base",t:"unreal",c:"data"},
+  gba3:{n:"Effect 3 - Base",t:"unreal",c:"data"},
+  gba4:{n:"Effect 4 - Base",t:"unreal",c:"data"},
+  gbpx:{n:"Button Position (X)",t:"int",c:"art"},
+  gbpy:{n:"Button Position (Y)",t:"int",c:"art"},
+  gcls:{n:"Class",t:"upgradeClass",c:"stats"},
+  gco1:{n:"Effect 1 - Ability Affected",t:"string",c:"data"},
+  gco2:{n:"Effect 2 - Ability Affected",t:"string",c:"data"},
+  gco3:{n:"Effect 3 - Ability Affected",t:"string",c:"data"},
+  gco4:{n:"Effect 4 - Ability Affected",t:"string",c:"data"},
+  gef1:{n:"Effect 1",t:"upgradeEffect",c:"data"},
+  gef2:{n:"Effect 2",t:"upgradeEffect",c:"data"},
+  gef3:{n:"Effect 3",t:"upgradeEffect",c:"data"},
+  gef4:{n:"Effect 4",t:"upgradeEffect",c:"data"},
+  gglb:{n:"Gold Base",t:"int",c:"stats"},
+  gglm:{n:"Gold Increment",t:"int",c:"stats"},
+  ghk1:{n:"Hotkey",t:"char",c:"text"},
+  ginh:{n:"Transfer with Unit Ownership",t:"bool",c:"stats"},
+  glmb:{n:"Lumber Base",t:"int",c:"stats"},
+  glmm:{n:"Lumber Increment",t:"int",c:"stats"},
+  glob:{n:"Applies to All Units",t:"bool",c:"stats"},
+  glvl:{n:"Levels",t:"int",c:"stats"},
+  gmo1:{n:"Effect 1 - Increment",t:"unreal",c:"data"},
+  gmo2:{n:"Effect 2 - Increment",t:"unreal",c:"data"},
+  gmo3:{n:"Effect 3 - Increment",t:"unreal",c:"data"},
+  gmo4:{n:"Effect 4 - Increment",t:"unreal",c:"data"},
+  gnam:{n:"Name",t:"string",c:"text"},
+  gnsf:{n:"Editor Suffix",t:"string",c:"text"},
+  grac:{n:"Race",t:"unitRace",c:"stats"},
+  greq:{n:"Requirements",t:"techList",c:"techtree"},
+  grqc:{n:"Requirements - Levels",t:"intList",c:"techtree"},
+  gtib:{n:"Time Base",t:"int",c:"stats"},
+  gtim:{n:"Time Increment",t:"int",c:"stats"},
+  gtp1:{n:"Tooltip",t:"string",c:"text"},
+  gub1:{n:"Tooltip - Extended",t:"string",c:"text"},
 };
 
 
@@ -1489,163 +1499,21 @@ const EXT_INFO = {
   w3q: { label:'Upgrades',       hasLevels:true  },
 };
 
-// Column sort priority
-const ITEM_PRI = ['unam','iabi','igol','ilum','ihtp','iuse','isto','ilev','ilvo','icla','iarm','imvt','irnw','ircv','istr','isst','isit','ista','iper','ipri','iicd','icid','iusa','imap','ican','ureq','urqa','iprn','isel','idrp','idro','ipaw','ipow','imor','ubpx','ubpy','isca','isch','issc','iclr','iclg','iclb','utip','utub','itip','iube','itp2','ides','uhot','iico','ifil','ufoo','usca','urac','ucls','uhpr'];
-const ABIL_PRI = ['anam','alev','aart','arar','ahky','amcs','acdn','adur','ahdu','aran','aare','acas','atar','areq','arqa','achd','aher','aite','apri','arac','abuf','aeff','atp1','aub1','aret','arut','aut1','auu1','auhk','ansf','aord','aoro','aorf','aoru','aeat','acat','atat','asat','alig','alat','aani','aaea','abpx','abpy','aubx','auby','arpx','arpy','acap','aca1','acac','aspt','ata0','ata1','ata2','ata3','ata4','ata5','atac','auar','amac','amat','amho','amsp','aefs','aefl','ausk','Rtn1','Rtn2','Ocl1','Ocl2','Ocl3','Ocl4','Ocl5','Ocl6','Ocl7','Ocl8','Hfa1','Had1','Eim1','Efk1','Ear1','Nms1','Esf1','Esf2'];
-const UNIT_PRI = ['unam','unsf','uico','umdl','usnd','urac','ucls','utyp','ulev','ugol','ulum','ufoo','uhpm','uhpr','uhrt','udef','udty','uarm','umvs','umvt','umvh','ustr','ustp','uint','uinp','uagp','umpi','umpm','umpr','ua1t','ua1b','ua1f','ua1d','ua1c','ua1r','ua1g','ua1m','ua1w','ua2t','ua2b','ua2f','ua2c','ua2w','uabi','uhab','udaa','utra','ubui','ures','upgr','uupt','umki','useu','usei','ureq','urqa','upar','ufma','upap','usca','ussc','uclr','uclg','uclb','usin','usid','ushu','ussi','uani','utip','utub','utpr','uawt','upro','uhot','uaen','udea','udup','ubld','usrg','usma','usst','ugor','ulur','uble','ucpt','ucbs','urtm','uobs','uubs','upat','ubdd','ubpx','ubpy'];
-const BUFF_PRI = ['fnam','fnsf','ftip','fube','fart','feat','feft','ftat','fta0','fta1','fta2','fta3','fta4','fta5','ftac','fsat','fspt','flig','fmac','fmat','fmho','fmsp','fspd','fefs','fefl','feff','frac'];
-const UPGR_PRI = ['glvl','gnam','gnsf','gar1','ghk1','gtp1','gub1','grac','gcls','glob','ginh','gglb','gglm','glmb','glmm','gtib','gtim','gef1','gba1','gco1','gmo1','gef2','gba2','gco2','gmo2','gef3','gba3','gco3','gmo3','gef4','gba4','gco4','gmo4','greq','grqc','gbpx','gbpy'];
-const DEST_PRI = ['bnam','bsuf','bfil','bgpm','bcat','btil','btsp','bhps','barm','blit','bsel','bgsc','bgse','bmmr','bmmg','bmmb','bsmm','bumm','bvcr','bvcg','bvcb','boch','bflh','bflo','bfra','bfvi','bfxr','bmap','bmar','bmas','bmis','bcpr','bonc','bonw','bwal','bptx','bptd','bshd','btar','btxf','btxi','brad','breg','brel','bret','bbut','bdsn','buch','busr','bcpd','bvar','bclh'];
-const DOOD_PRI = ['dnam','dvar','dfil','dcat','dtil','dtsp','ddes','dmas','dmis','dcpr','dfxr','dmap','dmar','dsel','dmmr','dmmg','dmmb','dsmm','dumc','dvr1','dvg1','dvb1','dvis','dshd','dshf','danf','dflt','donc','donw','dwlk','dptx','dimc','dsnd','duch','dusr'];
-
 // ================================================================
-// FIELD CATEGORIES
-// Maps field IDs to their visual category group.
-// Fields not listed here fall back to 'data' (if uppercase/digit) or 'other'.
+// ALL STANDARD COLUMNS PER GRID TYPE  (Name first, then alphabetical)
+// These define which columns appear in the "All Columns" view.
+// Ability-specific data fields (uppercase IDs) are discovered dynamically.
 // ================================================================
-const FIELD_CAT = {
-  // Items
-  iabi:'abilities', iarm:'combat',
-  iclb:'art', iclg:'art', iclr:'art', iico:'art', ifil:'art', isca:'art', issc:'art',
-  icid:'stats', icla:'stats', idro:'stats', idrp:'stats',
-  igol:'stats', ihtp:'stats', iicd:'stats', ilev:'stats', ilum:'stats', ilvo:'stats',
-  imor:'stats', ipaw:'stats', iper:'stats', ipow:'stats', ipri:'stats', iprn:'stats',
-  isel:'stats', isst:'stats', isto:'stats', istr:'stats', iusa:'stats', iuse:'stats',
-  ides:'text',
-  // Units - abilities
-  uabi:'abilities', udaa:'abilities',
-  // Units - text
-  unam:'text', unsf:'text', utip:'text', utub:'text', utpr:'text', uawt:'text', uhot:'text',
-  ucun:'text', ucut:'text',
-  // Units - art
-  uico:'art', umdl:'art', usca:'art', ussc:'art', uclr:'art', uclg:'art', uclb:'art',
-  uani:'art', ushu:'art', ussi:'art', uble:'art',
-  ushh:'art', ushw:'art', ushx:'art', ushy:'art', ushb:'art',
-  uver:'art', usew:'art', uslz:'art', urun:'art', uwal:'art',
-  umxp:'art', umxr:'art', uocc:'art', uept:'art', uerd:'art', ufrd:'art',
-  uscb:'art', utaa:'art', uspa:'art', utcc:'art', utco:'art', uub1:'art',
-  ubpx:'art', ubpy:'art', ucbs:'art', ucpt:'art',
-  ucua:'art', udtm:'art', ushr:'art', uori:'art',
-  uimz:'art', uisz:'art', ulpx:'art', ulpy:'art', ulpz:'art', ulsz:'art',
-  uprw:'art', uaap:'art', ualp:'art', ubpr:'art', ulos:'art',
-  // Units - combat
-  udef:'combat', udty:'combat', uarm:'combat', udea:'combat',
-  ua1t:'combat', ua1b:'combat', ua1f:'combat', ua1d:'combat', ua1c:'combat', ua1r:'combat',
-  ua1g:'combat', ua1m:'combat', ua1w:'combat', ua1z:'combat', ua1s:'combat',
-  ua1h:'combat', ua1p:'combat', ua1q:'combat',
-  ua2t:'combat', ua2b:'combat', ua2f:'combat', ua2d:'combat', ua2c:'combat', ua2r:'combat',
-  ua2g:'combat', ua2m:'combat', ua2w:'combat', ua2z:'combat', ua2s:'combat',
-  ua2h:'combat', ua2p:'combat', ua2q:'combat',
-  uaen:'combat', udup:'combat', uacq:'combat', utar:'combat', uamn:'combat',
-  ucs1:'combat', ucs2:'combat', ubs1:'combat', ubs2:'combat',
-  udp1:'combat', udp2:'combat', udl1:'combat', udl2:'combat',
-  udu1:'combat', udu2:'combat', usd1:'combat', usd2:'combat',
-  usr1:'combat', usr2:'combat', utc1:'combat', utc2:'combat',
-  urb1:'combat', urb2:'combat', uhd1:'combat', uhd2:'combat',
-  uqd1:'combat', uqd2:'combat', uma1:'combat', uma2:'combat',
-  umh1:'combat', umh2:'combat',
-  uwu1:'combat', uwu2:'combat',
-  // Units - editor
-  ucam:'editor', uspe:'editor', udro:'editor', uhos:'editor',
-  utss:'editor', uine:'editor', util:'editor', uuch:'editor',
-  // Units - hero
-  ustr:'hero', ustp:'hero', uint:'hero', uinp:'hero', uagi:'hero', uagp:'hero',
-  uhab:'hero', upra:'hero', upro:'hero', upru:'hero',
-  uhhb:'hero', uhhd:'hero', uhhm:'hero', urva:'hero', urev:'hero',
-  // Units - movement
-  umvs:'movement', umvt:'movement', umvh:'movement', umvr:'movement', umvf:'movement',
-  umas:'movement', umis:'movement',
-  urpo:'movement', urpg:'movement', urpp:'movement', urpr:'movement',
-  // Units - pathing
-  uabr:'pathing', uabt:'pathing', ucol:'pathing',
-  // Units - sound
-  usnd:'sound', ulfi:'sound', ulfo:'sound', umsl:'sound', ursl:'sound',
-  // Units - stats
-  urac:'stats', utyp:'stats', ulev:'stats', ugol:'stats', ulum:'stats', ufoo:'stats',
-  uhpm:'stats', uhpr:'stats', uhrt:'stats',
-  usin:'stats', usid:'stats', upoi:'stats', upri:'stats',
-  ubld:'stats', usrg:'stats', usma:'stats', usst:'stats', ugor:'stats', ulur:'stats', urtm:'stats',
-  umpi:'stats', umpm:'stats', umpr:'stats', ufor:'stats',
-  ufle:'stats', ufma:'stats', ubba:'stats', ubdi:'stats', ubsi:'stats',
-  uhom:'stats', ulba:'stats', ulbd:'stats', ulbs:'stats',
-  ubdg:'stats', usle:'stats', ucar:'stats',
-  // Units - techtree
-  utra:'techtree', ubui:'techtree', ures:'techtree', upgr:'techtree', uupt:'techtree',
-  umki:'techtree', useu:'techtree', usei:'techtree', ureq:'techtree', urqa:'techtree',
-  udep:'techtree',
-  // Abilities - text
-  anam:'text', ansf:'text', atp1:'text', aub1:'text', aret:'text', arut:'text', aut1:'text', auu1:'text', auhk:'text', ahky:'text', arhk:'text',
-  aord:'text', aoro:'text', aorf:'text', aoru:'text',
-  // Abilities - art
-  aart:'art', arar:'art', auar:'art', abpx:'art', abpy:'art', aubx:'art', auby:'art', arpx:'art', arpy:'art',
-  amac:'art', amat:'art', amho:'art', amsp:'art', acat:'art', acap:'art', aca1:'art', acac:'art',
-  aeat:'art', atat:'art', ata0:'art', ata1:'art', ata2:'art', ata3:'art', ata4:'art', ata5:'art', atac:'art',
-  asat:'art', aspt:'art', alig:'art', aani:'art', aaea:'art',
-  // Abilities - data
-  ausk:'data',
-  // Abilities - sound
-  aefs:'sound', aefl:'sound',
-  // Abilities - stats
-  alev:'stats', amcs:'stats', acdn:'stats', adur:'stats', ahdu:'stats', aran:'stats', aare:'stats', acas:'stats',
-  atar:'stats', aher:'stats', aite:'stats', apri:'stats', arac:'stats',
-  alsk:'stats', arlv:'stats',
-  // Abilities - techtree
-  areq:'techtree', arqa:'techtree', achd:'techtree',
-  // Buffs - text
-  fnam:'text', fnsf:'text', ftip:'text', fube:'text',
-  // Buffs - art
-  fart:'art', feat:'art', feft:'art', ftat:'art', fta0:'art', fta1:'art', fta2:'art', fta3:'art', fta4:'art', fta5:'art', ftac:'art',
-  fsat:'art', fspt:'art', flig:'art', fmac:'art', fmat:'art', fmho:'art', fmsp:'art', fspd:'art',
-  // Buffs - sound
-  fefs:'sound', fefl:'sound',
-  // Buffs - stats
-  feff:'stats', frac:'stats',
-  // Destructibles - text
-  bnam:'text', bsuf:'text',
-  // Destructibles - art
-  bfil:'art', bgpm:'art', blit:'art', bmmr:'art', bmmg:'art', bmmb:'art', bsmm:'art', bumm:'art',
-  bvcr:'art', bvcg:'art', bvcb:'art', bfxr:'art', bmap:'art', bmar:'art', boch:'art', bflh:'art',
-  bflo:'art', bfra:'art', bfvi:'art', brad:'art', bsel:'art', bgsc:'art', bgse:'art', bshd:'art',
-  btxf:'art', btxi:'art', bvar:'art', bmas:'art', bmis:'art', bcpr:'art',
-  // Destructibles - combat
-  barm:'combat', btar:'combat',
-  // Destructibles - editor
-  bcat:'editor', btil:'editor', btsp:'editor',
-  bonc:'editor', bonw:'editor', bcpd:'editor', buch:'editor', busr:'editor',
-  // Destructibles - pathing
-  bclh:'pathing', bwal:'pathing', bptx:'pathing', bptd:'pathing',
-  // Destructibles - sound
-  bdsn:'sound',
-  // Destructibles - stats
-  bhps:'stats', bbut:'stats', breg:'stats', brel:'stats', bret:'stats',
-  // Doodads - text
-  dnam:'text',
-  // Doodads - art
-  dfil:'art', ddes:'art', dfxr:'art', dmap:'art', dmar:'art', dsel:'art',
-  dmmr:'art', dmmg:'art', dmmb:'art', dsmm:'art', dumc:'art', dvr1:'art', dvg1:'art', dvb1:'art',
-  dvar:'art', dvis:'art', dshd:'art', dshf:'art', danf:'art', dflt:'art',
-  // Doodads - editor
-  dcat:'editor', dtil:'editor', dtsp:'editor', dcpr:'editor', dmas:'editor', dmis:'editor',
-  dimc:'editor', dusr:'editor', donc:'editor', donw:'editor', duch:'editor',
-  // Doodads - pathing
-  dptx:'pathing', dwlk:'pathing',
-  // Doodads - sound
-  dsnd:'sound',
-  // Upgrades - text
-  gnam:'text', gnsf:'text', ghk1:'text', gtp1:'text', gub1:'text',
-  // Upgrades - art
-  gar1:'art', gbpx:'art', gbpy:'art',
-  // Upgrades - data
-  gef1:'data', gba1:'data', gco1:'data', gmo1:'data',
-  gef2:'data', gba2:'data', gco2:'data', gmo2:'data',
-  gef3:'data', gba3:'data', gco3:'data', gmo3:'data',
-  gef4:'data', gba4:'data', gco4:'data', gmo4:'data',
-  // Upgrades - stats
-  glvl:'stats', gcls:'stats', grac:'stats', glob:'stats', ginh:'stats',
-  gglb:'stats', gglm:'stats', glmb:'stats', glmm:'stats', gtib:'stats', gtim:'stats',
-  // Upgrades - techtree
-  greq:'techtree', grqc:'techtree',
+const GRID_COLS = {
+  items: ['unam','iabi','iarm','iclb','iclg','iclr','icid','icla','ides','idro','idrp','ifil','igol','ihtp','iicd','iico','ilev','ilum','ilvo','imor','ipaw','iper','ipow','ipri','iprn','isca','isel','issc','isst','isto','istr','iusa','iuse','ubpx','ubpy','ufoo','uhot','isit','ureq','urqa','utip','utub','bdns','urq1','urq2','urq3','urq4','urq5','urq6','urq7','urq8'],
+  abilities: ['anam','aaea','aani','aare','aart','abpx','abpy','abuf','aca1','acac','acap','acas','acat','achd','acdn','adur','aeat','aeff','aefl','aefs','ahdu','aher','ahky','aite','alev','alig','alsk','amac','amat','amcs','amho','amsp','ansf','aord','aorf','aoro','aoru','apri','arac','aran','arar','areq','aret','arhk','arlv','arpx','arpy','arqa','arut','asat','aspt','ata0','ata1','ata2','ata3','ata4','ata5','atac','atar','atat','atp1','auar','aub1','aubx','auby','auhk','ausk','aut1','auu1'],
+  units: ['unam','ua1b','ua1c','ua1d','ua1f','ua1g','ua1h','ua1m','ua1p','ua1q','ua1r','ua1s','ua1t','ua1w','ua1z','ua2b','ua2c','ua2d','ua2f','ua2g','ua2h','ua2m','ua2p','ua2q','ua2r','ua2s','ua2t','ua2w','ua2z','uaap','uabi','uabs','uabr','uabt','uacq','uaen','uagi','uagp','ualp','uamn','uani','uarm','uawt','ubba','ubdg','ubdi','uble','ubld','ubpx','ubpy','ubpr','ubs1','ubs2','ubsi','ubui','ucam','ucar','ucbs','uclb','uclg','uclr','ucol','ucpt','ucs1','ucs2','ucua','ucun','ucut','udaa','udea','udef','udep','udl1','udl2','udp1','udp2','udro','udtm','udty','udu1','udu2','udup','uept','uerd','ufle','ufma','ufoo','ufor','ufrd','ugol','ugor','uhab','uhas','uhd1','uhd2','uhhb','uhhd','uhhm','uhom','uhos','uhot','uhpm','uhpr','uhrt','uico','uimz','uine','uinp','uint','uisz','ulba','ulbd','ulbs','ulev','ulfi','ulfo','ulos','ulpx','ulpy','ulpz','ulsz','ulum','ulur','uma1','uma2','umas','upor','umdl','umh1','umh2','umis','umki','umpi','umpm','umpr','umsl','umvf','umvh','umvr','umvs','umvt','umxp','umxr','unsf','uocc','uori','upap','upar','upat','upaw','upoi','upra','upri','upro','uprw','upru','upgr','uqd1','uqd2','urac','urb1','urb2','ureq','ures','urev','urpg','urpo','urpp','urpr','urqa','urtm','urun','ursl','urva','usca','uscb','usd1','usd2','usei','useu','usew','ushb','ushh','ushr','ushu','ushw','ushx','ushy','usid','usin','usle','uslz','usma','usit','usnd','uspa','uspe','usr1','usr2','usrg','ussc','ussi','usst','ustp','ustr','utaa','utar','utc1','utc2','utcc','utco','util','utip','utpr','utra','utss','utub','utyp','uub1','uubs','uuch','uupt','uver','uwal','uwu1','uwu2', 'unbr', 'unbs'],
+  buffs: ['fnam','fart','feat','feff','fefl','fefs','feft','flig','fmac','fmat','fmho','fmsp','fnsf','frac','fsat','fspd','fspt','fta0','fta1','fta2','fta3','fta4','fta5','ftac','ftat','ftip','fube'],
+  upgrades: ['gnam','gar1','gba1','gba2','gba3','gba4','gbpx','gbpy','gcls','gco1','gco2','gco3','gco4','gef1','gef2','gef3','gef4','gglb','gglm','ghk1','ginh','glmb','glmm','glob','glvl','gmo1','gmo2','gmo3','gmo4','gnsf','grac','greq','grqc','gtib','gtim','gtp1','gub1'],
+  destructables: ['bnam','barm','bbut','bcat','bclh','bcpd','bcpr','bdsn','bfil','bflh','bflo','bfra','bfvi','bfxr','bgpm','bgsc','bgse','bhps','blit','bmap','bmar','bmas','bmis','bmmb','bmmg','bmmr','boch','bonc','bonw','bptd','bptx','brad','breg','brel','bret','bsel','bshd','bsmm','bsuf','btar','btil','btsp','btxf','btxi','buch','bumm','busr','bvar','bvcb','bvcg','bvcr','bwal'],
+  doodads: ['dnam','danf','dcat','dcpr','ddes','dfil','dflt','dfxr','dimc','dmap','dmar','dmas','dmis','dmmb','dmmg','dmmr','donc','donw','dptx','dsel','dshd','dshf','dsmm','dsnd','dtil','dtsp','duch','dumc','dusr','dvar','dvb1','dvg1','dvis','dvr1','dwlk'],
 };
+
 const CAT_LABELS = {text:'Text',abilities:'Abilities',art:'Art',combat:'Combat',data:'Data',editor:'Editor',hero:'Hero',movement:'Movement',pathing:'Pathing',sound:'Sound',stats:'Stats',techtree:'Techtree'};
 const CAT_ORDER_LIST = ['text','abilities','art','combat','data','editor','hero','movement','pathing','sound','stats','techtree'];
 
@@ -2019,17 +1887,13 @@ const MAIN_ROW_ONLY = {
     'ausk','aefs','aefl','aher','aite','alsk','alev','apri',
     'arac','arlv','achd','areq','arqa','ansf','arhk','ahky',
     'auhk','anam','aoro','aorf','aoru','aord','aret','arut'
-  ]),
-  upgrades: new Set([
-    'gbpx','gbpy','gef1','gef2','gef3','gef4',
-    'glob','gcls','gglb','gglm','glvl','glmb','glmm',
-    'grac','gtib','gtim','ginh'
   ])
 };
 
 /** For doodads, only these fields are editable in sub-rows (variations); all others are main-row-only. */
 const SUB_ROW_EDITABLE = {
-  doodads: new Set(['dvr1','dvg1','dvb1'])
+  doodads: new Set(['dvr1','dvg1','dvb1']),
+  upgrades: new Set(['gar1', 'greq', 'grqc', 'gnsf', 'ghk1', 'gnam', 'gtp1', 'gub1']),
 };
 
 /** Check whether a field should be read-only in sub-rows. */
@@ -2045,7 +1909,9 @@ function isMainRowOnly(type, fieldId) {
  * Add entries here as needed for other types / fields.
  */
 const SUBROW_ALWAYS_VISIBLE = {
-  doodads: ['dvr1', 'dvg1', 'dvb1']   // Tinting colors
+  doodads: ['dvr1', 'dvg1', 'dvb1'],   // Tinting colors
+  upgrades: ['gar1', 'greq', 'grqc', 'gnsf', 'ghk1', 'gnam', 'gtp1', 'gub1'],
+  abilities: ['atp1', 'aub1', 'amcs', 'atar', 'adur']
 };
 
 /** Tracks which category IDs are collapsed, per type. */
@@ -2067,8 +1933,8 @@ function toggleCategory(type, catId) {
 }
 
 /**
- * Groups an array of column objects by FIELD_CAT categories.
- * Fields not in FIELD_CAT: uppercase-start or contains digit → 'data', else 'other'.
+ * Groups an array of column objects by KNOWN[id].c categories.
+ * Fields without a category: uppercase-start or contains digit → 'data', else 'other'.
  * Returns: Array<{ cat:{id,label}, cols:col[] }>
  */
 function getCategoryGroups(type, cols) {
@@ -2076,7 +1942,7 @@ function getCategoryGroups(type, cols) {
   CAT_ORDER_LIST.forEach((c, i) => orderMap[c] = i);
   const grouped = new Map();
   for (const col of cols) {
-    let cat = FIELD_CAT[col.id];
+    let cat = KNOWN[col.id]?.c;
     if (!cat) cat = (/^[A-Z]/.test(col.id) || /\d/.test(col.id)) ? 'data' : 'other';
     if (!grouped.has(cat)) grouped.set(cat, []);
     grouped.get(cat).push(col);
@@ -2100,10 +1966,11 @@ function renderCatHeaderRow(type, catGroups, collapsed) {
   for (const g of catGroups) {
     const isC = collapsed.has(g.cat.id);
     const safe = g.cat.id.replace(/'/g,'\\\"'), lbl = esc(g.cat.label);
+    const colCount = g.cols.length; // Calculate the number of columns
     if (isC) {
-      h += '<th class="cat-head cat-collapsed" onclick="toggleCategory(\'' + esc(type) + '\',\'' + safe + '\')" title="Expand ' + lbl + '"><span class="cat-toggle">+</span> ' + lbl + '</th>';
+      h += '<th class="cat-head cat-collapsed" onclick="toggleCategory(\'' + esc(type) + '\',\'' + safe + '\')" title="Expand ' + lbl + ' (' + colCount + ' columns)"><span class="cat-toggle">+</span> ' + lbl + ' (' + colCount + ')</th>';
     } else {
-      h += '<th class="cat-head cat-expanded" colspan="' + g.cols.length + '" onclick="toggleCategory(\'' + esc(type) + '\',\'' + safe + '\')" title="Collapse ' + lbl + '"><span class="cat-toggle">&minus;</span> ' + lbl + '</th>';
+      h += '<th class="cat-head cat-expanded" colspan="' + colCount + '" onclick="toggleCategory(\'' + esc(type) + '\',\'' + safe + '\')" title="Collapse ' + lbl + ' (' + colCount + ' columns)">' + lbl + ' (' + colCount + ')</th>';
     }
   }
   h += '</tr>';
@@ -2130,35 +1997,22 @@ function renderCatCells(ri, r, catGroups, collapsed, subRowType, ownerType, gid)
 /** Global toggle: show all known columns vs only columns with data */
 let showAllColumns = false;
 
-/** Get the priority array for a given editor type. */
-function getPriorityArray(type) {
-  switch (type) {
-    case 'units':          return UNIT_PRI;
-    case 'buffs':          return BUFF_PRI;
-    case 'upgrades':       return UPGR_PRI;
-    case 'destructables':  return DEST_PRI;
-    case 'doodads':        return DOOD_PRI;
-    case 'abilities':      return ABIL_PRI;
-    case 'items':          return ITEM_PRI;
-    default:               return ITEM_PRI;
-  }
-}
-
 /**
  * Get display columns for rendering.
  * When showAllColumns is OFF  -> only columns that appear in data (st.cols).
- * When showAllColumns is ON   -> all columns from the priority list for the
- *   type, plus any extra data-only columns not in the priority list.
+ * When showAllColumns is ON   -> all columns from GRID_COLS for the
+ *   type, plus any extra data-only columns not in the list.
+ * Columns are sorted alphabetically with the Name field first.
  */
 function getDisplayCols(type) {
   const st = S[type]; if (!st) return [];
   if (!showAllColumns) return st.cols;
 
-  const pri = getPriorityArray(type);
+  const gridCols = GRID_COLS[type] || [];
   const existingMap = new Map(st.cols.map(c => [c.id, c]));
 
-  // Collect all field IDs: priority list + any data-only fields
-  const allIds = new Set([...pri]);
+  // Collect all field IDs: grid columns + any data-only fields
+  const allIds = new Set([...gridCols]);
   for (const c of st.cols) allIds.add(c.id);
 
   // Build column list
@@ -2177,15 +2031,8 @@ function getDisplayCols(type) {
     }
   }
 
-  // Sort by priority
-  const priMap = {};
-  pri.forEach((id, i) => priMap[id] = i);
-  result.sort((a, b) => {
-    const pa = priMap[a.id] ?? 9999, pb = priMap[b.id] ?? 9999;
-    if (pa !== pb) return pa - pb;
-    return a.id.localeCompare(b.id);
-  });
-
+  // Sort alphabetically, Name field first
+  sortColumnsAlpha(result);
   return result;
 }
 
@@ -2455,9 +2302,8 @@ function ingestParsed(type, parsed, fileName) {
     }
   }
 
-  // Build ordered column list
-  const pri = type === 'units' ? UNIT_PRI : (type === 'buffs' ? BUFF_PRI : (type === 'upgrades' ? UPGR_PRI : (type === 'destructables' ? DEST_PRI : (type === 'doodads' ? DOOD_PRI : (hasLevels ? ABIL_PRI : ITEM_PRI)))));
-  const colIds = sortFieldIds([...fieldsMap.keys()], pri);
+  // Build ordered column list (alphabetical, Name first)
+  const colIds = sortFieldIds([...fieldsMap.keys()]);
   const cols = colIds.map(id => ({ id, name: fieldsMap.get(id).name, type: fieldsMap.get(id).type }));
 
   S[type] = { meta, rows, cols };
@@ -2481,13 +2327,24 @@ function registerField(map, id, type) {
   if (!map.has(id)) map.set(id, { name: fieldName(id), type });
 }
 
-function sortFieldIds(ids, priority) {
-  const priMap = {};
-  priority.forEach((id, i) => priMap[id] = i);
+/** Name field IDs (always sorted first). */
+const NAME_FIELDS = new Set(['unam','anam','dnam','bnam','fnam','gnam']);
+
+/** Sort field IDs by display name with Name fields first. */
+function sortFieldIds(ids) {
   return ids.sort((a, b) => {
-    const pa = priMap[a] ?? 9999, pb = priMap[b] ?? 9999;
-    if (pa !== pb) return pa - pb;
-    return a.localeCompare(b);
+    const na = NAME_FIELDS.has(a), nb = NAME_FIELDS.has(b);
+    if (na !== nb) return na ? -1 : 1;
+    return fieldName(a).localeCompare(fieldName(b));
+  });
+}
+
+/** Sort column objects by display name with Name fields first. */
+function sortColumnsAlpha(cols) {
+  cols.sort((a, b) => {
+    const na = NAME_FIELDS.has(a.id), nb = NAME_FIELDS.has(b.id);
+    if (na !== nb) return na ? -1 : 1;
+    return a.name.localeCompare(b.name);
   });
 }
 
@@ -2523,7 +2380,7 @@ function renderTable(type) {
         ci++;
       } else {
         for (const c of g.cols) {
-          h += '<th style="width:160px" data-default-w="160" title="' + esc(c.id) + ' (' + c.type + ')">' + esc(c.name) + '<span class="sub">' + esc(c.id) + '</span><span class="col-resize" data-ci="' + ci + '"></span></th>';
+          h += '<th style="width:160px" data-default-w="160" title="' + esc(c.id) + ' (' + c.type + ')">' + esc(c.name) + '<span class="sub">' + esc(c.id) + ' (' + c.type + ')</span><span class="col-resize" data-ci="' + ci + '"></span></th>';
           ci++;
         }
       }
@@ -2578,7 +2435,7 @@ function renderTable(type) {
         ci++;
       } else {
         for (const c of g.cols) {
-          h += '<th style="width:160px" data-default-w="160" title="' + esc(c.id) + ' (' + c.type + ')">' + esc(c.name) + '<span class="sub">' + esc(c.id) + '</span><span class="col-resize" data-ci="' + ci + '"></span></th>';
+          h += '<th style="width:160px" data-default-w="160" title="' + esc(c.id) + ' (' + c.type + ')">' + esc(c.name) + '<span class="sub">' + esc(c.id) + ' (' + c.type + ')</span><span class="col-resize" data-ci="' + ci + '"></span></th>';
           ci++;
         }
       }
@@ -2638,9 +2495,8 @@ function renderTable(type) {
         const extraCols = levelCols.filter(c => alwaysIds.has(c.id) && !existingIds.has(c.id));
         if (extraCols.length > 0) {
           const merged = [...curCols, ...extraCols];
-          // Maintain priority order from levelCols
-          const lcOrder = new Map(levelCols.map((c, i) => [c.id, i]));
-          merged.sort((a, b) => (lcOrder.get(a.id) ?? 9999) - (lcOrder.get(b.id) ?? 9999));
+          // Sort by display name, Name fields first
+          sortColumnsAlpha(merged);
           bidLevelCols.set(bid, merged);
         }
       }
@@ -2686,7 +2542,7 @@ function renderTable(type) {
         h += '<th style="width:30px" data-default-w="30">Lvl</th>';
         let lci = 1;
         for (const c of mergedLevelCols) {
-          h += '<th style="width:140px" data-default-w="140" data-code="' + esc(c.id) + '" title="' + esc(c.id) + ' (' + c.type + ')">' + esc(c.name) + '<span class="sub">' + esc(c.id) + '</span><span class="col-resize" data-ci="' + lci + '"></span></th>';
+          h += '<th style="width:140px" data-default-w="140" data-code="' + esc(c.id) + '" title="' + esc(c.id) + ' (' + c.type + ')">' + esc(c.name) + '<span class="sub">' + esc(c.id) + ' (' + c.type + ')</span><span class="col-resize" data-ci="' + lci + '"></span></th>';
           lci++;
         }
         h += '</tr></thead><tbody>';
@@ -3212,6 +3068,29 @@ function restoreScroll(type, pos) {
 function closePopup(id) { document.getElementById(id).classList.add('hidden'); }
 function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function escA(s) { return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ================================================================
+// ENTER KEY: move cursor to the cell directly below
+// ================================================================
+document.addEventListener('keydown', function(e) {
+  if (e.key !== 'Enter') return;
+  const el = e.target;
+  if (!el.matches || !el.matches('td input[data-r], td select[data-r]')) return;
+  e.preventDefault();
+  const td = el.closest('td');
+  const tr = td.closest('tr');
+  const table = tr.closest('table');
+  if (!td || !tr || !table) return;
+  const ci = Array.from(tr.children).indexOf(td);
+  // Walk forward through sibling rows to find the next visible row
+  let next = tr.nextElementSibling;
+  while (next && next.offsetParent === null) next = next.nextElementSibling;
+  if (!next) return;
+  const nextTd = next.children[ci];
+  if (!nextTd) return;
+  const inp = nextTd.querySelector('input, select');
+  if (inp) { inp.focus(); inp.select && inp.select(); }
+});
 
 // ================================================================
 // DOUBLE-CLICK COLUMN HEADER TO AUTO-FIT WIDTH (toggle: auto-fit / default)
