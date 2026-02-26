@@ -84,6 +84,8 @@
 
 <script type="module">
 import { unitCodes } from './unitcodes.js';
+import { itemCodes } from './itemcodes.js';
+import { abilityCodes } from './abilitycodes.js';
 import { META_TYPE_OPTIONS } from './dropdowns.js';
 import { KNOWN } from './columns.js';
 
@@ -106,6 +108,12 @@ document.querySelector('#searchBox').addEventListener('input', filterRows);
 document.querySelector('#showAllColsToggle').addEventListener('change', toggleAllColumns);
 
 
+function codeLookup(code) {
+      return itemCodes[code] 
+      || unitCodes[code]
+      || abilityCodes[code]
+      || '❔';
+}
 
 function fieldName(id) { return KNOWN[id]?.n || id; }
 
@@ -1052,12 +1060,13 @@ function renderTable(type) {
       const rc = r.tbl === 'original' ? 'r0' : 'r1';
       const ga = groupAlt ? 'ga' : '';
       const searchText = esc([r.bid, r.cid, ...Object.keys(r.v).map(k => r.v[k].val)].join(' ').toLowerCase());
+      const fullName = codeLookup(r.bid);
 
       h += '<tr class="' + rc + ' ' + ga + '" data-s="' + searchText + '">';
       h += '<td style="color:#555;text-align:right;padding-right:4px">' + (ri + 1) + '</td>';
       h += '<td class="del-c"><button class="btn b-del b-sm" onclick="removeRow(\'' + type + '\',' + ri + ')" title="Remove row">&times;</button><button class="btn b-add b-sm" onclick="duplicateRow(\'' + type + '\',' + ri + ')" title="Duplicate row" style="margin-left:2px">&#x2398;</button></td>';
       h += '<td style="font-size:11px;color:#999">' + r.tbl + '</td>';
-      h += '<td class="idc">' + esc(r.bid) + '</td>';
+      h += '<td class="idc">' + esc(r.bid) + ' (' + esc(fullName) + ')</td>';
       h += '<td class="idc">' + esc(r.cid || '\u2014') + '</td>';
       h += renderCatCells(ri, r, catGroups, collapsed, null, type, r.gid);
       h += '</tr>';
@@ -1171,6 +1180,7 @@ function renderTable(type) {
       const subIndices = indices.filter(ri => (rows[ri].lvl ?? 0) > 0);
       const rc = headRow.tbl === 'original' ? 'r0' : 'r1';
       const ga = groupAlt ? 'ga' : '';
+      const fullName = codeLookup(headRow.bid);
 
       // Collect search text from entire group
       const allGroupText = indices.map(ri => {
@@ -1184,7 +1194,7 @@ function renderTable(type) {
       h += '<td style="color:#555;text-align:right;padding-right:4px">' + (headIdx + 1) + '</td>';
       h += '<td class="del-c"><button class="btn b-del b-sm" onclick="removeGroup(\'' + type + '\',' + headRow.gid + ')" title="Remove object">&times;</button><button class="btn b-add b-sm" onclick="duplicateRow(\'' + type + '\',' + headIdx + ')" title="Duplicate object" style="margin-left:2px">&#x2398;</button></td>';
       h += '<td style="font-size:11px;color:#999">' + headRow.tbl + '</td>';
-      h += '<td class="idc">' + esc(headRow.bid) + '</td>';
+      h += '<td class="idc">' + esc(headRow.bid) + ' (' + esc(fullName) + ')</td>';
       h += '<td class="idc">' + esc(headRow.cid || '\u2014') + '</td>';
       h += renderCatCells(headIdx, headRow, mainCatGroups, collapsed, null, type, headRow.gid);
       h += '</tr>';
