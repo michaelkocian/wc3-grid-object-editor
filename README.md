@@ -18,8 +18,8 @@ Visit the [editor](https://michaelkocian.github.io/wc3-grid-object-editor/editor
 4. Start editing Warcraft 3 objects using the grid interface.
 
 ## Contributing
-We welcome public testing to help improve the tool. If you encounter any bugs or have suggestions for enhancements, please open a GitHub issue.
+Public testing to help improve the tool is welcomed. If you encounter any bugs or have suggestions for enhancements, please open a GitHub issue.
+Looking for a reliable source of ability, unit, or item codes.
 
 ---
-
-Enjoy editing Warcraft 3 objects with ease!
+<img width="1458" height="1069" alt="image" src="https://github.com/user-attachments/assets/28d760e3-3bfa-42b5-b594-2c5cce24c28d" />
