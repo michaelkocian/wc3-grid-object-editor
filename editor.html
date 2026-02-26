@@ -104,26 +104,26 @@ td select:focus{border-color:#e94560;background:#25255a;outline:none}
 
 <div class="hdr">
   <h1>WC3 Object Editor</h1>
-  <button class="btn b-load">📂 Load File</button>
+  <button class="btn b-load" id="loadFileButton">📂 Load File</button>
   <span style="border-left:1px solid #0f3460;height:20px"></span>
-  <button class="btn b-exp">💾 Save File (Experimental)</button>
+  <button class="btn b-exp" id="exportBinaryButton">💾 Save File (Experimental)</button>
   <span style="border-left:1px solid #0f3460;height:20px"></span>
-  <button class="btn b-imp" title="Import from JSON (legacy)">Import JSON</button>
-  <button class="btn b-imp" title="Export current tab as JSON (debug)">Export JSON</button>
+  <button class="btn b-imp" id="importJSONButton" title="Import from JSON (legacy)">Import JSON</button>
+  <button class="btn b-imp" id="exportJSONButton" title="Export current tab as JSON (debug)">Export JSON</button>
 </div>
 
 <div class="tabs">
-  <div class="tab active" data-t="items">Items (not loaded)</div>
-  <div class="tab" data-t="abilities">Abilities (not loaded)</div>
-  <div class="tab" data-t="units">Units (not loaded)</div>
-  <div class="tab" data-t="buffs">Buffs (not loaded)</div>
-  <div class="tab" data-t="upgrades">Upgrades (not loaded)</div>
-  <div class="tab" data-t="destructables">Destructables (not loaded)</div>
-  <div class="tab" data-t="doodads">Doodads (not loaded)</div>
+  <div class="tab active" data-t="items" id="tabItems">Items (not loaded)</div>
+  <div class="tab" data-t="abilities" id="tabAbilities">Abilities (not loaded)</div>
+  <div class="tab" data-t="units" id="tabUnits">Units (not loaded)</div>
+  <div class="tab" data-t="buffs" id="tabBuffs">Buffs (not loaded)</div>
+  <div class="tab" data-t="upgrades" id="tabUpgrades">Upgrades (not loaded)</div>
+  <div class="tab" data-t="destructables" id="tabDestructables">Destructables (not loaded)</div>
+  <div class="tab" data-t="doodads" id="tabDoodads">Doodads (not loaded)</div>
 </div>
 
 <div class="toolbar">
-  <button class="btn b-add b-sm">+ Add Row (Experimental)</button>
+  <button class="btn b-add b-sm" id="addRowButton">+ Add Row (Experimental)</button>
   <input class="search" id="searchBox" placeholder="Search...">
   <div class="toggle-wrap">
     <label class="toggle" title="Show all columns">
@@ -179,25 +179,23 @@ td select:focus{border-color:#e94560;background:#25255a;outline:none}
 <script type="module">
 import { unitCodes } from './unitcodes.js';
 
-// Add event listeners instead of inline handlers
-document.getElementById('cancelButton').addEventListener('click', () => closePopup('popRow'));
-document.getElementById('addButton').addEventListener('click', confirmAddRow);
-
-// Replace other inline event handlers in the header and toolbar
-document.querySelector('.btn.b-load').addEventListener('click', loadFile);
-document.querySelector('.btn.b-exp').addEventListener('click', exportBinary);
-document.querySelector('.btn.b-imp[title="Import from JSON (legacy)"]').addEventListener('click', loadJSONFile);
-document.querySelector('.btn.b-imp[title="Export current tab as JSON (debug)"]').addEventListener('click', exportJSON);
-document.querySelector('.tab[data-t="items"]').addEventListener('click', () => switchTab('items'));
-document.querySelector('.tab[data-t="abilities"]').addEventListener('click', () => switchTab('abilities'));
-document.querySelector('.tab[data-t="units"]').addEventListener('click', () => switchTab('units'));
-document.querySelector('.tab[data-t="buffs"]').addEventListener('click', () => switchTab('buffs'));
-document.querySelector('.tab[data-t="upgrades"]').addEventListener('click', () => switchTab('upgrades'));
-document.querySelector('.tab[data-t="destructables"]').addEventListener('click', () => switchTab('destructables'));
-document.querySelector('.tab[data-t="doodads"]').addEventListener('click', () => switchTab('doodads'));
-document.querySelector('.btn.b-add.b-sm').addEventListener('click', showAddRow);
-document.getElementById('searchBox').addEventListener('input', filterRows);
-document.getElementById('showAllColsToggle').addEventListener('change', toggleAllColumns);
+// Add event listeners using unique IDs
+document.querySelector('#cancelButton').addEventListener('click', () => closePopup('popRow'));
+document.querySelector('#addButton').addEventListener('click', confirmAddRow);
+document.querySelector('#loadFileButton').addEventListener('click', loadFile);
+document.querySelector('#exportBinaryButton').addEventListener('click', exportBinary);
+document.querySelector('#importJSONButton').addEventListener('click', loadJSONFile);
+document.querySelector('#exportJSONButton').addEventListener('click', exportJSON);
+document.querySelector('#tabItems').addEventListener('click', () => switchTab('items'));
+document.querySelector('#tabAbilities').addEventListener('click', () => switchTab('abilities'));
+document.querySelector('#tabUnits').addEventListener('click', () => switchTab('units'));
+document.querySelector('#tabBuffs').addEventListener('click', () => switchTab('buffs'));
+document.querySelector('#tabUpgrades').addEventListener('click', () => switchTab('upgrades'));
+document.querySelector('#tabDestructables').addEventListener('click', () => switchTab('destructables'));
+document.querySelector('#tabDoodads').addEventListener('click', () => switchTab('doodads'));
+document.querySelector('#addRowButton').addEventListener('click', showAddRow);
+document.querySelector('#searchBox').addEventListener('input', filterRows);
+document.querySelector('#showAllColsToggle').addEventListener('change', toggleAllColumns);
 
 // ================================================================
 // KNOWN FIELD DEFINITIONS   id -> { n: human name, t: default type }
