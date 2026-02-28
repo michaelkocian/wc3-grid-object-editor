@@ -10,7 +10,7 @@ import { codes } from './consts/codes.js';
 import { itemCodes } from './consts/itemcodes.js';
 import { abilityCodes } from './consts/abilitycodes.js';
 import { unitCodes } from './consts/unitcodes.js';
-import { orderStrings as codes_abilities } from './consts/codes_abilities.js';
+import { abilityCodes as codes_abilities } from './consts/codes_abilities.js';
 import { itemCodes as codes_items } from './consts/codes_items.js';
 import { unitCodes as codes_units } from './consts/codes_units.js';
 import { NAME_FIELD_IDS, ID_GENERATION_CHARS, TAB_ID_PREFIXES } from './consts/constants.js';
@@ -48,12 +48,12 @@ export function escapeAttribute(str) {
  */
 export function lookupObjectCodeName(code) {
   return codes[code] 
+  || codes_abilities[code]
   || itemCodes[code]
   || abilityCodes[code]
   || unitCodes[code]
   || codes_items[code]
   || codes_units[code]
-  || codes_abilities[code]
   || '❔';
 }
 
