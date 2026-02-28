@@ -7,7 +7,7 @@
 
 import {
   TYPES_WITH_LEVELS, EXTENSION_INFO, EXTENSION_TO_TAB_TYPE,
-} from './constants.js';
+} from './consts/constants.js';
 import {
   editorState, getActiveTab, synchronizeDOMToState,
 } from './state.js';

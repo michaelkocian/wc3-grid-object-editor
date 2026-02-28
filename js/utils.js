@@ -5,11 +5,15 @@
 // type mapping, value coercion, column sorting.
 // ================================================================
 
-import { KNOWN } from './columns.js';
-import { unitCodes } from './unitcodes.js';
-import { itemCodes } from './itemcodes.js';
-import { abilityCodes } from './abilitycodes.js';
-import { NAME_FIELD_IDS, ID_GENERATION_CHARS, TAB_ID_PREFIXES } from './constants.js';
+import { KNOWN } from './consts/columns.js';
+import { codes } from './consts/codes.js';
+import { itemCodes } from './consts/itemcodes.js';
+import { abilityCodes } from './consts/abilitycodes.js';
+import { unitCodes } from './consts/unitcodes.js';
+import { orderStrings as codes_abilities } from './consts/codes_abilities.js';
+import { itemCodes as codes_items } from './consts/codes_items.js';
+import { unitCodes as codes_units } from './consts/codes_units.js';
+import { NAME_FIELD_IDS, ID_GENERATION_CHARS, TAB_ID_PREFIXES } from './consts/constants.js';
 import { editorState } from './state.js';
 
 // ================================================================
@@ -43,10 +47,14 @@ export function escapeAttribute(str) {
  * Searches items, units, and abilities in that order.
  */
 export function lookupObjectCodeName(code) {
-  return itemCodes[code]
-    || unitCodes[code]
-    || abilityCodes[code]
-    || '❔';
+  return codes[code] 
+  || itemCodes[code]
+  || abilityCodes[code]
+  || unitCodes[code]
+  || codes_items[code]
+  || codes_units[code]
+  || codes_abilities[code]
+  || '❔';
 }
 
 /**
@@ -162,7 +170,7 @@ export function getOrderedFieldIds(row, columns) {
 import {
   MAIN_ROW_ONLY_FIELDS,
   SUB_ROW_EDITABLE_FIELDS,
-} from './constants.js';
+} from './consts/constants.js';
 
 /**
  * Check whether a field should be read-only in sub-rows (levels/variations).

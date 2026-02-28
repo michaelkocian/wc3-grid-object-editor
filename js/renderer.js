@@ -5,12 +5,12 @@
 // category grouping, and statistics display.
 // ================================================================
 
-import { KNOWN } from './columns.js';
-import { META_TYPE_OPTIONS } from './dropdowns.js';
+import { KNOWN } from './consts/columns.js';
+import { META_TYPE_OPTIONS } from './consts/columnoptions.js';
 import {
   LEVEL_COUNT_FIELD, GRID_COLUMNS, CATEGORY_LABELS, CATEGORY_ORDER,
   SUBROW_ALWAYS_VISIBLE_COLUMNS, TAB_DISPLAY_LABELS,
-} from './constants.js';
+} from './consts/constants.js';
 import {
   editorState, getShowAllColumns, getCollapsedCategories,
 } from './state.js';

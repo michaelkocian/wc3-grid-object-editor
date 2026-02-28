@@ -8,7 +8,7 @@
 
 import {
   LEVEL_COUNT_FIELD, TAB_ENTITY_NAMES, ALL_TAB_TYPES,
-} from './constants.js';
+} from './consts/constants.js';
 import {
   editorState, getActiveTab, setActiveTab,
   getShowAllColumns, setShowAllColumns,

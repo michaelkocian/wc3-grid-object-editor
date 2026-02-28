@@ -14,7 +14,7 @@ import {
   TYPE_INT, TYPE_REAL, TYPE_UNREAL, TYPE_STRING,
   TYPE_NAMES, TYPE_IDS,
   LEVEL_COUNT_FIELD,
-} from './constants.js';
+} from './consts/constants.js';
 import { editorState, synchronizeDOMToState } from './state.js';
 import {
   getOrderedFieldIds,
