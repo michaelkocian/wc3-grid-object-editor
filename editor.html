@@ -82,21 +82,28 @@
 </div></div>
 
     <script type="module">
+
+      const functions = [
+        "loadFile",
+        "exportBinary",
+        "loadJSONFile",
+        "exportJSON",
+        "switchTab",
+        "showAddRow",
+        "filterRows",
+        "toggleAllColumns",
+        "closePopup",
+        "confirmAddRow",
+        "toggleCategory",
+        "removeRow",
+        "duplicateRow",
+        "removeGroup",
+      ];
+      
       const module = await import('./js/core.js');
-      window.loadFile = module.loadFile; 
-      window.exportBinary = module.exportBinary; 
-      window.loadJSONFile = module.loadJSONFile; 
-      window.exportJSON = module.exportJSON; 
-      window.switchTab = module.switchTab; 
-      window.showAddRow = module.showAddRow; 
-      window.filterRows = module.filterRows; 
-      window.toggleAllColumns = module.toggleAllColumns; 
-      window.closePopup = module.closePopup; 
-      window.confirmAddRow = module.confirmAddRow; 
-      window.toggleCategory = module.toggleCategory;
-      window.removeRow = module.removeRow;
-      window.duplicateRow = module.duplicateRow;
-      window.removeGroup = module.removeGroup;
+      for (const funcName of functions) {
+        window[funcName] = module[funcName];
+      }
     </script>
   </body>
 </html>
