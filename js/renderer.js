@@ -122,9 +122,9 @@ function buildCategoryGroups(tabType, columns) {
  * Renders the category header <tr> above the column header row.
  * Collapsed categories appear as a single narrow stub column.
  */
-function buildCategoryHeaderRow(tabType, categoryGroups, collapsedCategories) {
+function buildCategoryHeaderRow(tabType, categoryGroups, collapsedCategories, spacerColspan) {
   let html = '<tr class="cat-head-row">';
-  html += '<th colspan="5" class="cat-spacer"></th>';
+  html += '<th colspan="' + (spacerColspan || 5) + '" class="cat-spacer"></th>';
 
   for (const group of categoryGroups) {
     const isCollapsed  = collapsedCategories.has(group.category.id);
@@ -205,7 +205,7 @@ function buildDataCells(rowIndex, row, columns, subRowType, ownerType, groupId) 
       const cell       = row.values[column.id];
       const storedValue = cell ? (cell.value ?? '') : '';
       html += '<td style="text-align:center">'
-        + '<input type="number" min="0" value="' + storedValue + '"'
+        + '<input type="number" min="1" value="' + storedValue + '"'
         + ' data-r="' + rowIndex + '" data-f="' + column.id + '"'
         + ' style="width:48px;background:#252550;color:#e0e0e0;border:1px solid #0f3460;'
         + 'border-radius:2px;font:11px Consolas,monospace;text-align:center;padding:1px"'
@@ -371,12 +371,26 @@ function buildLeveledTable(tabType, rows, columns, levelCountField) {
   const mainCategoryGroups = buildCategoryGroups(tabType, mainRowColumns);
   const collapsedCats      = getCollapsedCategories(tabType);
 
+  // Extra column for the early level-count field
+  const hasEarlyLevelCol = !!levelCountField;
+  const fixedPlusLevelCols = hasEarlyLevelCol ? 6 : 5;
+
   let html = '<thead>';
-  html += buildCategoryHeaderRow(tabType, mainCategoryGroups, collapsedCats);
+  html += buildCategoryHeaderRow(tabType, mainCategoryGroups, collapsedCats, fixedPlusLevelCols);
   html += '<tr>';
   html += buildFixedColumnHeaders();
 
-  let columnIndex = 5;
+  // Early level-count column header (duplicated at start for quick access)
+  if (hasEarlyLevelCol) {
+    const lcFieldName = KNOWN[levelCountField]?.n || 'Levels';
+    const lcSubtitle = escapeHtml(levelCountField) + ' (int)';
+    html += '<th style="width:60px" data-default-w="60" title="' + lcSubtitle + '">' 
+      + escapeHtml(lcFieldName)
+      + '<span class="sub">' + lcSubtitle + '</span>'
+      + '<span class="col-resize" data-ci="5"></span></th>';
+  }
+
+  let columnIndex = fixedPlusLevelCols;
   for (const group of mainCategoryGroups) {
     if (collapsedCats.has(group.category.id)) {
       html += '<th class="cat-stub"><span class="col-resize" data-ci="' + columnIndex + '"></span></th>';
@@ -395,7 +409,7 @@ function buildLeveledTable(tabType, rows, columns, levelCountField) {
   html += '</tr></thead><tbody>';
 
   // Calculate total outer column count (for colspan on sub-table rows)
-  let totalOuterColumns = 5;
+  let totalOuterColumns = fixedPlusLevelCols;
   for (const group of mainCategoryGroups) {
     totalOuterColumns += collapsedCats.has(group.category.id) ? 1 : group.columns.length;
   }
@@ -443,6 +457,20 @@ function buildLeveledTable(tabType, rows, columns, levelCountField) {
     html += '<td style="font-size:11px;color:#999">' + headRow.table + '</td>';
     html += '<td class="idc">' + escapeHtml(headRow.baseId) + ' (' + escapeHtml(objectCodeName) + ')</td>';
     html += '<td class="idc">' + escapeHtml(headRow.customId || '\u2014') + '</td>';
+
+    // Early level-count cell (mirror of the one in category columns)
+    if (hasEarlyLevelCol) {
+      const lcCell = headRow.values[levelCountField];
+      const lcValue = lcCell ? (lcCell.value ?? '') : '';
+      html += '<td style="text-align:center">'
+        + '<input type="number" min="1" value="' + lcValue + '"'
+        + ' style="width:48px;background:#252550;color:#e0e0e0;border:1px solid #0f3460;'
+        + 'border-radius:2px;font:11px Consolas,monospace;text-align:center;padding:1px"'
+        + ' onchange="changeLevelCount(\'' + tabType + '\',' + headRow.groupId + ',this.value)"'
+        + ' title="Number of levels/variations (quick access)">' 
+        + '</td>';
+    }
+
     html += buildCategorizedDataCells(headIndex, headRow, mainCategoryGroups, collapsedCats, null, tabType, headRow.groupId);
     html += '</tr>';
 

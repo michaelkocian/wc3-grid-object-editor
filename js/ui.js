@@ -106,7 +106,8 @@ export function filterRows() {
   const query    = document.getElementById('searchBox').value.toLowerCase().trim();
   const tabType  = getActiveTab();
   const paneElem = document.getElementById(tabType + 'Pane');
-  const allRows  = paneElem.querySelectorAll('tbody tr');
+  // Only target the outer table's direct rows, not nested level-table rows
+  const allRows  = paneElem.querySelectorAll('.tw > table > tbody > tr');
 
   if (!query) {
     allRows.forEach(row => row.style.display = '');
