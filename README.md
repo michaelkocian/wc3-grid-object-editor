@@ -19,7 +19,9 @@ Visit the [editor](https://michaelkocian.github.io/wc3-grid-object-editor/editor
 
 ## Contributing
 Public testing to help improve the tool is welcome. If you encounter any bugs or have suggestions for enhancements, please open a GitHub issue.
-- Still looking for a reliable source of ability, unit, or item codes.
+
+## Beta
+Please note: You are solely responsible for backing up and versioning your map. The author assumes no responsibility for any data loss or issues that may occur.
 
 ---
 <img width="1458" height="1069" alt="image" src="https://github.com/user-attachments/assets/28d760e3-3bfa-42b5-b594-2c5cce24c28d" />
