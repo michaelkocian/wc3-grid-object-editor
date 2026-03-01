@@ -19,6 +19,7 @@ import {
   getFieldMetaType, mapMetaTypeToWireType, isFieldMainRowOnly,
   sortColumnsByDisplayName,
 } from './utils.js';
+import { unitTypes } from './consts/codes_unittypes.js';
 
 // ================================================================
 // DISPLAY COLUMN RESOLUTION
@@ -272,22 +273,259 @@ export function renderTable(tabType) {
   const levelCountField  = LEVEL_COUNT_FIELD[tabType] || null;
   const paneElement      = document.getElementById(tabType + 'Pane');
 
-  let html = '<div class="tw"><table>';
+  let html = '<div class="tw">';
 
-  if (!hasLevels) {
-    html += buildFlatTable(tabType, rows, displayColumns);
+  if (tabType === 'units') {
+    html += buildSplitUnitTables(tabType, rows, displayColumns);
   } else {
-    html += buildLeveledTable(tabType, rows, displayColumns, levelCountField);
+    html += '<table>';
+    if (!hasLevels) {
+      html += buildFlatTable(tabType, rows, displayColumns);
+    } else {
+      html += buildLeveledTable(tabType, rows, displayColumns, levelCountField);
+    }
+    html += '</tbody></table>';
   }
 
-  html += '</tbody></table></div>';
+  html += '</div>';
   paneElement.innerHTML = html;
   tabData._renderedAllCols = getShowAllColumns();
   updateStatsBar(tabType);
 }
 
 // ================================================================
-// FLAT TABLE (non-leveled types: items, units, buffs, destructables)
+// UNIT ROW CLASSIFICATION
+// ================================================================
+
+/**
+ * Section definitions for the split unit tables.
+ */
+const UNIT_SECTIONS = [
+  { key: 'heroes',    label: 'Heroes',    icon: '\u2694' },
+  { key: 'buildings', label: 'Buildings', icon: '\u{1F3F0}' },
+  { key: 'units',     label: 'Units',     icon: '\u{1F6E1}' },
+];
+
+/**
+ * Classify a unit row into one of the three sections.
+ * Uses the unitTypes lookup for the baseId, with an override
+ * when the "Is a Building" (ubdg) field is set to 1.
+ *
+ * @returns {{ section: string, overridden: boolean }}
+ */
+function classifyUnitRow(row) {
+  const baseType = unitTypes[row.baseId] || '';
+
+  // Already a building or environment by definition
+  if (baseType === 'Buildings' || baseType === 'Environment') {
+    return { section: 'buildings', overridden: false };
+  }
+
+  // ubdg override: "Is a Building" = 1 moves any row to buildings
+  const ubdgCell = row.values['ubdg'];
+  if (ubdgCell && (String(ubdgCell.value) === '1')) {
+    return { section: 'buildings', overridden: true };
+  }
+
+  if (baseType === 'Heroes') return { section: 'heroes', overridden: false };
+
+  // Units, Vfx, or unknown
+  return { section: 'units', overridden: false };
+}
+
+
+/**
+ * Get the set of column IDs that should be included for a given section.
+ * Uses the new GRID_COLUMNS.unitheroes/unitbuildings/units for each section.
+ */
+function getSectionColumns(sectionKey) {
+  switch (sectionKey) {
+    case 'heroes':    return new Set(GRID_COLUMNS.unitheroes);
+    case 'buildings': return new Set(GRID_COLUMNS.unitbuildings);
+    case 'units':     return new Set(GRID_COLUMNS.units);
+    default:          return new Set();
+  }
+}
+
+/**
+ * Filter display columns for a unit section.
+ *
+ * When "All Columns" is OFF → only columns that have data in the
+ *   section's rows (matches existing behaviour).
+ * When "All Columns" is ON  → all columns for this section (from GRID_COLUMNS),
+ *   plus any columns that actually have data in this section's rows.
+ */
+function filterColumnsForSection(sectionKey, rows, rowIndices, allColumns) {
+  // Collect column IDs that have data in this section
+  const usedIds = new Set();
+  for (const ri of rowIndices) {
+    for (const col of allColumns) {
+      const cell = rows[ri].values[col.id];
+      if (cell && cell.value !== '' && cell.value !== null && cell.value !== undefined) {
+        usedIds.add(col.id);
+      }
+    }
+  }
+
+  if (!getShowAllColumns()) {
+    return allColumns.filter(c => usedIds.has(c.id));
+  }
+
+  // "All Columns" ON: show only columns for this section, plus any with data
+  const sectionColumns = getSectionColumns(sectionKey);
+  return allColumns.filter(c => sectionColumns.has(c.id) || usedIds.has(c.id));
+}
+
+// ================================================================
+// SPLIT UNIT TABLES  (Heroes / Buildings / Units)
+// ================================================================
+
+/**
+ * Build three separate tables for the units tab, one per unit section.
+ * Each section shows only columns that have data in its rows.
+ */
+function buildSplitUnitTables(tabType, rows, displayColumns) {
+  const sectionIndices = { heroes: [], buildings: [], units: [] };
+  const overriddenRows = new Set();
+
+  for (let i = 0; i < rows.length; i++) {
+    const { section, overridden } = classifyUnitRow(rows[i]);
+    sectionIndices[section].push(i);
+    if (overridden) overriddenRows.add(i);
+  }
+
+  let html = '';
+
+  for (const sectionDef of UNIT_SECTIONS) {
+    const indices = sectionIndices[sectionDef.key];
+
+    // When All Columns is ON, build the displayColumns for this section from GRID_COLUMNS
+    let sectionDisplayColumns = displayColumns;
+    if (getShowAllColumns()) {
+      // Use all columns from GRID_COLUMNS for this section, plus any extra columns with data
+      const sectionColIds = Array.from(getSectionColumns(sectionDef.key));
+      const allColMap = new Map(displayColumns.map(c => [c.id, c]));
+      // Add all columns from GRID_COLUMNS for this section
+      sectionDisplayColumns = sectionColIds.map(id => {
+        if (allColMap.has(id)) return allColMap.get(id);
+        // If not present, create from KNOWN
+        const knownField = KNOWN[id];
+        if (knownField) {
+          return {
+            id,
+            name: knownField.n,
+            wireType: mapMetaTypeToWireType(knownField.t),
+            metaType: knownField.t || mapMetaTypeToWireType(knownField.t),
+          };
+        }
+        return null;
+      }).filter(Boolean);
+      // Add any extra columns with data in this section
+      const usedIds = new Set();
+      for (const ri of indices) {
+        for (const col of displayColumns) {
+          const cell = rows[ri].values[col.id];
+          if (cell && cell.value !== '' && cell.value !== null && cell.value !== undefined) {
+            usedIds.add(col.id);
+          }
+        }
+      }
+      for (const id of usedIds) {
+        if (!sectionColIds.includes(id) && allColMap.has(id)) {
+          sectionDisplayColumns.push(allColMap.get(id));
+        }
+      }
+      sortColumnsByDisplayName(sectionDisplayColumns);
+    }
+
+    const sectionColumns = filterColumnsForSection(sectionDef.key, rows, indices, sectionDisplayColumns);
+
+    html += '<div class="unit-section-header">' + sectionDef.icon + ' '
+      + escapeHtml(sectionDef.label) + ' (' + indices.length + ')</div>';
+
+    if (indices.length === 0) {
+      html += '<div class="unit-section-empty">No entries</div>';
+      continue;
+    }
+
+    html += '<table>';
+    html += buildFlatTableForSection(tabType, rows, indices, sectionColumns, overriddenRows);
+    html += '</tbody></table>';
+  }
+
+  return html;
+}
+
+/**
+ * Build a flat table (thead + tbody rows) for a subset of rows.
+ * Used by the split unit tables.  Accepts original row indices so
+ * that data-r attributes remain correct for state synchronization.
+ */
+function buildFlatTableForSection(tabType, rows, rowIndices, columns, overriddenRows) {
+  const categoryGroups = buildCategoryGroups(tabType, columns);
+  const collapsedCats  = getCollapsedCategories(tabType);
+
+  let html = '<thead>';
+  html += buildCategoryHeaderRow(tabType, categoryGroups, collapsedCats);
+  html += '<tr>';
+  html += buildFixedColumnHeaders();
+
+  let columnIndex = 5;
+  for (const group of categoryGroups) {
+    if (collapsedCats.has(group.category.id)) {
+      html += '<th class="cat-stub"><span class="col-resize" data-ci="' + columnIndex + '"></span></th>';
+      columnIndex++;
+    } else {
+      for (const column of group.columns) {
+        const subtitle = buildColumnSubtitle(column);
+        html += '<th style="width:160px" data-default-w="160" title="' + subtitle + '">'
+          + escapeHtml(column.name)
+          + '<span class="sub">' + subtitle + '</span>'
+          + '<span class="col-resize" data-ci="' + columnIndex + '"></span></th>';
+        columnIndex++;
+      }
+    }
+  }
+  html += '</tr></thead><tbody>';
+
+  // ---- Data rows ----
+  let previousGroupId = -1;
+  let alternateGroupShading = false;
+
+  for (const rowIndex of rowIndices) {
+    const row = rows[rowIndex];
+    if (row.groupId !== previousGroupId) {
+      alternateGroupShading = !alternateGroupShading;
+      previousGroupId = row.groupId;
+    }
+
+    const tableClass    = row.table === 'original' ? 'r0' : 'r1';
+    const altClass      = alternateGroupShading ? 'ga' : '';
+    const overrideClass = overriddenRows.has(rowIndex) ? ' ubdg-override' : '';
+    const objectCodeName = lookupObjectCodeName(row.baseId);
+    const searchableText = escapeHtml(
+      [row.baseId, row.customId, ...Object.keys(row.values).map(k => row.values[k].value)]
+        .join(' ').toLowerCase()
+    );
+
+    html += '<tr class="' + tableClass + ' ' + altClass + overrideClass + '" data-s="' + searchableText + '">';
+    html += '<td style="color:#555;text-align:right;padding-right:4px">' + (rowIndex + 1) + '</td>';
+    html += '<td class="del-c">'
+      + '<button class="btn b-del b-sm" onclick="removeRow(\'' + tabType + '\',' + rowIndex + ')" title="Remove row">&times;</button>'
+      + '<button class="btn b-add b-sm" onclick="duplicateRow(\'' + tabType + '\',' + rowIndex + ')" title="Duplicate row" style="margin-left:2px">&#x2398;</button>'
+      + '</td>';
+    html += '<td style="font-size:11px;color:#999">' + row.table + '</td>';
+    html += '<td class="idc">' + escapeHtml(row.baseId) + ' (' + escapeHtml(objectCodeName) + ')</td>';
+    html += '<td class="idc">' + escapeHtml(row.customId || '\u2014') + '</td>';
+    html += buildCategorizedDataCells(rowIndex, row, categoryGroups, collapsedCats, null, tabType, row.groupId);
+    html += '</tr>';
+  }
+
+  return html;
+}
+
+// ================================================================
+// FLAT TABLE (non-leveled types: items, buffs, destructables)
 // ================================================================
 
 function buildFlatTable(tabType, rows, columns) {
@@ -640,8 +878,22 @@ export function updateStatsBar(tabType) {
     (sum, row) => sum + Object.keys(row.values).length, 0
   );
 
-  statsBar.textContent =
+  let statsText =
     originalObjectCount + ' original + ' + customObjectCount + ' custom objects  |  '
     + tabData.columns.length + ' columns  |  ' + filledCellCount + ' values  |  v'
     + tabData.meta.version + '  |  .' + tabData.meta._type;
+
+  // For units, add per-section breakdown
+  if (tabType === 'units') {
+    let heroCount = 0, buildingCount = 0, unitCount = 0;
+    for (const row of tabData.rows) {
+      const { section } = classifyUnitRow(row);
+      if (section === 'heroes') heroCount++;
+      else if (section === 'buildings') buildingCount++;
+      else unitCount++;
+    }
+    statsText += '  |  ' + heroCount + ' heroes, ' + buildingCount + ' buildings, ' + unitCount + ' units';
+  }
+
+  statsBar.textContent = statsText;
 }

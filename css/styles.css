@@ -309,6 +309,41 @@ td select:focus {
 .ga.r0:hover { background: #282850; }
 .ga.r1:hover { background: #284028; }
 
+/* -- Building-override highlight (ubdg = "Is a Building") -- */
+tr.ubdg-override       { background: rgba(233, 166, 69, 0.10) !important; }
+tr.ubdg-override:hover { background: rgba(233, 166, 69, 0.18) !important; }
+tr.ubdg-override > td:first-child {
+  border-left: 3px solid #e9a645;
+}
+
+/* ----------------------------------------------------------------
+   UNIT TYPE SECTION HEADERS  (Heroes / Buildings / Units)
+   ---------------------------------------------------------------- */
+.unit-section-header {
+  background: #0d1a35;
+  color: #8ab4e0;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #0f3460;
+  border-top: 2px solid #0f3460;
+  user-select: none;
+}
+
+.unit-section-header:first-child {
+  border-top: none;
+}
+
+.unit-section-empty {
+  color: #555;
+  padding: 6px 14px;
+  font-size: 11px;
+  font-style: italic;
+  background: #0a0a1a;
+  border-bottom: 1px solid #0f3460;
+}
+
 /* -- ID column (Base ID / Custom ID) -- */
 .idc {
   font: 12px Consolas, monospace;
