@@ -7,12 +7,13 @@
 
 import { KNOWN } from './consts/columns.js';
 import { codes } from './consts/codes.js';
-import { itemCodes } from './consts/itemcodes.js';
-import { abilityCodes } from './consts/abilitycodes.js';
-import { unitCodes } from './consts/unitcodes.js';
-import { abilityCodes as codes_abilities } from './consts/codes_abilities.js';
-import { itemCodes as codes_items } from './consts/codes_items.js';
-import { unitCodes as codes_units } from './consts/codes_units.js';
+import { abilityCodes } from './consts/codes_abilities.js';
+import { doodatCodes } from './consts/codes_doodats.js';
+import { destructibleCodes } from './consts/codes_destructibles.js';
+import { upgradeCodes } from './consts/codes_upgrades.js';
+import { itemCodes } from './consts/codes_items.js';
+import { unitCodes } from './consts/codes_units.js';
+import { buffCodes } from './consts/codes_buffs.js';
 import { NAME_FIELD_IDS, ID_GENERATION_CHARS, TAB_ID_PREFIXES } from './consts/constants.js';
 import { editorState } from './state.js';
 
@@ -44,17 +45,18 @@ export function escapeAttribute(str) {
 
 /**
  * Look up a human-readable name for a WC3 object code.
- * Searches items, units, and abilities in that order.
+ * Searches items, units, abilities, and buffs in that order.
  */
 export function lookupObjectCodeName(code) {
-  return codes[code] 
-  || codes_abilities[code]
-  || itemCodes[code]
-  || abilityCodes[code]
-  || unitCodes[code]
-  || codes_items[code]
-  || codes_units[code]
-  || '❔';
+  return abilityCodes[code]
+      || doodatCodes[code]
+      || destructibleCodes[code]
+      || upgradeCodes[code]
+      || itemCodes[code]
+      || buffCodes[code]
+      || unitCodes[code]      
+      || codes[code]
+      || '❔';
 }
 
 /**
