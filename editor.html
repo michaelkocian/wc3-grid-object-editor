@@ -1,85 +1,89 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WC3 Object Editor</title>
-<link rel="stylesheet" href="./css/styles.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WC3 Object Editor</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <!-- Prevent caching -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+  </head>
+  <body>
 
-<div class="hdr">
-  <h1>WC3 Object Editor</h1>
-  <button class="btn b-load" onclick="loadFile()">📂 Load File</button>
-  <span style="border-left:1px solid #0f3460;height:20px"></span>
-  <button class="btn b-exp" onclick="exportBinary()">💾 Save File (Experimental)</button>
-  <span style="border-left:1px solid #0f3460;height:20px"></span>
-  <button class="btn b-imp" onclick="loadJSONFile()" title="Import from JSON (legacy)">Import JSON</button>
-  <button class="btn b-imp" onclick="exportJSON()" title="Export current tab as JSON (debug)">Export JSON</button>
-</div>
+    <div class="hdr">
+      <h1>WC3 Object Editor</h1>
+      <button class="btn b-load" onclick="loadFile()">📂 Load File</button>
+      <span style="border-left:1px solid #0f3460;height:20px"></span>
+      <button class="btn b-exp" onclick="exportBinary()">💾 Save File (Experimental)</button>
+      <span style="border-left:1px solid #0f3460;height:20px"></span>
+      <button class="btn b-imp" onclick="loadJSONFile()" title="Import from JSON (legacy)">Import JSON</button>
+      <button class="btn b-imp" onclick="exportJSON()" title="Export current tab as JSON (debug)">Export JSON</button>
+    </div>
 
-<div class="tabs">
-  <div class="tab active" data-t="items" onclick="switchTab('items')">Items (not loaded)</div>
-  <div class="tab" data-t="abilities" onclick="switchTab('abilities')">Abilities (not loaded)</div>
-  <div class="tab" data-t="units" onclick="switchTab('units')">Units (not loaded)</div>
-  <div class="tab" data-t="buffs" onclick="switchTab('buffs')">Buffs (not loaded)</div>
-  <div class="tab" data-t="upgrades" onclick="switchTab('upgrades')">Upgrades (not loaded)</div>
-  <div class="tab" data-t="destructables" onclick="switchTab('destructables')">Destructables (not loaded)</div>
-  <div class="tab" data-t="doodads" onclick="switchTab('doodads')">Doodads (not loaded)</div>
-</div>
+    <div class="tabs">
+      <div class="tab active" data-t="items" onclick="switchTab('items')">Items (not loaded)</div>
+      <div class="tab" data-t="abilities" onclick="switchTab('abilities')">Abilities (not loaded)</div>
+      <div class="tab" data-t="units" onclick="switchTab('units')">Units (not loaded)</div>
+      <div class="tab" data-t="buffs" onclick="switchTab('buffs')">Buffs (not loaded)</div>
+      <div class="tab" data-t="upgrades" onclick="switchTab('upgrades')">Upgrades (not loaded)</div>
+      <div class="tab" data-t="destructables" onclick="switchTab('destructables')">Destructables (not loaded)</div>
+      <div class="tab" data-t="doodads" onclick="switchTab('doodads')">Doodads (not loaded)</div>
+    </div>
 
-<div class="toolbar">
-  <button class="btn b-add b-sm" onclick="showAddRow()">+ Add Row (Experimental)</button>
-  <input class="search" id="searchBox" placeholder="Search..." oninput="filterRows()">
-  <div class="toggle-wrap">
-    <label class="toggle" title="Show all columns">
-      <input type="checkbox" id="showAllColsToggle" onchange="toggleAllColumns()">
-      <span class="slider"></span>
-    </label>
-    <span class="toggle-label">All Columns</span>
-  </div>
-  <span class="stats" id="statsBar"></span>
-</div>
+    <div class="toolbar">
+      <button class="btn b-add b-sm" onclick="showAddRow()">+ Add Row (Experimental)</button>
+      <input class="search" id="searchBox" placeholder="Search..." oninput="filterRows()">
+      <div class="toggle-wrap">
+        <label class="toggle" title="Show all columns">
+          <input type="checkbox" id="showAllColsToggle" onchange="toggleAllColumns()">
+          <span class="slider"></span>
+        </label>
+        <span class="toggle-label">All Columns</span>
+      </div>
+      <span class="stats" id="statsBar"></span>
+    </div>
 
-<div id="itemsPane" class="tab-pane">
-  <p style="color:#555;padding:20px">Load a .w3t file to begin editing items.</p>
-</div>
-<div id="abilitiesPane" class="tab-pane hidden">
-  <p style="color:#555;padding:20px">Load a .w3a file to begin editing abilities.</p>
-</div>
-<div id="unitsPane" class="tab-pane hidden">
-  <p style="color:#555;padding:20px">Load a .w3u file to begin editing units.</p>
-</div>
-<div id="buffsPane" class="tab-pane hidden">
-  <p style="color:#555;padding:20px">Load a .w3h file to begin editing buffs/effects.</p>
-</div>
-<div id="upgradesPane" class="tab-pane hidden">
-  <p style="color:#555;padding:20px">Load a .w3q file to begin editing upgrades.</p>
-</div>
-<div id="destructablesPane" class="tab-pane hidden">
-  <p style="color:#555;padding:20px">Load a .w3b file to begin editing destructables.</p>
-</div>
-<div id="doodadsPane" class="tab-pane hidden">
-  <p style="color:#555;padding:20px">Load a .w3d file to begin editing doodads.</p>
-</div>
+    <div id="itemsPane" class="tab-pane">
+      <p style="color:#555;padding:20px">Load a .w3t file to begin editing items.</p>
+    </div>
+    <div id="abilitiesPane" class="tab-pane hidden">
+      <p style="color:#555;padding:20px">Load a .w3a file to begin editing abilities.</p>
+    </div>
+    <div id="unitsPane" class="tab-pane hidden">
+      <p style="color:#555;padding:20px">Load a .w3u file to begin editing units.</p>
+    </div>
+    <div id="buffsPane" class="tab-pane hidden">
+      <p style="color:#555;padding:20px">Load a .w3h file to begin editing buffs/effects.</p>
+    </div>
+    <div id="upgradesPane" class="tab-pane hidden">
+      <p style="color:#555;padding:20px">Load a .w3q file to begin editing upgrades.</p>
+    </div>
+    <div id="destructablesPane" class="tab-pane hidden">
+      <p style="color:#555;padding:20px">Load a .w3b file to begin editing destructables.</p>
+    </div>
+    <div id="doodadsPane" class="tab-pane hidden">
+      <p style="color:#555;padding:20px">Load a .w3d file to begin editing doodads.</p>
+    </div>
 
-<!-- Add Row popup -->
-<div class="ov hidden" id="popRow">
-<div class="pop">
-  <h3 id="popRowTitle">Add New Item</h3>
-  <label>Base ID (4 chars)</label>
-  <input id="arBase" maxlength="4" placeholder="ratf">
-  <label>Table</label>
-  <select id="arTable"><option value="custom">Custom</option><option value="original">Original</option></select>
-  <div id="arLevelWrap">
-    <label>Number of levels (abilities only)</label>
-    <input id="arLevels" type="number" value="1" min="1" max="20">
-  </div>
-  <div class="pb">
-    <button class="btn b-del b-sm" onclick="closePopup('popRow')">Cancel</button>
-    <button class="btn b-exp b-sm" onclick="confirmAddRow()">Add</button>
-  </div>
-</div></div>
+    <!-- Add Row popup -->
+    <div class="ov hidden" id="popRow">
+    <div class="pop">
+      <h3 id="popRowTitle">Add New Item</h3>
+      <label>Base ID (4 chars)</label>
+      <input id="arBase" maxlength="4" placeholder="ratf">
+      <label>Table</label>
+      <select id="arTable"><option value="custom">Custom</option><option value="original">Original</option></select>
+      <div id="arLevelWrap">
+        <label>Number of levels (abilities only)</label>
+        <input id="arLevels" type="number" value="1" min="1" max="20">
+      </div>
+      <div class="pb">
+        <button class="btn b-del b-sm" onclick="closePopup('popRow')">Cancel</button>
+        <button class="btn b-exp b-sm" onclick="confirmAddRow()">Add</button>
+      </div>
+    </div></div>
 
     <script type="module">
 
