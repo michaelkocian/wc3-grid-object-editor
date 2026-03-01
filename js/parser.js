@@ -217,7 +217,12 @@ function buildFlatObjectTable(tabData, objectTables) {
       _endTag:  row._endTag,
       fields:   [],
     };
-    const orderedIds = getOrderedFieldIds(row, tabData.columns);
+    // Use all keys in row.values, not just those in _fieldOrder
+    const allFieldIds = Object.keys(row.values);
+    // Optionally, sort with _fieldOrder first, then new fields alphabetically
+    const orderedIds = Array.isArray(row._fieldOrder)
+      ? [...row._fieldOrder, ...allFieldIds.filter(id => !row._fieldOrder.includes(id)).sort()]
+      : allFieldIds.sort();
     for (const fieldId of orderedIds) {
       const cell = row.values[fieldId];
       if (!cell) continue;
@@ -278,50 +283,55 @@ function appendFieldsFromOriginalOrder(obj, firstRow, groupRows, rowByLevel, tab
   const usedFieldKeys = new Set();
 
   // First pass: preserve original cross-level field order
-  for (const { id: fieldId, level: originalLevel } of firstRow._groupFieldOrder) {
-    const fieldKey = fieldId + '@' + originalLevel;
-    if (usedFieldKeys.has(fieldKey)) continue;
-    usedFieldKeys.add(fieldKey);
-
-    // Main-row-only fields were relocated to level 0 during ingestion;
-    // try the original level first, then fall back to level 0
-    let row  = rowByLevel[originalLevel];
-    let cell = row ? row.values[fieldId] : null;
-    if (!cell && rowByLevel[0]) {
-      row  = rowByLevel[0];
-      cell = row.values[fieldId];
-    }
-    if (!row || !cell) continue;
-
-    const wireType  = cell.type
-      || (tabData.columns.find(c => c.id === fieldId) || {}).wireType
-      || 'string';
-    const writeLevel = cell._originalLevel != null ? cell._originalLevel : originalLevel;
-
-    obj.fields.push({
-      id:     fieldId,
-      type:   wireType,
-      level:  writeLevel,
-      column: cell.column ?? 0,
-      value:  coerceValueByType(cell.value, wireType),
-      endTag: cell.endTag,
-    });
-  }
-
-  // Second pass: append any NEW fields not in the original order
-  for (const row of groupRows) {
-    for (const col of tabData.columns) {
-      const cell = row.values[col.id];
-      if (!cell) continue;
-      const fieldKey = col.id + '@' + (cell._originalLevel != null ? cell._originalLevel : row.level);
+  if (Array.isArray(firstRow._groupFieldOrder)) {
+    for (const { id: fieldId, level: originalLevel } of firstRow._groupFieldOrder) {
+      const fieldKey = fieldId + '@' + originalLevel;
       if (usedFieldKeys.has(fieldKey)) continue;
       usedFieldKeys.add(fieldKey);
 
-      const wireType   = cell.type || col.wireType;
+      // Main-row-only fields were relocated to level 0 during ingestion;
+      // try the original level first, then fall back to level 0
+      let row  = rowByLevel[originalLevel];
+      let cell = row ? row.values[fieldId] : null;
+      if (!cell && rowByLevel[0]) {
+        row  = rowByLevel[0];
+        cell = row.values[fieldId];
+      }
+      if (!row || !cell) continue;
+
+      const wireType  = cell.type
+        || (tabData.columns.find(c => c.id === fieldId) || {}).wireType
+        || 'string';
+      const writeLevel = cell._originalLevel != null ? cell._originalLevel : originalLevel;
+
+      obj.fields.push({
+        id:     fieldId,
+        type:   wireType,
+        level:  writeLevel,
+        column: cell.column ?? 0,
+        value:  coerceValueByType(cell.value, wireType),
+        endTag: cell.endTag,
+      });
+    }
+  }
+
+  // Second pass: append any NEW fields not in the original order
+  // For all groupRows, for all fields in row.values, add if not already used
+  for (const row of groupRows) {
+    for (const fieldId of Object.keys(row.values)) {
+      const cell = row.values[fieldId];
+      if (!cell) continue;
+      const fieldKey = fieldId + '@' + (cell._originalLevel != null ? cell._originalLevel : row.level);
+      if (usedFieldKeys.has(fieldKey)) continue;
+      usedFieldKeys.add(fieldKey);
+
+      const wireType   = cell.type
+        || (tabData.columns.find(c => c.id === fieldId) || {}).wireType
+        || 'string';
       const writeLevel = cell._originalLevel != null ? cell._originalLevel : (row.level ?? 0);
 
       obj.fields.push({
-        id:     col.id,
+        id:     fieldId,
         type:   wireType,
         level:  writeLevel,
         column: cell.column ?? 0,

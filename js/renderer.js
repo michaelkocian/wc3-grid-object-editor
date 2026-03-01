@@ -246,10 +246,23 @@ function buildDataCells(rowIndex, row, columns, subRowType, ownerType, groupId) 
       }
       html += '</select></td>';
     } else {
-      // ---- Text input for all other fields ----
-      html += '<td><input value="' + escapeAttribute(String(cellValue)) + '"'
-        + ' data-r="' + rowIndex + '" data-f="' + column.id
-        + '" data-mt="' + (fieldMetaType || '') + '"></td>';
+      // ---- Numeric input for int/real/unreal fields ----
+      if (fieldMetaType === 'int') {
+        html += '<td><input type="number" step="1" pattern="\\d*"'
+          + ' value="' + escapeAttribute(String(cellValue)) + '"'
+          + ' data-r="' + rowIndex + '" data-f="' + column.id
+          + '" data-mt="' + (fieldMetaType || '') + '"></td>';
+      } else if (fieldMetaType === 'real' || fieldMetaType === 'unreal') {
+        html += '<td><input type="number" step="any"'
+          + ' value="' + escapeAttribute(String(cellValue)) + '"'
+          + ' data-r="' + rowIndex + '" data-f="' + column.id
+          + '" data-mt="' + (fieldMetaType || '') + '"></td>';
+      } else {
+        // ---- Text input for all other fields ----
+        html += '<td><input value="' + escapeAttribute(String(cellValue)) + '"'
+          + ' data-r="' + rowIndex + '" data-f="' + column.id
+          + '" data-mt="' + (fieldMetaType || '') + '"></td>';
+      }
     }
   }
   return html;

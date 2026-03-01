@@ -11,6 +11,10 @@
 //   }
 // ================================================================
 
+import {
+  getFieldDisplayName, getFieldMetaType, mapMetaTypeToWireType,
+} from './utils.js';
+
 /**
  * The main state store, one entry per editor tab.
  * null means no data has been loaded for that tab.
@@ -98,8 +102,23 @@ export function synchronizeDOMToState(tabType) {
       }
     } else if (rawValue !== '') {
       // --- New cell: create only when the user typed/selected something ---
-      const column = tabData.columns.find(col => col.id === fieldId);
-      const cellWireType = column ? column.wireType : 'string';
+      let column = tabData.columns.find(col => col.id === fieldId);
+
+      // Column may not be in tabData.columns yet (e.g. added via "All Columns").
+      // Resolve the wire type from KNOWN metadata and register the column.
+      if (!column) {
+        const metaType = getFieldMetaType(fieldId);
+        const wireType = mapMetaTypeToWireType(metaType);
+        column = {
+          id:       fieldId,
+          name:     getFieldDisplayName(fieldId),
+          wireType: wireType,
+          metaType: metaType || wireType,
+        };
+        tabData.columns.push(column);
+      }
+
+      const cellWireType = column.wireType;
       const newCell = { value: rawValue, type: cellWireType };
 
       if (cellWireType === 'int') {

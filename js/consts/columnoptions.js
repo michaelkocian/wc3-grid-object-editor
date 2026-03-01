@@ -88,5 +88,14 @@ export const META_TYPE_OPTIONS = {
     { value: 'Wood', label: 'Wood' },
     { value: 'Stone', label: 'Stone' },
     { value: 'Metal', label: 'Metal' }
-  ]
+  ],
+  itemClass:[
+    { value: 'Permanent', label: 'Permanent' },
+    { value: 'Charged', label: 'Charged' },
+    { value: 'PowerUp', label: 'PowerUp' },
+    { value: 'Artifact', label: 'Artifact' },
+    { value: 'Purchasable', label: 'Purchasable' },
+    { value: 'Campaign', label: 'Campaign' },
+    { value: 'Miscellaneous', label: 'Miscellaneous' }
+  ],
 };
