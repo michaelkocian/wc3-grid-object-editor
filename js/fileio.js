@@ -1,4 +1,85 @@
 // ================================================================
+// DEMO FILE LOADER
+// Downloads demo files from provided URLs and loads them as if selected
+// ================================================================
+
+export async function loadDemoFiles() {
+  // List of demo file URLs and their intended filenames
+  const demoFiles = [
+    {
+      url: 'https://github.com/michaelkocian/wc3-grid-object-editor/raw/refs/heads/main/testdataset/battletanksopensource.w3b',
+      name: 'battletanksopensource.w3b',
+    },
+    {
+      url: 'https://github.com/michaelkocian/wc3-grid-object-editor/raw/refs/heads/main/testdataset/battletanksopensource.w3d',
+      name: 'battletanksopensource.w3d',
+    },
+    // Add more demo files here as needed
+  ];
+
+  try {
+    // Download all files in parallel
+    const fileBlobs = await Promise.all(
+      demoFiles.map(async ({ url, name }) => {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Failed to fetch ' + name);
+        const blob = await response.blob();
+        // Create a File object if possible, else fallback to Blob with name property
+        try {
+          return new File([blob], name);
+        } catch {
+          blob.name = name;
+          return blob;
+        }
+      })
+    );
+
+    // Simulate the multi-file load logic from loadFile
+    let lastTabType = null;
+    let pendingCount = fileBlobs.length;
+
+    function onFileProcessed(tabType) {
+      lastTabType = tabType;
+      if (--pendingCount === 0 && lastTabType && _switchTab) {
+        _switchTab(lastTabType);
+      }
+    }
+
+    for (const file of fileBlobs) {
+      const extension = (file.name || '').split('.').pop().toLowerCase();
+
+      if (extension === 'json') {
+        loadSingleJSONFile(file, onFileProcessed);
+        continue;
+      }
+
+      const extensionInfo = EXTENSION_INFO[extension];
+      if (!extensionInfo) {
+        alert('Unsupported file type: .' + extension);
+        onFileProcessed(null);
+        continue;
+      }
+
+      const tabType = EXTENSION_TO_TAB_TYPE[extension] || 'items';
+      const reader  = new FileReader();
+
+      reader.onload = (loadEvent) => {
+        try {
+          const parsed = parseBinaryBuffer(loadEvent.target.result, extension);
+          ingestParsedData(tabType, parsed, file.name);
+          onFileProcessed(tabType);
+        } catch (error) {
+          alert('Binary parse error (' + file.name + '): ' + error.message + '\n' + error.stack);
+          onFileProcessed(null);
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+  } catch (err) {
+    alert('Demo file load failed: ' + err.message);
+  }
+}
+// ================================================================
 // FILE I/O
 //
 // Handles loading binary / JSON files and exporting data back
