@@ -7,14 +7,33 @@ export async function loadDemoFiles() {
   // List of demo file URLs and their intended filenames
   const demoFiles = [
     {
-      url: 'https://michaelkocian.github.io/wc3-grid-object-editor/testdataset/battletanksopensource.w3b',
-      name: 'battletanksopensource.w3b',
+      url: 'https://michaelkocian.github.io/wc3-grid-object-editor/testdataset/battletanksopensource.w3q',
+      name: 'battletanksopensource.w3q',
+    },
+    {
+      url: 'https://michaelkocian.github.io/wc3-grid-object-editor/testdataset/battletanksopensource.w3h',
+      name: 'battletanksopensource.w3h',
+    },
+    {
+      url: 'https://michaelkocian.github.io/wc3-grid-object-editor/testdataset/battletanksopensource.w3a',
+      name: 'battletanksopensource.w3a',
     },
     {
       url: 'https://michaelkocian.github.io/wc3-grid-object-editor/testdataset/battletanksopensource.w3d',
       name: 'battletanksopensource.w3d',
     },
-    // Add more demo files here as needed
+    {
+      url: 'https://michaelkocian.github.io/wc3-grid-object-editor/testdataset/battletanksopensource.w3b',
+      name: 'battletanksopensource.w3b',
+    },
+    {
+      url: 'https://michaelkocian.github.io/wc3-grid-object-editor/testdataset/battletanksopensource.w3u',
+      name: 'battletanksopensource.w3u',
+    },
+    {
+      url: 'https://michaelkocian.github.io/wc3-grid-object-editor/testdataset/battletanksopensource.w3t',
+      name: 'battletanksopensource.w3t',
+    },
   ];
 
   try {
