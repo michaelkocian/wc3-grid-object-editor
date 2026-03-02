@@ -7,11 +7,11 @@ export async function loadDemoFiles() {
   // List of demo file URLs and their intended filenames
   const demoFiles = [
     {
-      url: 'https://github.com/michaelkocian/wc3-grid-object-editor/raw/refs/heads/main/testdataset/battletanksopensource.w3b',
+      url: 'https://michaelkocian.github.io/wc3-grid-object-editor/testdataset/battletanksopensource.w3b',
       name: 'battletanksopensource.w3b',
     },
     {
-      url: 'https://github.com/michaelkocian/wc3-grid-object-editor/raw/refs/heads/main/testdataset/battletanksopensource.w3d',
+      url: 'https://michaelkocian.github.io/wc3-grid-object-editor/testdataset/battletanksopensource.w3d',
       name: 'battletanksopensource.w3d',
     },
     // Add more demo files here as needed
