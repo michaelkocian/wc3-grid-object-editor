@@ -73,8 +73,6 @@ body {
 .b-del { background: #922b21; color: #fff; border-color: #922b21; }
 .b-del:hover { background: #c0392b; }
 
-.b-demo { background: #3ab6ff; color: #fff; }
-
 .b-sm { padding: 2px 6px; font-size: 11px; }
 
 /* ----------------------------------------------------------------

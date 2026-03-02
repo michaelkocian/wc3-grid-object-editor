@@ -13,7 +13,6 @@ import {
   loadJSONFile,
   exportBinary,
   exportJSON,
-  loadDemoFiles,
   setFileSwitchTabCallback,
 } from './fileio.js';
 
@@ -42,7 +41,6 @@ export {
   loadJSONFile,
   exportBinary,
   exportJSON,
-  loadDemoFiles,
   switchTab,
   toggleAllColumns,
   toggleCategory,
