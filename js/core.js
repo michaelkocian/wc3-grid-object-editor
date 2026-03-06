@@ -32,6 +32,9 @@ import {
   closePopup,
 } from './ui.js';
 
+// ---- Statistics ----
+import { showStatsModal } from './stats.js';
+
 // Wire the switchTab callback into fileio (avoids circular import)
 setFileSwitchTabCallback(switchTab);
 
@@ -54,5 +57,6 @@ export {
   changeLevelCount,
   duplicateRow,
   closePopup,
+  showStatsModal as showStats,
 };
 
